@@ -64,21 +64,21 @@ def main():
     Sounds['wing']   = pygame.mixer.Sound('wing' + soundExt)
     Sounds['buy']    = pygame.mixer.Sound('buy' + soundExt)
 
-        # hismask for obstacles
-        # Sorry I dont know what to name the pictures in the dictionary
-        Hitmasks['obs'] = (
-            getHitmask(Images['obs'][0]),
-            getHitmask(Images['obs'][1]), #etc
+    # hitmask for obstacles
+    # Sorry I dont know what to name the pictures in the dictionary
+    Hitmasks['obs'] = (
+        getHitmask(Images['obs'][0]),
+        getHitmask(Images['obs'][1]), #etc
         )
 
-        # hitmask for player
-        Hitmasks['player'] = (
-            getHitmask(Images['player'][0]),
+    # hitmask for player
+    Hitmasks['player'] = (
+        getHitmask(Images['player'][0]),
         )
 def showScore(score):
     #displays score on the upper right corner
-    scoreDigits = 
-
+    #scoreDigits =
+    return
 
         
 def getHitmask(image):
@@ -87,6 +87,8 @@ def getHitmask(image):
     for x in range(image.get_width()):
         mask.append([])
         for y in range(image.get_height()):
-            mask[x].append(#)
+            mask[x].append(y) #or something really
+
     return mask
 
+print "Terminating"
