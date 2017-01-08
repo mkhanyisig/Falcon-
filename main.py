@@ -1,27 +1,37 @@
 #Setup
 import sys
 import pygame
+pygame.init()
 
+ScrWidth = 800
+ScrHeight = 600
 FPS = 30
-SCREENWIDTH  = 800
-SCREENHEIGHT = 600
-# amount by which base can maximum shift to left
-GAPSIZE  = 100 # gap between obstacles??
+Gap  = 100 # gap between obstacles?? Fixed, or not??
 
 # image, sound and hitmask  dicts
-IMAGES, SOUNDS, HITMASKS = {}, {}, {}
+Images, Sounds, Hitmasks = {}, {}, {}
+
+# player pic (may be a list)
+Player= 'player.png'
+
+# background (may be a list)
+Background = 'bg.png'
+
+# obstacle (may be a list)
+Obstacle = 'obs.png'
+
 
 
 
 def main():
-    global SCREEN, FPSCLOCK
-    pygame.init()
-    FPSCLOCK = pygame.time.Clock()
-    SCREEN = pygame.display.set_mode((SCREENWIDTH, SCREENHEIGHT))
+    global Scr, FPSClock
+
+    FPSClock = pygame.time.Clock()
+    Scr = pygame.display.set_mode((ScrWidth, ScrHeight))
     pygame.display.set_caption('FALCON')
     
     # numbers sprites for score display
-    IMAGES['numbers'] = (
+    Images['numbers'] = (
         pygame.image.load('pic.png').convert_alpha(),
         pygame.image.load('pic.png').convert_alpha(),
         pygame.image.load('pic.png').convert_alpha(),
@@ -35,11 +45,11 @@ def main():
     )
 
     # game over sprite
-    IMAGES['gameover'] = pygame.image.load('gameover.png').convert_alpha()
+    Images['gameover'] = pygame.image.load('gameover.png').convert_alpha()
     # message sprite for welcome screen
-    IMAGES['message'] = pygame.image.load('message.png').convert_alpha()
+    Images['message'] = pygame.image.load('message.png').convert_alpha()
     # base (ground) sprite
-    IMAGES['base'] = pygame.image.load('base.png').convert_alpha()
+    Images['base'] = pygame.image.load('base.png').convert_alpha()
 
     # sounds
     if 'win' in sys.platform:
@@ -47,22 +57,36 @@ def main():
     else:
         soundExt = '.ogg'
 
-    SOUNDS['die']    = pygame.mixer.Sound('die' + soundExt)
-    SOUNDS['hit']    = pygame.mixer.Sound('hit' + soundExt)
-    SOUNDS['point']  = pygame.mixer.Sound('point' + soundExt)
-    SOUNDS['high_score'] = pygame.mixer.Sound('high_score' + soundExt)
-    SOUNDS['wing']   = pygame.mixer.Sound('wing' + soundExt)
-    SOUNDS['buy']    = pygame.mixer.Sound('buy' + soundExt)
+    Sounds['die']    = pygame.mixer.Sound('die' + soundExt)
+    Sounds['hit']    = pygame.mixer.Sound('hit' + soundExt)
+    Sounds['point']  = pygame.mixer.Sound('point' + soundExt)
+    Sounds['high_score'] = pygame.mixer.Sound('high_score' + soundExt)
+    Sounds['wing']   = pygame.mixer.Sound('wing' + soundExt)
+    Sounds['buy']    = pygame.mixer.Sound('buy' + soundExt)
 
         # hismask for obstacles
-        HITMASKS['pipe'] = (
-            getHitmask(IMAGES['obs'][0]),
-            getHitmask(IMAGES['obs'][1]),
+        # Sorry I dont know what to name the pictures in the dictionary
+        Hitmasks['obs'] = (
+            getHitmask(Images['obs'][0]),
+            getHitmask(Images['obs'][1]), #etc
         )
 
         # hitmask for player
-        HITMASKS['player'] = (
-            getHitmask(IMAGES['player'][0]),
+        Hitmasks['player'] = (
+            getHitmask(Images['player'][0]),
         )
+def showScore(score):
+    #displays score on the upper right corner
+    scoreDigits = 
 
+
+        
+def getHitmask(image):
+    #returns a hitmask using an image's alpha
+    mask = []
+    for x in range(image.get_width()):
+        mask.append([])
+        for y in range(image.get_height()):
+            mask[x].append(#)
+    return mask
 
