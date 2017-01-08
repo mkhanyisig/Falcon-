@@ -112,7 +112,7 @@ def getHitmask(image):
     for x in range(image.get_width()):
         mask.append([])
         for y in range(image.get_height()):
-            mask[x].append(y) #or something else
+            mask[x].append(y)  # or something else
 
     return mask
 
