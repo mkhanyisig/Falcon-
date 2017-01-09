@@ -95,11 +95,54 @@ Sounds['buy'] = pygame.mixer.Sound('buy' + soundExt)
 #     getHitmask(Images['player'][0]),
 #         )
 #
+def main():
+    movementInfo = showWelcomeAnimation()
+    crashInfo = mainGame(moveInfo)
+    showGameOverScreen(crashInfo)
+
+    
+#Shows welcome screen animation
+def showWelcomeAnimation():
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == QUIT or (event.key == K_ESCAPE and event.type == KEYDOWN):
+                pygame.quit()
+                
+            if event.type == KEYDOWN and (event.key == K_UP or event.key == K_SPACE):
+                # make first flap sound and !!return values for mainGame
+                Sounds['wing'].play()
+                
+        # draw sprites
+        Screen.blit(Images['background'], (0,0))
+        Screen.blit(Images['player']
+
+        pygame.display.update()
+        FPSClock.tick(FPS)
+
 
 def showScore(score):
     # displays score on the upper right corner
     # scoreDigits =
     return
+                    
+                    
+# will move the screen to left
+def mainGame(moveInfo):
+    
+    FPSClock.tick(FPS) 
+    pygame.display.update()
+     
+                    
+# crashes the player down and shows gameover image                    
+def showGameOverScreen(crashInfo):
+                    
+    # play die and hit sounds
+    # goodbye scene
+
+
+    FPSCLOCK.tick(FPS)
+    pygame.display.update()
 
         
 def getHitmask(image):
