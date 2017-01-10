@@ -54,16 +54,17 @@ def main():
 
 
     done = False
+    phase = "start"
 
     while not done:
         if phase == "start":
             for event in pygame.event.get():
-                if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_Q):
+                if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_q):
                     done = True
-                elif event.type == pygame.KEYDOWN and event.key == pygame.K_S:
+                elif event.type == pygame.KEYDOWN and event.key == pygame.K_s:
                     phase = "play"
-                    #clear screen
-                    #content - cut scene (may need additionally phase)
+                    # clear screen
+                    # content - cut scene (may need additionally phase)
 
 
             
@@ -81,8 +82,12 @@ def main():
                     if event.key == pygame.K_UP:
                         y_speed = 5
 
-        elif phase == "end"
-            for 
+        elif phase == "end":
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_q):
+                    done = True
+                elif event.type == pygame.KEYDOWN and event.key == pygame.K_s:
+                    phase = "play"
 
 
             screen.fill(white)
@@ -91,10 +96,10 @@ def main():
             obstacle3(xloc, yloc, xsize, ysize)
             bird(x,y)
             Score(score)
-            
+
             y += y_speed
             xloc -= obspeed
-            
+
             # if y > ground:
             #     gameover()
             #     y_speed = 0
@@ -130,7 +135,7 @@ def gameover():
     font = pygame.font.SysFont(None, 75)
     text = font.render("Game over", True, red)
     screen.blit(text, [150, 250])
-    done = True
+    phase = "end"
     pygame.display.update()
 
 
