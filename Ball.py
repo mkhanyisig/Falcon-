@@ -15,17 +15,6 @@ red = (255,0,0)
 #     # the ground
 #     ground = pygame.draw.rect(screen, black, [0, 499, 700, 1])
 
-
-def Score(score):
-    font = pygame.font.SysFont(None, 75)
-    text = font.render("Distance: "+str(score), True, red)
-    screen.blit(text, [0,0])
-
-
-
-
-
-
 def main():
 
     global screen, clock
@@ -35,6 +24,8 @@ def main():
     screen = pygame.display.set_mode(size)
     clock = pygame.time.Clock()
 
+    # load up all useful graphics, sound, etc here
+    gameover = pygame.image.load( "gameover.png" ).convert_alpha()
 
     pygame.display.set_caption("test")
 
@@ -61,7 +52,7 @@ def main():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_q):
                     done = True
-                elif event.type == pygame.KEYDOWN and event.key == pygame.K_s:
+                elif event.type == pygame.KEYDOWN and (event.key == pygame.K_SPACE or event.key == pygame.K_UP):
                     phase = "play"
                     # clear screen
                     # content - cut scene (may need additionally phase)
@@ -82,20 +73,13 @@ def main():
                     if event.key == pygame.K_UP:
                         y_speed = 5
 
-        elif phase == "end":
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_q):
-                    done = True
-                elif event.type == pygame.KEYDOWN and event.key == pygame.K_s:
-                    phase = "play"
-
-
+            # draw the stuff on the screen
             screen.fill(white)
             obstacle1(xloc, yloc, xsize, ysize)
             obstacle2(xloc, yloc, xsize, ysize)
             obstacle3(xloc, yloc, xsize, ysize)
             bird(x,y)
-            Score(score)
+            showTheScore(score)
 
             y += y_speed
             xloc -= obspeed
@@ -112,7 +96,9 @@ def main():
             #     y_speed = 0
 
             if bird(x,y).colliderect(obstacle1(xloc,yloc,xsize,ysize)) or bird(x,y).colliderect(obstacle2(xloc,yloc,xsize,ysize)) or bird(x,y).colliderect(obstacle3(xloc,yloc,xsize,ysize)) :
-                gameover()
+                # gameover()
+                # go to end phase instead
+                phase = "end"
                 obspeed = 0
                 y_speed = 0
 
@@ -123,21 +109,35 @@ def main():
             if x > xloc and x < xloc+3:
                 score = (score + 1)
 
+        elif phase == "end":
+            # check for events
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_q):
+                    done = True
+                elif event.type == pygame.KEYDOWN and (event.key == pygame.K_UP or event.key == pygame.K_SPACE):
+                    phase = "start"
+            # draw the game over screen
+            # clear the screen with white first
+            screen.fill( (255, 255, 255) )
+            font = pygame.font.SysFont(None, 75)
+            text = font.render("Game over", True, red)
+            screen.blit(text, [150, 250])
+            screen.blit(gameover, (0,0))
+
+
         pygame.display.update()
         clock.tick(60)
 
+
+# shows the score
+def showTheScore(score):
+    font = pygame.font.SysFont(None, 75)
+    text = font.render("Distance: "+str(score), True, red)
+    screen.blit(text, [0,0])
+# this is the flying bird
 def bird(x,y):
         pygame.draw.rect(screen,black,[x,y, 20,10])
         return pygame.draw.rect(screen,black,[x,y, 20,10])
-        
-
-def gameover():
-    font = pygame.font.SysFont(None, 75)
-    text = font.render("Game over", True, red)
-    screen.blit(text, [150, 250])
-    phase = "end"
-    pygame.display.update()
-
 
 #This obstacle is our sky
 def obstacle1(xloc,yloc,xsize,ysize):
