@@ -11,14 +11,6 @@ green = (0, 255, 0)
 red = (255, 0, 0)
 
 
-# #def obstacle(xloc, yloc, xsize, ysize):
-#     # above the screen
-#     sky = pygame.draw.rect(screen, black, [0, 0, 700, 0])
-#     # Mountain
-#     mountain = pygame.draw.rect(screen, green, [xloc, int(yloc+ysize), xsize, ysize+500])
-#     # the ground
-#     ground = pygame.draw.rect(screen, black, [0, 499, 700, 1])
-
 def main():
 
     global screen, clock
@@ -32,12 +24,15 @@ def main():
     # make a game clock
     clock = pygame.time.Clock()
 
-    # load up all useful graphics, sound, etc here
+# ################## load up all useful graphics, sound, etc here #######################
+#     load up the images
     gameover = pygame.image.load("gameover.png").convert_alpha()
     welcome = pygame.image.load("welcome.png").convert_alpha()
+    level1 = pygame.image.load("level1.png").convert_alpha()
     # scale down the pictures
     gameover = pygame.transform.scale(gameover, size)
     welcome = pygame.transform.scale(welcome, size)
+    level1 = pygame.transform.scale(level1, size)
 
     x = 350
     y = 250
@@ -53,11 +48,11 @@ def main():
     score = 0
 
     phase = "start"
-    # phase = ""
 
     while True:
         # start phase
         if phase == "start":
+            # check for events
             for event in pygame.event.get():
                 if event.type == pygame.QUIT or \
                         (event.type == pygame.KEYDOWN and (event.key == pygame.K_q or event.key == pygame.K_ESCAPE)):
@@ -75,6 +70,7 @@ def main():
 
         # play phase
         elif phase == "play":
+            # check for events
             for event in pygame.event.get():
                 if event.type == pygame.QUIT or \
                         (event.type == pygame.KEYDOWN and (event.key == pygame.K_q or event.key == pygame.K_ESCAPE)):
@@ -88,6 +84,7 @@ def main():
                     if event.key == pygame.K_UP or event.key == pygame.K_SPACE:
                         y_speed = 5
 
+
             # draw the stuff on the screen
             screen.fill(white)
             obstacle1(xloc, yloc, xsize, ysize)
@@ -96,24 +93,25 @@ def main():
             bird(x, y)
             showTheScore(score)
 
+
+            # add the background
+            screen.blit(level1, (0, 0))
+
+            # control the bird speed
             y += y_speed
             xloc -= obspeed
 
-            # if y > ground:
-            #     y_speed = 0
-            #     obspeed = 0
-
-            # if x+20 > xloc and x-20 < xsize+xloc or y+20 > ysize+space:
-            #     obspeed = 0
-            #     y_speed = 0
-
-            # check for crashes
+            # check for crashes between bird and obstacles
             if bird(x, y).colliderect(obstacle1(xloc, yloc, xsize, ysize)) or bird(x, y).colliderect(obstacle2(xloc, yloc, xsize, ysize)) or bird(x, y).colliderect(obstacle3(xloc, yloc, xsize, ysize)) :
-                # go to end phase
-                phase = "end"
+                # pause for effect after crashing
+                pygame.time.wait(700)
                 obspeed = 0
                 y_speed = 0
 
+                # go to end phase
+                phase = "end"
+
+            # draw next obstacle after one leaves the screen
             if xloc < -80:
                 xloc = 700
                 ysize = randint(150, 450)
