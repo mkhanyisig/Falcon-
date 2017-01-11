@@ -70,6 +70,10 @@ def main():
 
         # play phase
         elif phase == "play":
+
+            # # add the background
+            # screen.blit(level1, (0, 0))
+
             # check for events
             for event in pygame.event.get():
                 if event.type == pygame.QUIT or \
