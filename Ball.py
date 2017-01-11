@@ -1,4 +1,8 @@
+# Falcon game
+# January 2017
+
 import pygame
+import sys
 from random import randint
 
 black = (0, 0, 0)
@@ -19,9 +23,13 @@ def main():
 
     global screen, clock
     pygame.init()
-
+    # (width, height)
     size = (700, 600)
+    # make a game screen of size
     screen = pygame.display.set_mode(size)
+    # title of window to be displayed
+    pygame.display.set_caption("test")
+    # make a game clock
     clock = pygame.time.Clock()
 
     # load up all useful graphics, sound, etc here
@@ -30,8 +38,6 @@ def main():
     # scale down the pictures
     gameover = pygame.transform.scale(gameover, size)
     welcome = pygame.transform.scale(welcome, size)
-    # title of window to be displayed
-    pygame.display.set_caption("test")
 
     x = 350
     y = 250
@@ -47,12 +53,14 @@ def main():
     score = 0
 
     phase = "start"
+    # phase = ""
 
     while True:
         # start phase
         if phase == "start":
             for event in pygame.event.get():
-                if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_q):
+                if event.type == pygame.QUIT or \
+                        (event.type == pygame.KEYDOWN and (event.key == pygame.K_q or event.key == pygame.K_ESCAPE)):
                     pygame.quit()
                     sys.exit()
                 elif event.type == pygame.KEYDOWN and (event.key == pygame.K_SPACE or event.key == pygame.K_UP):
@@ -68,15 +76,16 @@ def main():
         # play phase
         elif phase == "play":
             for event in pygame.event.get():
-                if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+                if event.type == pygame.QUIT or \
+                        (event.type == pygame.KEYDOWN and (event.key == pygame.K_q or event.key == pygame.K_ESCAPE)):
                     pygame.quit()
                     sys.exit()
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_UP:
+                    if event.key == pygame.K_UP or event.key == pygame.K_SPACE:
                         y_speed = -10
 
                 if event.type == pygame.KEYUP:
-                    if event.key == pygame.K_UP:
+                    if event.key == pygame.K_UP or event.key == pygame.K_SPACE:
                         y_speed = 5
 
             # draw the stuff on the screen
@@ -91,20 +100,16 @@ def main():
             xloc -= obspeed
 
             # if y > ground:
-            #     gameover()
             #     y_speed = 0
             #     obspeed = 0
 
-
             # if x+20 > xloc and x-20 < xsize+xloc or y+20 > ysize+space:
-            #     gameover()
             #     obspeed = 0
             #     y_speed = 0
 
             # check for crashes
             if bird(x, y).colliderect(obstacle1(xloc, yloc, xsize, ysize)) or bird(x, y).colliderect(obstacle2(xloc, yloc, xsize, ysize)) or bird(x, y).colliderect(obstacle3(xloc, yloc, xsize, ysize)) :
-                # gameover()
-                # go to end phase instead
+                # go to end phase
                 phase = "end"
                 obspeed = 0
                 y_speed = 0
@@ -121,21 +126,19 @@ def main():
         elif phase == "end":
             # check for events
             for event in pygame.event.get():
-                if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_q):
+                if event.type == pygame.QUIT or \
+                        (event.type == pygame.KEYDOWN and (event.key == pygame.K_q or event.key == pygame.K_ESCAPE)):
                     pygame.quit()
                     sys.exit()
                 elif event.type == pygame.KEYDOWN and (event.key == pygame.K_UP or event.key == pygame.K_SPACE):
-                    phase = "start"
-            
+                    # replay the game
+                    main()
+                    # phase = "start"
+
             # clear the screen with white first
-<<<<<<< HEAD
             screen.fill((255, 255, 255))
-            screen.blit(gameover, (0, 0))
-=======
-            screen.fill( (255, 255, 255) )
             # draw the game over screen
-            screen.blit(gameover, (0,0))
->>>>>>> 05c4283a442196cbf0f33039c173831501047545
+            screen.blit(gameover, (0, 0))
 
         pygame.display.update()
         clock.tick(60)
