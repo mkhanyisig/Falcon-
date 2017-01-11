@@ -126,10 +126,16 @@ def main():
                     sys.exit()
                 elif event.type == pygame.KEYDOWN and (event.key == pygame.K_UP or event.key == pygame.K_SPACE):
                     phase = "start"
-            # draw the game over screen
+            
             # clear the screen with white first
+<<<<<<< HEAD
             screen.fill((255, 255, 255))
             screen.blit(gameover, (0, 0))
+=======
+            screen.fill( (255, 255, 255) )
+            # draw the game over screen
+            screen.blit(gameover, (0,0))
+>>>>>>> 05c4283a442196cbf0f33039c173831501047545
 
         pygame.display.update()
         clock.tick(60)
