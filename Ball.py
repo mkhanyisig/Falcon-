@@ -1,17 +1,17 @@
 import pygame
 from random import randint
 
-black = (0,0,0)
-white = (255,255,255)
-green = (0,255,0)
-red = (255,0,0)
+black = (0, 0, 0)
+white = (255, 255, 255)
+green = (0, 255, 0)
+red = (255, 0, 0)
 
 
 # #def obstacle(xloc, yloc, xsize, ysize):
 #     # above the screen
 #     sky = pygame.draw.rect(screen, black, [0, 0, 700, 0])
 #     # Mountain
-#     mountain = pygame.draw.rect(screen, green, [xloc, int(yloc+ysize), xsize,ysize+500])
+#     mountain = pygame.draw.rect(screen, green, [xloc, int(yloc+ysize), xsize, ysize+500])
 #     # the ground
 #     ground = pygame.draw.rect(screen, black, [0, 499, 700, 1])
 
@@ -33,37 +33,35 @@ def main():
     # title of window to be displayed
     pygame.display.set_caption("test")
 
-
     x = 350
     y = 250
-    x_speed = 0
+    # x_speed = 0
     y_speed = 0
     # ground = 477
     xloc = 700
     yloc = 0
     xsize = 70
-    ysize = randint(150,450)
-    space = 150
+    ysize = randint(150, 450)
+    # space = 150
     obspeed = 2.5
     score = 0
 
-
-    done = False
     phase = "start"
 
-    while not done:
+    while True:
         # start phase
         if phase == "start":
             for event in pygame.event.get():
                 if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_q):
-                    done = True
+                    pygame.quit()
+                    sys.exit()
                 elif event.type == pygame.KEYDOWN and (event.key == pygame.K_SPACE or event.key == pygame.K_UP):
                     phase = "play"
 
                     # content - cut scene (may need additionally phase)
 
             # clear screen
-            screen.fill( (255, 255, 255) )
+            screen.fill((255, 255, 255))
             # draw the welcome page
             screen.blit(welcome, (0, 0))
 
@@ -71,8 +69,8 @@ def main():
         elif phase == "play":
             for event in pygame.event.get():
                 if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-                    done = True
-
+                    pygame.quit()
+                    sys.exit()
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_UP:
                         y_speed = -10
@@ -86,7 +84,7 @@ def main():
             obstacle1(xloc, yloc, xsize, ysize)
             obstacle2(xloc, yloc, xsize, ysize)
             obstacle3(xloc, yloc, xsize, ysize)
-            bird(x,y)
+            bird(x, y)
             showTheScore(score)
 
             y += y_speed
@@ -104,7 +102,7 @@ def main():
             #     y_speed = 0
 
             # check for crashes
-            if bird(x,y).colliderect(obstacle1(xloc,yloc,xsize,ysize)) or bird(x,y).colliderect(obstacle2(xloc,yloc,xsize,ysize)) or bird(x,y).colliderect(obstacle3(xloc,yloc,xsize,ysize)) :
+            if bird(x, y).colliderect(obstacle1(xloc, yloc, xsize, ysize)) or bird(x, y).colliderect(obstacle2(xloc, yloc, xsize, ysize)) or bird(x, y).colliderect(obstacle3(xloc, yloc, xsize, ysize)) :
                 # gameover()
                 # go to end phase instead
                 phase = "end"
@@ -124,13 +122,14 @@ def main():
             # check for events
             for event in pygame.event.get():
                 if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_q):
-                    done = True
+                    pygame.quit()
+                    sys.exit()
                 elif event.type == pygame.KEYDOWN and (event.key == pygame.K_UP or event.key == pygame.K_SPACE):
                     phase = "start"
             # draw the game over screen
             # clear the screen with white first
-            screen.fill( (255, 255, 255) )
-            screen.blit(gameover, (0,0))
+            screen.fill((255, 255, 255))
+            screen.blit(gameover, (0, 0))
 
         pygame.display.update()
         clock.tick(60)
@@ -140,27 +139,32 @@ def main():
 def showTheScore(score):
     font = pygame.font.SysFont(None, 75)
     text = font.render("Distance: "+str(score), True, red)
-    screen.blit(text, [0,0])
+    screen.blit(text, [0, 0])
+
 
 # this is the flying bird
-def bird(x,y):
-        pygame.draw.rect(screen,black,[x,y, 20,10])
-        return pygame.draw.rect(screen,black,[x,y, 20,10])
+def bird(x, y):
+        pygame.draw.rect(screen, black, [x, y, 20, 10])
+        return pygame.draw.rect(screen, black, [x, y, 20, 10])
 
-#This obstacle is our sky
-def obstacle1(xloc,yloc,xsize,ysize):
+
+# obstacle (sky)
+def obstacle1(xloc, yloc, xsize, ysize):
     pygame.draw.rect(screen, black, [0, 0, 700, 0])
     return pygame.draw.rect(screen, black, [0, 0, 700, 0])
 
-#this obstacle is our moutain
-def obstacle2(xloc,yloc,xsize,ysize):
-    pygame.draw.rect(screen, green, [xloc, int(yloc+ysize), xsize,ysize+500])
-    return pygame.draw.rect(screen, green, [xloc, int(yloc+ysize), xsize,ysize+500])
 
-#this obstacle is our ground
-def obstacle3(xloc,yloc,xsize,ysize):
+# mountain obstacle
+def obstacle2(xloc, yloc, xsize, ysize):
+    pygame.draw.rect(screen, green, [xloc, int(yloc+ysize), xsize, ysize+500])
+    return pygame.draw.rect(screen, green, [xloc, int(yloc+ysize), xsize, ysize+500])
+
+
+# ground obstacle
+def obstacle3(xloc, yloc, xsize, ysize):
     pygame.draw.rect(screen, black, [0, 499, 700, 1])
     return pygame.draw.rect(screen, black, [0, 499, 700, 1])
+
 
 if __name__ == '__main__':
     main()
