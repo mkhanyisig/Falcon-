@@ -14,11 +14,19 @@ red = (255, 0, 0)
 def main():
 
     global screen, clock
+    # initialize pygame
     pygame.init()
-    # (width, height)
-    size = (700, 600)
-    # make a game screen of size
-    screen = pygame.display.set_mode(size)
+    # initialize the fonts
+    try:
+        pygame.font.init()
+    except:
+        print "Fonts unavailable"
+        sys.exit()
+
+    # screenSize (width, height)
+    screenSize = (700, 600)
+    # make a game screen of screenSize
+    screen = pygame.display.set_mode(screenSize)
     # title of window to be displayed
     pygame.display.set_caption("test")
     # make a game clock
@@ -30,9 +38,9 @@ def main():
     welcome = pygame.image.load("welcome.png").convert_alpha()
     level1 = pygame.image.load("level1.png").convert_alpha()
     # scale down the pictures
-    gameover = pygame.transform.scale(gameover, size)
-    welcome = pygame.transform.scale(welcome, size)
-    level1 = pygame.transform.scale(level1, size)
+    gameover = pygame.transform.scale(gameover, screenSize)
+    welcome = pygame.transform.scale(welcome, screenSize)
+    level1 = pygame.transform.scale(level1, screenSize)
 
     x = 350
     y = 250
@@ -71,8 +79,8 @@ def main():
         # play phase
         elif phase == "play":
 
-            # # add the background
-            # screen.blit(level1, (0, 0))
+            # add the background
+            screen.blit(level1, (0, 0))
 
             # check for events
             for event in pygame.event.get():
@@ -88,25 +96,23 @@ def main():
                     if event.key == pygame.K_UP or event.key == pygame.K_SPACE:
                         y_speed = 5
 
+            # this block is redundant since we draw the objects whenever we check for collisions
+            # we shall redesign later
 
             # draw the stuff on the screen
-            screen.fill(white)
-            obstacle1(xloc, yloc, xsize, ysize)
-            obstacle2(xloc, yloc, xsize, ysize)
-            obstacle3(xloc, yloc, xsize, ysize)
-            bird(x, y)
-            showTheScore(score)
-
-
-            # add the background
-            screen.blit(level1, (0, 0))
+            # obstacle1(xloc, yloc, xsize, ysize)
+            # obstacle2(xloc, yloc, xsize, ysize)
+            # obstacle3(xloc, yloc, xsize, ysize)
+            # bird(x, y)
 
             # control the bird speed
             y += y_speed
             xloc -= obspeed
 
+
             # check for crashes between bird and obstacles
-            if bird(x, y).colliderect(obstacle1(xloc, yloc, xsize, ysize)) or bird(x, y).colliderect(obstacle2(xloc, yloc, xsize, ysize)) or bird(x, y).colliderect(obstacle3(xloc, yloc, xsize, ysize)) :
+            if bird(x, y).colliderect(obstacle1(xloc, yloc, xsize, ysize)) or bird(x, y).colliderect(obstacle2(xloc, yloc, xsize, ysize))\
+                    or bird(x, y).colliderect(obstacle3(xloc, yloc, xsize, ysize)):
                 # pause for effect after crashing
                 pygame.time.wait(700)
                 obspeed = 0
@@ -121,6 +127,8 @@ def main():
                 ysize = randint(150, 450)
 
             # check for score based on distance
+
+            showTheScore(score)
             if xloc < x < xloc+3:
                 score = (score + 1)
 
@@ -141,6 +149,7 @@ def main():
             screen.fill((255, 255, 255))
             # draw the game over screen
             screen.blit(gameover, (0, 0))
+            showTheScore(score)
 
         pygame.display.update()
         clock.tick(60)
@@ -148,32 +157,28 @@ def main():
 
 # shows the score
 def showTheScore(score):
-    font = pygame.font.SysFont(None, 75)
+    font = pygame.font.SysFont(None, 50)
     text = font.render("Distance: "+str(score), True, red)
-    screen.blit(text, [0, 0])
+    screen.blit(text, (10, 10))
 
 
 # this is the flying bird
 def bird(x, y):
-        pygame.draw.rect(screen, black, [x, y, 20, 10])
-        return pygame.draw.rect(screen, black, [x, y, 20, 10])
+    return pygame.draw.rect(screen, black, [x, y, 20, 10])
 
 
 # obstacle (sky)
 def obstacle1(xloc, yloc, xsize, ysize):
-    pygame.draw.rect(screen, black, [0, 0, 700, 0])
     return pygame.draw.rect(screen, black, [0, 0, 700, 0])
 
 
 # mountain obstacle
 def obstacle2(xloc, yloc, xsize, ysize):
-    pygame.draw.rect(screen, green, [xloc, int(yloc+ysize), xsize, ysize+500])
     return pygame.draw.rect(screen, green, [xloc, int(yloc+ysize), xsize, ysize+500])
 
 
 # ground obstacle
 def obstacle3(xloc, yloc, xsize, ysize):
-    pygame.draw.rect(screen, black, [0, 499, 700, 1])
     return pygame.draw.rect(screen, black, [0, 499, 700, 1])
 
 
