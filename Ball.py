@@ -127,9 +127,10 @@ def main():
                     done = True
                 elif event.type == pygame.KEYDOWN and (event.key == pygame.K_UP or event.key == pygame.K_SPACE):
                     phase = "start"
-            # draw the game over screen
+            
             # clear the screen with white first
             screen.fill( (255, 255, 255) )
+            # draw the game over screen
             screen.blit(gameover, (0,0))
 
         pygame.display.update()
