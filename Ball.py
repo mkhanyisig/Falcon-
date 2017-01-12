@@ -28,7 +28,7 @@ def main():
     # make a game screen of screenSize
     screen = pygame.display.set_mode(screenSize)
     # title of window to be displayed
-    pygame.display.set_caption("test")
+    pygame.display.set_caption("test-run Falcon")
     # make a game clock
     clock = pygame.time.Clock()
 
@@ -41,6 +41,10 @@ def main():
     gameover = pygame.transform.scale(gameover, screenSize)
     welcome = pygame.transform.scale(welcome, screenSize)
     level1 = pygame.transform.scale(level1, screenSize)
+
+    # load up the sounds
+    flap = pygame.mixer.Sound("swoosh.wav")
+    scoreSound = pygame.mixer.Sound("score.wav")
 
     x = 350
     y = 250
@@ -90,10 +94,12 @@ def main():
                     sys.exit()
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_UP or event.key == pygame.K_SPACE:
+                        flap.play()
                         y_speed = -10
 
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_UP or event.key == pygame.K_SPACE:
+                        flap.play()
                         y_speed = 5
 
             # this block is redundant since we draw the objects whenever we check for collisions
@@ -127,10 +133,11 @@ def main():
                 ysize = randint(150, 450)
 
             # check for score based on distance
-
             showTheScore(score)
             if xloc < x < xloc+3:
-                score = (score + 1)
+                score += 1
+                scoreSound.play()
+
 
         # end phase
         elif phase == "end":
@@ -158,7 +165,7 @@ def main():
 # shows the score
 def showTheScore(score):
     font = pygame.font.SysFont(None, 50)
-    text = font.render("Distance: "+str(score), True, red)
+    text = font.render("Distance traveled: "+str(score), True, red)
     screen.blit(text, (10, 10))
 
 
@@ -179,7 +186,7 @@ def obstacle2(xloc, yloc, xsize, ysize):
 
 # ground obstacle
 def obstacle3(xloc, yloc, xsize, ysize):
-    return pygame.draw.rect(screen, black, [0, 499, 700, 1])
+    return pygame.draw.rect(screen, green, [0, 541, 700, 1])
 
 
 if __name__ == '__main__':
