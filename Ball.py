@@ -45,6 +45,7 @@ def main():
     # load up the sounds
     flap = pygame.mixer.Sound("swoosh.wav")
     scoreSound = pygame.mixer.Sound("score.wav")
+    startSound = pygame.mixer.Sound("MountainSoundTrackV2.wav")
 
     x = 350
     y = 250
@@ -74,7 +75,8 @@ def main():
                     phase = "play"
 
                     # content - cut scene (may need additionally phase)
-
+            # play the start screen sound
+            startSound.play()
             # clear screen
             screen.fill((255, 255, 255))
             # draw the welcome page
@@ -82,6 +84,8 @@ def main():
 
         # play phase
         elif phase == "play":
+            # stop the start sound
+            startSound.stop()
 
             # add the background
             screen.blit(level1, (0, 0))
@@ -152,6 +156,8 @@ def main():
                     main()
                     # phase = "start"
 
+            # play the start screen sound
+            startSound.play()
             # clear the screen with white first
             screen.fill((255, 255, 255))
             # draw the game over screen
