@@ -149,7 +149,7 @@ def main():
             screen.fill((255, 255, 255))
             # draw the game over screen
             screen.blit(gameover, (0, 0))
-            showTheScore(score)
+            # showTheScore(score)
 
         pygame.display.update()
         clock.tick(60)
