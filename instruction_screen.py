@@ -69,6 +69,7 @@ while not done and display_instructions:
             if instruction_page == 3:
                 display_instructions = False
                 startSound.stop()
+                L1Sound.play(loops=-1, maxtime=0, fade_ms=0)
 
  
     # Set the screen background
@@ -84,11 +85,12 @@ while not done and display_instructions:
  
     if instruction_page == 2:
         # Draw instructions, page 2
-        text = font.render("This program tests Falcon", True, WHITE)
+        text = font.render("Page 2 is a storyline picture.",True, WHITE)
         screen.blit(text, [10, 10])
- 
-        text = font.render("Page 2, story line", True, WHITE)
-        screen.blit(text, [10, 40])
+        text = font.render("Also describe controls.", True, WHITE)
+        screen.blit(text, [10, 50])
+        text = font.render("Can add Page 3 if needed.", True, WHITE)
+        screen.blit(text, [10, 90])
  
     # Limit to 60 frames per second
     clock.tick(60)
