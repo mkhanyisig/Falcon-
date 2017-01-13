@@ -9,6 +9,7 @@ black = (0, 0, 0)
 white = (255, 255, 255)
 green = (0, 255, 0)
 red = (255, 0, 0)
+blue = (0, 0, 255)
 
 
 def main():
@@ -34,18 +35,19 @@ def main():
 
 # ################## load up all useful graphics, sound, etc here #######################
 #     load up the images
-    gameover = pygame.image.load("gameover.png").convert_alpha()
-    welcome = pygame.image.load("welcome.png").convert_alpha()
-    level1 = pygame.image.load("level1.png").convert_alpha()
+    gameover = pygame.image.load("arts/graphics/gameover.png").convert_alpha()
+    welcome = pygame.image.load("arts/graphics/welcome.png").convert_alpha()
+    level1 = pygame.image.load("arts/graphics/level1.png").convert_alpha()
     # scale down the pictures
     gameover = pygame.transform.scale(gameover, screenSize)
     welcome = pygame.transform.scale(welcome, screenSize)
     level1 = pygame.transform.scale(level1, screenSize)
 
     # load up the sounds
-    flap = pygame.mixer.Sound("swoosh.wav")
-    scoreSound = pygame.mixer.Sound("score.wav")
-    startSound = pygame.mixer.Sound("MountainSoundTrackV2.wav")
+    flap = pygame.mixer.Sound("arts/audio/swoosh.wav")
+    scoreSound = pygame.mixer.Sound("arts/audio/score.wav")
+    die = pygame.mixer.Sound("arts/audio/chip.wav")
+    startSound = pygame.mixer.Sound("arts/audio/MountainSoundTrackV2.wav")
 
     x = 350
     y = 250
@@ -103,7 +105,7 @@ def main():
 
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_UP or event.key == pygame.K_SPACE:
-                        flap.play()
+                        # flap.play()
                         y_speed = 5
 
             # this block is redundant since we draw the objects whenever we check for collisions
@@ -123,6 +125,8 @@ def main():
             # check for crashes between bird and obstacles
             if bird(x, y).colliderect(obstacle1(xloc, yloc, xsize, ysize)) or bird(x, y).colliderect(obstacle2(xloc, yloc, xsize, ysize))\
                     or bird(x, y).colliderect(obstacle3(xloc, yloc, xsize, ysize)):
+                # play die sound
+                die.play()
                 # pause for effect after crashing
                 pygame.time.wait(700)
                 obspeed = 0
@@ -179,12 +183,12 @@ def showTheScore(score):
 
 # this is the flying bird
 def bird(x, y):
-    return pygame.draw.rect(screen, black, [x, y, 20, 10])
+    return pygame.draw.rect(screen, black, [x, y, 20, 20])
 
 
 # obstacle (sky)
 def obstacle1(xloc, yloc, xsize, ysize):
-    return pygame.draw.rect(screen, black, [0, 0, 700, 0])
+    return pygame.draw.rect(screen, blue, [0, 0, 700, 10])
 
 
 # mountain obstacle
