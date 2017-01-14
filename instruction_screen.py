@@ -19,9 +19,9 @@ pygame.display.set_caption("Instruction Screen")
 # -------- Load Up Files -----------
 
 #     load up the images
-gameover = pygame.image.load("gameover.png").convert_alpha()
-welcome = pygame.image.load("welcome.png").convert_alpha()
-level1 = pygame.image.load("level1.png").convert_alpha()
+gameover = pygame.image.load("arts/graphics/gameover.png").convert_alpha()
+welcome = pygame.image.load("arts/graphics/welcome.png").convert_alpha()
+level1 = pygame.image.load("arts/graphics/level1.png").convert_alpha()
 
 # scale down the pictures
 gameover = pygame.transform.scale(gameover, screenSize)
@@ -29,10 +29,10 @@ welcome = pygame.transform.scale(welcome, screenSize)
 level1 = pygame.transform.scale(level1, screenSize)
 
 # Define the sounds
-flapSound = pygame.mixer.Sound("swoosh.wav")
-scoreSound = pygame.mixer.Sound("score.wav")
-startSound = pygame.mixer.Sound("Begin.wav")
-L1Sound = pygame.mixer.Sound("MountainSoundTrackV2.wav")
+flapSound = pygame.mixer.Sound("arts/audio/swoosh.wav")
+scoreSound = pygame.mixer.Sound("arts/audio/score.wav")
+startSound = pygame.mixer.Sound("arts/audio/Begin.wav")
+L1Sound = pygame.mixer.Sound("arts/audio/MountainSoundTrackV2.wav")
 
 # Loop until the user clicks the close button.
 done = False
@@ -70,6 +70,7 @@ while not done and display_instructions:
                 display_instructions = False
                 startSound.stop()
                 L1Sound.play(loops=-1, maxtime=0, fade_ms=0)
+
 
  
     # Set the screen background
