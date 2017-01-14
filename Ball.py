@@ -38,7 +38,7 @@ def main():
     gameover = pygame.image.load("arts/graphics/gameover.png").convert_alpha()
     welcome = pygame.image.load("arts/graphics/welcome.png").convert_alpha()
     level1 = pygame.image.load("arts/graphics/level1.png").convert_alpha()
-    # scale down the pictures
+    # scale down the images
     gameover = pygame.transform.scale(gameover, screenSize)
     welcome = pygame.transform.scale(welcome, screenSize)
     level1 = pygame.transform.scale(level1, screenSize)
