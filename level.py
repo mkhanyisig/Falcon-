@@ -1,5 +1,5 @@
 import pygame
-
+import obstacles
 
 class Level():
     """ This is a generic super-class used to define a level.
@@ -16,7 +16,6 @@ class Level():
         # Lists of sprites used in all levels.
 
         self.obstacle_list = None
- 
         # Background image
         self.background = None
  
@@ -40,25 +39,21 @@ class Level():
         # We don't shift the background as much as the sprites are shifted
         # to give a feeling of depth.
         screen.fill((255,255,255))
-        screen.blit(self.background,(self.world_shift // 3,0))
+        screen.blit(self.background)
  
         # Draw all the sprite lists that we have
-        self.obstacle_list.draw(screen)
+        self.obstacle_list.draw(screen,(0,0))
  
     def shiftObs(self, shift_x):
-        """ When  """
-        #starting position of object
-        object_start_posx = 650
-        object_speed = 5
+
         # Keep track of the shift amount
         self.obs_shift -= shift_x
  
         # Go through all the sprite lists and shift
-
         for obstacle in self.obstacle_list:
-            obstacle.rect.x += shift_x
+            obstacle.rect.x -= shift_x
  
-# Create platforms for the level
+# Create obstacles for the level
 class Level_01(Level):
     """ Definition for level 1. """
  
@@ -73,13 +68,11 @@ class Level_01(Level):
         self.level_limit = -2500
  
         # Array with type of obstacles, and x, y location of the obstacle.
-        '''
-        level = [ [1st obstacle],
-        			[],
-        			[],
-        			[]
+        
+        level = [ [obstacles.BOTTOM, 0,500],
+        		  [obstacles.TOP,0,0 ],
                   ]
-        '''
+        
  
  
         # Go through the array above and add obstacles
