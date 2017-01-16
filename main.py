@@ -1,158 +1,180 @@
-# Falcon
-# january 2017
+# main program
 
-# ################################# Setup ###################################
 
-# useful imports
-import sys
 import pygame
+import sys
+from random import randint
+import level
+from player import Player
 
-# initialize pygame
-pygame.init()
+# Set up some values
+BLACK = (0,0,0)
+WHITE = (255,255,255)
+BLUE = (0,0,255)
 
-# initialize the fonts
-try:
-    pygame.font.init()
-except:
-    print "Fonts unavailable"
-    sys.exit()
+SCREEN_WIDTH = 700
+SCREEN_HEIGHT = 500
+# make a game screen of screenSize
+screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
+# title of window to be displayed
+pygame.display.set_caption("test-run Falcon with sprite sheets")
+# make a game clock
+clock = pygame.time.Clock()
+#Loop until the user clicks the close button.
+done = False
 
-# global variables
-ScrWidth = 800
-ScrHeight = 600
-FPS = 30
-Gap = 100   # gap between obstacles?? Fixed, or not??
+# Used to manage how fast the screen updates
+clock = pygame.time.Clock()
 
-# create a game clock
-gameClock = pygame.time.Clock()
+# -------- Load Up Files -----------
 
-# create a screen (width, height)
-screen = pygame.display.set_mode( (ScrWidth, ScrHeight) )
+#     load up the images
+gameover = pygame.image.load("arts/graphics/gameover.png").convert_alpha()
+welcome = pygame.image.load("arts/graphics/welcome.png").convert_alpha()
+level1 = pygame.image.load("arts/graphics/level1.png").convert_alpha()
 
-# set screen title
-pygame.display.set_caption('FALCON')
+# scale down the pictures
+gameover = pygame.transform.scale(gameover, screenSize)
+welcome = pygame.transform.scale(welcome, screenSize)
+level1 = pygame.transform.scale(level1, screenSize)
+
+# Define the sounds
+flapSound = pygame.mixer.Sound("arts/audio/swoosh.wav")
+scoreSound = pygame.mixer.Sound("arts/audio/score.wav")
+startSound = pygame.mixer.Sound("arts/audio/Begin.wav")
+L1Sound = pygame.mixer.Sound("arts/audio/MountainSoundTrackV2.wav")
+#L2Sound = ...
 
 
-# ###################### Making Content #########################
+display_instructions = True
+instruction_page = 1
+ 
+# Play Music "Begin.wav"
+startSound.play(loops=-1, maxtime=0, fade_ms=0)
 
-# image, sound and hitmask  dicts
-Images, Sounds, Hitmasks = {}, {}, {}
 
-# player pic (may be a list)
-Player = 'player.png'
+# -------- Instruction Page Loop -----------
+while not done and display_instructions:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT or \
+        (event.type == pygame.KEYDOWN and (event.key == pygame.K_DOWN or event.key == pygame.K_ESCAPE)):
+            done = True
+        if event.type ==  pygame.KEYDOWN and (event.key == pygame.K_SPACE or event.key == pygame.K_UP):
+            instruction_page += 1
+            if instruction_page == 3:
+                display_instructions = False
+                startSound.stop()
+                L1Sound.play(loops=-1, maxtime=0, fade_ms=0)
 
-# background (may be a list)
-Background = 'bg.png'
 
-# obstacle (may be a list)
-Obstacle = 'obs.png'
+ 
+    # Set the screen background
+    screen.fill(BLACK)
+ 
+    if instruction_page == 1:
+        # Draw instructions, page 1
+        # This could also load an image created in another program.
+        # That could be both easier and more flexible.
 
-# numbers sprites for score display
-Images['numbers'] = (
-        pygame.image.load('pic.png').convert_alpha(),
-        pygame.image.load('pic.png').convert_alpha(),
-        pygame.image.load('pic.png').convert_alpha(),
-        pygame.image.load('pic.png').convert_alpha(),
-        pygame.image.load('pic.png').convert_alpha(),
-        pygame.image.load('pic.png').convert_alpha(),
-        pygame.image.load('pic.png').convert_alpha(),
-        pygame.image.load('pic.png').convert_alpha(),
-        pygame.image.load('pic.png').convert_alpha(),
-        pygame.image.load('pic.png').convert_alpha()
-)
+        screen.blit(welcome, [0,0])
+ 
+ 
+    if instruction_page == 2:
+        # Draw instructions, page 2
+        text = font.render("Page 2 is a storyline picture.",True, WHITE)
+        screen.blit(text, [10, 10])
+        text = font.render("Also describe controls.", True, WHITE)
+        screen.blit(text, [10, 50])
+        text = font.render("Can add Page 3 if needed.", True, WHITE)
+        screen.blit(text, [10, 90])
+ 
+    # Limit to 60 frames per second
+    clock.tick(60)
+ 
+    # Go ahead and update the screen with what we've drawn.
+    pygame.display.flip()
 
-# game over sprite
-Images['gameover'] = pygame.image.load('gameover.png').convert_alpha()
-# message sprite for welcome screen
-Images['message'] = pygame.image.load('message.png').convert_alpha()
-# base (ground) sprite
-Images['base'] = pygame.image.load('base.png').convert_alpha()
 
-# ###### Sounds ######
-if 'win' in sys.platform:
-    soundExt = '.wav'
-else:
-    soundExt = '.ogg'
-
-Sounds['die'] = pygame.mixer.Sound('die' + soundExt)
-Sounds['hit'] = pygame.mixer.Sound('hit' + soundExt)
-Sounds['point'] = pygame.mixer.Sound('point' + soundExt)
-Sounds['high_score'] = pygame.mixer.Sound('high_score' + soundExt)
-Sounds['wing'] = pygame.mixer.Sound('wing' + soundExt)
-Sounds['buy'] = pygame.mixer.Sound('buy' + soundExt)
-
-# hitmask for obstacles
-# Sorry I don't know what to name the pictures in the dictionary
-
-#
-# Hitmasks['obs'] = (
-#     getHitmask(Images['obs'][0]),
-#     getHitmask(Images['obs'][1]),  # etc
-#             )
-#
-# # hitmask for player
-# Hitmasks['player'] = (
-#     getHitmask(Images['player'][0]),
-#         )
-#
 def main():
-    movementInfo = showWelcomeAnimation()
-    crashInfo = mainGame(moveInfo)
-    showGameOverScreen(crashInfo)
+    """ Main Program """
+    pygame.init()
 
-    
-#Shows welcome screen animation
-def showWelcomeAnimation():
+    # Create the player
+    player = Player()
+ 
+    # Create all the levels
+    level_list = []
+    level_list.append(levels.Level_01(player))
+    level_list.append(levels.Level_02(player))
+ 
+    # Set the current level
+    current_level_no = 0
+    current_level = level_list[current_level_no]
+ 
+    active_sprite_list = pygame.sprite.Group()
+    player.level = current_level
+ 
+    player.rect.x = 340
+    player.rect.y = constants.SCREEN_HEIGHT - player.rect.height
+    active_sprite_list.add(player)
+ 
 
-    while True:
-        for event in pygame.event.get():
-            if event.type == QUIT or (event.key == K_ESCAPE and event.type == KEYDOWN):
-                pygame.quit()
-                
-            if event.type == KEYDOWN and (event.key == K_UP or event.key == K_SPACE):
-                # make first flap sound and !!return values for mainGame
-                Sounds['wing'].play()
-                
-        # draw sprites
-        Screen.blit(Images['background'], (0,0))
-        Screen.blit(Images['player']
+ 
+    # -------- Main Program Loop -----------
+    while not done:
+        for event in pygame.event.get(): # User did something
+            if event.type == pygame.QUIT: # If user clicked close
+                done = True # Flag that we are done so we exit this loop
+ 
+            if event.type == pygame.KEYDOWN:
 
-        pygame.display.update()
-        FPSClock.tick(FPS)
+                if event.key == pygame.K_UP:
+                    player.flap()
+ 
+        # Update the player.
+        active_sprite_list.update()
+ 
+        # Update items in the level
+        current_level.update()
+ 
+        # If the player gets near the right side, shift the world left (-x)
+        if player.rect.right >= 500:
+            diff = player.rect.right - 500
+            player.rect.right = 500
+            current_level.shift_world(-diff)
+  
+        # If the player gets near the left side, shift the world right (+x)
+        if player.rect.left <= 120:
+            diff = 120 - player.rect.left
+            player.rect.left = 120
+            current_level.shift_world(diff)
+ 
+        # If the player gets to the end of the level, go to the next level
+        current_position = player.rect.x + current_level.world_shift
+        if current_position < current_level.level_limit:
+            player.rect.x = 120
+            if current_level_no < len(level_list)-1:
+                current_level_no += 1
+                current_level = level_list[current_level_no]
+                player.level = current_level
 
-
-def showScore(score):
-    # displays score on the upper right corner
-    # scoreDigits =
-    return
-                    
-                    
-# will move the screen to left
-def mainGame(moveInfo):
-    
-    FPSClock.tick(FPS) 
-    pygame.display.update()
-     
-                    
-# crashes the player down and shows gameover image                    
-def showGameOverScreen(crashInfo):
-                    
-    # play die and hit sounds
-    # goodbye scene
-
-
-    FPSCLOCK.tick(FPS)
-    pygame.display.update()
-
-        
-def getHitmask(image):
-    # returns a hitmask using an image's alpha
-    mask = []
-    for x in range(image.get_width()):
-        mask.append([])
-        for y in range(image.get_height()):
-            mask[x].append(y)  # or something else
-
-    return mask
-
-print "Terminating"
+       
+ 
+        # ALL CODE TO DRAW SHOULD GO BELOW THIS COMMENT
+        current_level.draw(screen)
+        active_sprite_list.draw(screen)
+ 
+        # ALL CODE TO DRAW SHOULD GO ABOVE THIS COMMENT
+ 
+        # Limit to 60 frames per second
+        clock.tick(60)
+ 
+        # Go ahead and update the screen with what we've drawn.
+        pygame.display.flip()
+ 
+    # Be IDLE friendly. If you forget this line, the program will 'hang'
+    # on exit.
+    pygame.quit()
+ 
+if __name__ == "__main__":
+    main()
