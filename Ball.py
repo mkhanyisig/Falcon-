@@ -3,14 +3,8 @@
 
 import pygame
 import sys
+import constants
 from random import randint
-
-black = (0, 0, 0)
-white = (255, 255, 255)
-green = (0, 255, 0)
-red = (255, 0, 0)
-blue = (0, 0, 255)
-
 
 def main():
 
@@ -25,7 +19,7 @@ def main():
         sys.exit()
 
     # screenSize (width, height)
-    screenSize = (700, 600)
+    screenSize = (constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT)
     # make a game screen of screenSize
     screen = pygame.display.set_mode(screenSize)
     # title of window to be displayed
@@ -49,16 +43,14 @@ def main():
     die = pygame.mixer.Sound("arts/audio/chip.wav")
     startSound = pygame.mixer.Sound("arts/audio/MountainSoundTrackV2.wav")
 
-    x = 350
+    x = 150
     y = 250
-    # x_speed = 0
     y_speed = 0
-    # ground = 477
     xloc = 700
     yloc = 0
     xsize = 70
     ysize = randint(150, 450)
-    # space = 150
+    # ysize = randint(constants.SCREEN_HEIGHT/2, constants.SCREEN_HEIGHT-60)
     obspeed = 2.5
     score = 0
 
@@ -88,10 +80,8 @@ def main():
         elif phase == "play":
             # stop the start sound
             startSound.stop()
-
             # add the background
             screen.blit(level1, (0, 0))
-
             # check for events
             for event in pygame.event.get():
                 if event.type == pygame.QUIT or \
@@ -107,15 +97,6 @@ def main():
                     if event.key == pygame.K_UP or event.key == pygame.K_SPACE:
                         # flap.play()
                         y_speed = 5
-
-            # this block is redundant since we draw the objects whenever we check for collisions
-            # we shall redesign later
-
-            # draw the stuff on the screen
-            # obstacle1(xloc, yloc, xsize, ysize)
-            # obstacle2(xloc, yloc, xsize, ysize)
-            # obstacle3(xloc, yloc, xsize, ysize)
-            # bird(x, y)
 
             # control the bird speed
             y += y_speed
@@ -136,9 +117,10 @@ def main():
                 phase = "end"
 
             # draw next obstacle after one leaves the screen
-            if xloc < -80:
-                xloc = 700
+            if xloc < (0-xsize):
+                xloc = constants.SCREEN_WIDTH
                 ysize = randint(150, 450)
+                # ysize = randint(constants.SCREEN_HEIGHT/2, constants.SCREEN_HEIGHT-60)
 
             # check for score based on distance
             showTheScore(score)
@@ -176,29 +158,29 @@ def main():
 
 # shows the score
 def showTheScore(score):
-    font = pygame.font.SysFont(None, 50)
-    text = font.render("Distance traveled: "+str(score), True, red)
-    screen.blit(text, (10, 10))
+    font = pygame.font.SysFont(None, 35)
+    text = font.render("Distance traveled: "+str(score), True, constants.red)
+    screen.blit(text, (15, 10))
 
 
 # this is the flying bird
 def bird(x, y):
-    return pygame.draw.rect(screen, black, [x, y, 20, 20])
+    return pygame.draw.rect(screen, constants.black, [x, y, 20, 20])
 
 
 # obstacle (sky)
 def obstacle1(xloc, yloc, xsize, ysize):
-    return pygame.draw.rect(screen, blue, [0, 0, 700, 10])
+    return pygame.draw.rect(screen, constants.blue, [0, 0, 700, 10])
 
 
 # mountain obstacle
 def obstacle2(xloc, yloc, xsize, ysize):
-    return pygame.draw.rect(screen, green, [xloc, int(yloc+ysize), xsize, ysize+500])
+    return pygame.draw.rect(screen, constants.green, [xloc, int(yloc+ysize), xsize, ysize+500])
 
 
 # ground obstacle
 def obstacle3(xloc, yloc, xsize, ysize):
-    return pygame.draw.rect(screen, green, [0, 541, 700, 1])
+    return pygame.draw.rect(screen, constants.green, [0, 541, 700, 1])
 
 
 if __name__ == '__main__':
