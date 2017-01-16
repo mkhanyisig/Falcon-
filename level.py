@@ -21,7 +21,7 @@ class Level():
         self.background = None
  
         # How far this world has been scrolled left/right
-        self.world_shift = 0
+        self.obs_shift = 0
         self.level_limit = -1000
         self.obstacle_list = pygame.sprite.Group()
         self.player = player
@@ -31,6 +31,7 @@ class Level():
         """ Update everything in this level."""
 
         self.obstacle_list.update()
+
  
     def draw(self, screen):
         """ Draw everything on this level. """
@@ -44,11 +45,13 @@ class Level():
         # Draw all the sprite lists that we have
         self.obstacle_list.draw(screen)
  
-    def shift_world(self, shift_x):
-        """ When the user moves left/right and we need to scroll everything: """
- 
+    def shiftObs(self, shift_x):
+        """ When  """
+        #starting position of object
+        object_start_posx = 650
+        object_speed = 5
         # Keep track of the shift amount
-        self.world_shift += shift_x
+        self.obs_shift -= shift_x
  
         # Go through all the sprite lists and shift
 
@@ -70,11 +73,13 @@ class Level_01(Level):
         self.level_limit = -2500
  
         # Array with type of obstacles, and x, y location of the obstacle.
+        '''
         level = [ [1st obstacle],
         			[],
         			[],
         			[]
                   ]
+        '''
  
  
         # Go through the array above and add obstacles
@@ -87,15 +92,15 @@ class Level_01(Level):
             self.obstacle_list.add(block)
  
         # Add a custom moving obstacle
-        block = obstacle.MovingObstacle(obstacle.#something on the sprite sheet)
-        block.rect.x = 1350
-        block.rect.y = 280
-        block.boundary_left = 1350
-        block.boundary_right = 1600
-        block.change_x = 1
-        block.player = self.player
-        block.level = self
-        self.obstalce_list.add(block)
+        # block = obstacle.MovingObstacle(obstacle)#something on the sprite sheet)
+        # block.rect.x = 1350
+        # block.rect.y = 280
+        # block.boundary_left = 1350
+        # block.boundary_right = 1600
+        # block.change_x = 1
+        # block.player = self.player
+        # block.level = self
+        # self.obstalce_list.add(block)
  
  
 # Create obstacles for the level
@@ -113,26 +118,26 @@ class Level_02(Level):
         self.level_limit = -1000
  
         # Array with type of obstacles, and x, y location of the obstacle.
+        '''
         level = [ [1st obstacle],
         			[],
         			[],
         			[]
                   ]
- 
- 
+        '''
         # Go through the array above and add platforms
-        for 
+        #for 
  
-        # Add a custom moving platform
-        block = obstacle.MovingObstacle(obstacle.#something on the sprite sheet)
-        block.rect.x = 1350
-        block.rect.x = 1500
-        block.rect.y = 300
-        block.boundary_top = 100
-        block.boundary_bottom = 550
-        block.change_y = -1
-        block.player = self.player
-        block.level = self
-        self.obstacle_list.add(block)
+        # # Add a custom moving platform
+        # block = obstacle.MovingObstacle(obstacle.#something on the sprite sheet)
+        # block.rect.x = 1350
+        # block.rect.x = 1500
+        # block.rect.y = 300
+        # block.boundary_top = 100
+        # block.boundary_bottom = 550
+        # block.change_y = -1
+        # block.player = self.player
+        # block.level = self
+        # self.obstacle_list.add(block)
 
 

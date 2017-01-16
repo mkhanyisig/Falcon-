@@ -28,6 +28,6 @@ class SpriteSheet(object):
  
         # Assuming black works as the transparent color
         image.set_colorkey((0,0,0))
- 
+
         # Return the image
         return image

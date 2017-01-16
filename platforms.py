@@ -5,20 +5,27 @@ import pygame
 import random
 from spritesheet_functions import SpriteSheet
  
+
+
+
 # These constants define our platform types:
 #   Name of file
 #   X location of sprite
 #   Y location of sprite
 #   Width of sprite
 #   Height of sprite
+
+
  
-BOTTOM            = (576, 720, 70, 70)
-TOP          = (576, 576, 70, 70)
-BASE_OBS         = (504, 576, 70, 70)
-FIXED_SKY = (432, 720, 70, 40)
-STONE_PLATFORM_MIDDLE = (648, 648, 70, 40)
-STONE_PLATFORM_RIGHT  = (792, 648, 70, 40)
- 
+# BOTTOM       = (, 1, 70, 70) 
+# TOP          = (576, 576, 70, 70)
+# BASE_OBS     = (504, 576, 70, 70)
+# FIXED_SKY    = (432, 720, 70, 40)
+# STONE_PLATFORM_MIDDLE = (648, 648, 70, 40)
+# STONE_PLATFORM_RIGHT  = (792, 648, 70, 40)
+# NEST = 
+
+
 class Platform(pygame.sprite.Sprite):
     """ Platform the user can jump on """
  
@@ -37,7 +44,11 @@ class Platform(pygame.sprite.Sprite):
  
         self.rect = self.image.get_rect()
         self.mask = pygame.mask.from_surface(self.image)
- 
+
+    def updateScreen(self):
+        return self.rect.x -= self.Obspeed
+
+
 class MovingPlatform(Platform):
     """ This is a fancier platform that can actually move. """
  
@@ -66,7 +77,7 @@ class MovingPlatform(Platform):
  
  
     #     # Move left/right
-    #     self.rect.x += self.change_x
+    #     self.rect.x = self.change_x
  
     #     # See if we hit the player
     #     hit = pygame.sprite.collide_rect(self, self.player)
