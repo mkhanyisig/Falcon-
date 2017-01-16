@@ -81,12 +81,12 @@ class Player(pygame.sprite.Sprite):
         self.rect.y += self.change_y
 
         #Iterate through images to show animation
-
-        self.image = self.flying_frames[2]
-        self.image = self.flying_frames[1]
-        self.image = self.flying_frames[2]
+        pos = self.rect.y
+        frame = (pos // 167)
+        
+        self.image = self.flying_frames[frame]
  
-        # Check and see if we hit obstacles, 
+        # Check and see if we hit obstacles,
         # if not, continue the game
         # if pygame.sprite.collide_mask(self, platforms.Platform) == None and \
         #     pygame.sprite.collide_mask(self, platforms.MovingPlatform) == None:# -> point)
@@ -103,14 +103,3 @@ class Player(pygame.sprite.Sprite):
     def flap(self):     
         # player moves up a certain amount when up arrow is clicked
         self.change_y = -10
-
-
-
- 
-        
- 
-    
- 
-    
- 
-    
