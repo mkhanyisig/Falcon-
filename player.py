@@ -4,6 +4,7 @@ import pygame
 import level
 # import platforms 
 from spritesheet_functions import SpriteSheet
+import constants
 
  
 class Player(pygame.sprite.Sprite):
@@ -82,7 +83,7 @@ class Player(pygame.sprite.Sprite):
 
         #Iterate through images to show animation
         pos = self.rect.y
-        frame = (pos // 167)
+        frame = (pos // (constants.SCREEN_HEIGHT/3))
         
         self.image = self.flying_frames[frame]
  
