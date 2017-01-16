@@ -121,12 +121,7 @@ class Level_02(Level):
  
  
         # Go through the array above and add platforms
-        for platform in level:
-            block = platforms.Platform(platform[0])
-            block.rect.x = platform[1]
-            block.rect.y = platform[2]
-            block.player = self.player
-            self.platform_list.add(block)
+        for 
  
         # Add a custom moving platform
         block = obstacle.MovingObstacle(obstacle.#something on the sprite sheet)
