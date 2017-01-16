@@ -39,10 +39,10 @@ class Level():
         # We don't shift the background as much as the sprites are shifted
         # to give a feeling of depth.
         screen.fill((255,255,255))
-        screen.blit(self.background)
+        screen.blit(self.background,(0,0))
  
         # Draw all the sprite lists that we have
-        self.obstacle_list.draw(screen,(0,0))
+        self.obstacle_list.draw(screen)
  
     def shiftObs(self, shift_x):
 
@@ -78,7 +78,7 @@ class Level_01(Level):
         # Go through the array above and add obstacles
         for obstacle in level:
         	# should import obstacle class
-            block = obstacle.Obstacle(obstacle[0])
+            block = obstacles.Obstacle(obstacle[0])
             block.rect.x = obstacle[1]
             block.rect.y = obstacle[2]
             block.player = self.player
@@ -106,7 +106,7 @@ class Level_02(Level):
         # Call the parent constructor
         Level.__init__(self, player)
  
-        self.background = pygame.image.load("#name").convert()
+        self.background = pygame.image.load("arts/graphics/level1.png").convert()
         self.background.set_colorkey((255,255,255))
         self.level_limit = -1000
  
