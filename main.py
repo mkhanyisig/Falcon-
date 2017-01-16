@@ -5,15 +5,26 @@ import pygame
 import sys
 from random import randint
 import level
+import obstacles
 from player import Player
 
+pygame.init()
+
+try:
+	pygame.font.init()
+except:
+    print "Fonts unavailable"
+    sys.exit()
+
+# This is a font we use to draw text on the screen (size 36)
+font = pygame.font.Font(None, 36)
 # Set up some values
 BLACK = (0,0,0)
 WHITE = (255,255,255)
 BLUE = (0,0,255)
 
-SCREEN_WIDTH = 700
-SCREEN_HEIGHT = 500
+SCREEN_WIDTH = 400
+SCREEN_HEIGHT = 600
 # make a game screen of screenSize
 screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
 # title of window to be displayed
@@ -21,7 +32,7 @@ pygame.display.set_caption("test-run Falcon with sprite sheets")
 # make a game clock
 clock = pygame.time.Clock()
 #Loop until the user clicks the close button.
-done = False
+finish = False
 
 # Used to manage how fast the screen updates
 clock = pygame.time.Clock()
@@ -34,9 +45,9 @@ welcome = pygame.image.load("arts/graphics/welcome.png").convert_alpha()
 level1 = pygame.image.load("arts/graphics/level1.png").convert_alpha()
 
 # scale down the pictures
-gameover = pygame.transform.scale(gameover, screenSize)
-welcome = pygame.transform.scale(welcome, screenSize)
-level1 = pygame.transform.scale(level1, screenSize)
+gameover = pygame.transform.scale(gameover, (SCREEN_WIDTH,SCREEN_HEIGHT))
+welcome = pygame.transform.scale(welcome, (SCREEN_WIDTH,SCREEN_HEIGHT))
+level1 = pygame.transform.scale(level1, (SCREEN_WIDTH,SCREEN_HEIGHT))
 
 # Define the sounds
 flapSound = pygame.mixer.Sound("arts/audio/swoosh.wav")
@@ -54,11 +65,11 @@ startSound.play(loops=-1, maxtime=0, fade_ms=0)
 
 
 # -------- Instruction Page Loop -----------
-while not done and display_instructions:
+while not finish and display_instructions:
     for event in pygame.event.get():
         if event.type == pygame.QUIT or \
         (event.type == pygame.KEYDOWN and (event.key == pygame.K_DOWN or event.key == pygame.K_ESCAPE)):
-            done = True
+            finish = True
         if event.type ==  pygame.KEYDOWN and (event.key == pygame.K_SPACE or event.key == pygame.K_UP):
             instruction_page += 1
             if instruction_page == 3:
@@ -98,26 +109,27 @@ while not done and display_instructions:
 def main():
     """ Main Program """
     pygame.init()
-
+    done = False
     # Create the player
     player = Player()
  
     # Create all the levels
     level_list = []
-    level_list.append(levels.Level_01(player))
-    level_list.append(levels.Level_02(player))
+    level_list.append(level.Level_01(player))
+    level_list.append(level.Level_02(player))
  
     # Set the current level
     current_level_no = 0
     current_level = level_list[current_level_no]
- 
+    ObSpeed = 7
     active_sprite_list = pygame.sprite.Group()
     player.level = current_level
  
     player.rect.x = 340
-    player.rect.y = constants.SCREEN_HEIGHT - player.rect.height
+    player.rect.y = SCREEN_HEIGHT - player.rect.height
     active_sprite_list.add(player)
- 
+
+
 
  
     # -------- Main Program Loop -----------
@@ -127,38 +139,40 @@ def main():
                 done = True # Flag that we are done so we exit this loop
  
             if event.type == pygame.KEYDOWN:
+            	if event.key == pygame.K_UP or event.key == pygame.K_SPACE:
+                	player.flap()
+            if event.type == pygame.KEYUP:
+            	if event.key == pygame.K_UP or event.key == pygame.K_SPACE:
+            		player.change_y = 5
 
-                if event.key == pygame.K_UP:
-                    player.flap()
- 
         # Update the player.
         active_sprite_list.update()
  
         # Update items in the level
         current_level.update()
  
-        # If the player gets near the right side, shift the world left (-x)
-        if player.rect.right >= 500:
-            diff = player.rect.right - 500
-            player.rect.right = 500
-            current_level.shift_world(-diff)
-  
-        # If the player gets near the left side, shift the world right (+x)
-        if player.rect.left <= 120:
-            diff = 120 - player.rect.left
-            player.rect.left = 120
-            current_level.shift_world(diff)
+		# constantly shift obstacles to the left
+        current_level.shiftObs(ObSpeed)
  
-        # If the player gets to the end of the level, go to the next level
-        current_position = player.rect.x + current_level.world_shift
-        if current_position < current_level.level_limit:
-            player.rect.x = 120
-            if current_level_no < len(level_list)-1:
-                current_level_no += 1
-                current_level = level_list[current_level_no]
-                player.level = current_level
+        # HOW TO !!! go to the next level
+        # current_position = player.rect.x + current_level.world_shift
+        # if current_position < current_level.level_limit:
+        #     player.rect.x = 120
+        #     if current_level_no < len(level_list)-1:
+        #         current_level_no += 1
+        #         current_level = level_list[current_level_no]
+        #         player.level = current_level
+        # if pygame.sprite.collide_mask(player, obstacles.Nest == True:
+        	# havent designed a nest yet
+			# blit the 1st congratulation page
+			# this page should include which button does which
+			# detect user action
+			# if want to continue to the next level:
+			# current_level += 1
+			# ObSpeed += 10
+			# detect other actions:
+			# back to the beginning
 
-       
  
         # ALL CODE TO DRAW SHOULD GO BELOW THIS COMMENT
         current_level.draw(screen)
