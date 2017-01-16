@@ -1,5 +1,5 @@
 """
-Module for managing platforms.
+Module for managing obstacles.
 """
 import pygame
 import random
@@ -26,11 +26,11 @@ from spritesheet_functions import SpriteSheet
 # NEST = 
 
 
-class Platform(pygame.sprite.Sprite):
-    """ Platform the user can jump on """
+class Obstacle(pygame.sprite.Sprite):
+    """ Obstacle the user can jump on """
  
     def __init__(self, sprite_sheet_data):
-        """ Platform constructor. Assumes constructed with user passing in
+        """ Obstacle constructor. Assumes constructed with user passing in
             an array of 5 numbers like what's defined at the top of this
             code. """
         super().__init__()
@@ -49,7 +49,7 @@ class Platform(pygame.sprite.Sprite):
         return self.rect.x -= self.Obspeed
 
 
-class MovingPlatform(Platform):
+class MovingObstacle(Obstacle):
     """ This is a fancier platform that can actually move. """
  
     def __init__(self, sprite_sheet_data):
@@ -118,4 +118,4 @@ class MovingPlatform(Platform):
     #         self.change_x *= -1
 
 
-class Nest(Platform):
+class Nest(Obstacle):
