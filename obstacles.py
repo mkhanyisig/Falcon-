@@ -5,7 +5,7 @@ import pygame
 import random
 from spritesheet_functions import SpriteSheet
 
-choose = random.randint(300,700)
+
 
 # These constants define our obstacle types:
 #   Name of file
@@ -15,11 +15,10 @@ choose = random.randint(300,700)
 #   Height of sprite
 #   [info one the sprite sheet]
 
-BOTTOM       = (0,600,700,1) 
-TOP          = (0,600,700,1)
-BASE_OBS     = ()
-FIXED_OBS    = ()
-HORIZONTAL_MOV_OBS   = ()
+
+BASE_OBS     = (0,250,450,200) # mountains
+FIXED_OBS    = (0,0,500,250) # clouds, things that are floating
+HORIZONTAL_MOV_OBS   = (250,0,300,250) 
 VERTICAL_MOV_OBS    = ()
 NEST         = ()
 
@@ -105,5 +104,3 @@ class MovingPlatform(Obstacle):
         # if cur_pos < self.boundary_left or cur_pos > self.boundary_right:
         #     self.change_x *= -1
 
-
-# class Nest(Platform):

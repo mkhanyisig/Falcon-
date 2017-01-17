@@ -21,7 +21,6 @@ class Level():
  
         # How far this world has been scrolled left/right
         self.obs_shift = 0
-        self.level_limit = -1000
         self.obstacle_list = pygame.sprite.Group()
         self.player = player
  
@@ -52,6 +51,8 @@ class Level():
         # Go through all the sprite lists and shift
         for obstacle in self.obstacle_list:
             obstacle.rect.x -= shift_x
+
+
  
 # Create obstacles for the level
 class Level_01(Level):
@@ -65,12 +66,11 @@ class Level_01(Level):
  
         self.background = pygame.image.load("arts/graphics/level1.png").convert()
         self.background.set_colorkey((255,255,255))
-        self.level_limit = -2500
  
         # Array with type of obstacles, and x, y location of the obstacle.
         
-        level = [ [obstacles.BOTTOM, 0,500],
-        		  [obstacles.TOP,0,0 ],
+        level = [ [obstacles.BASE_OBS, 400,500],
+        		  [obstacles.FIXED_OBS,550,300],
                   ]
         
  
@@ -108,7 +108,7 @@ class Level_02(Level):
  
         self.background = pygame.image.load("arts/graphics/level1.png").convert()
         self.background.set_colorkey((255,255,255))
-        self.level_limit = -1000
+
  
         # Array with type of obstacles, and x, y location of the obstacle.
         '''
