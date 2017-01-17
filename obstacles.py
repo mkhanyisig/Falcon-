@@ -31,7 +31,8 @@ class Obstacle(pygame.sprite.Sprite):
             code. """
         super(Obstacle,self).__init__()
     
-        sprite_sheet = SpriteSheet("arts/graphics/tiles_spritesheet.png")
+        sprite_sheet = SpriteSheet("arts/graphics/Obstacles/sprite_sheet_threeobjects.png")
+        # sprite_sheet = SpriteSheet("arts/graphics/tiles_spritesheet.png")
 
         # Grab the image for this obstacle
         self.image = sprite_sheet.get_image(sprite_sheet_data[0],
