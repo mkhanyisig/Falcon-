@@ -47,6 +47,9 @@ class Level():
     def shiftObs(self, shift_x):
 
         # Keep track of the shift amount
+
+        This is the link to view the rest of the fixtures:  http://www.supersport.com/football/africa-cup-of-nations/fixtures
+
         self.obs_shift -= shift_x
  
         # Go through all the sprite lists and shift
