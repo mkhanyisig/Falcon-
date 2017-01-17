@@ -156,7 +156,7 @@ class Level_02(Level):
         Level.__init__(self, player)
  
         self.background = pygame.image.load("arts/graphics/level1.png").convert()
-        self.background.set_colorkey((255,255,255))
+        self.background.set_colorkey((255, 255, 255))
 
  
         # Array with type of obstacles, and x, y location of the obstacle.

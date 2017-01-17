@@ -125,7 +125,7 @@ def main():
     active_sprite_list = pygame.sprite.Group()
     player.level = current_level
  
-    player.rect.x = 340
+    player.rect.x = 100
     player.rect.y = SCREEN_HEIGHT - player.rect.height
     active_sprite_list.add(player)
 
@@ -143,7 +143,8 @@ def main():
                 	player.flap()
             if event.type == pygame.KEYUP:
             	if event.key == pygame.K_UP or event.key == pygame.K_SPACE:
-            		player.change_y = 5
+            		# player.change_y = 5
+            		player.releaseWing()
 
         # Update the player.
         active_sprite_list.update()
@@ -181,14 +182,15 @@ def main():
         # ALL CODE TO DRAW SHOULD GO ABOVE THIS COMMENT
  
         # Limit to 60 frames per second
+        # clock.tick(10)
         clock.tick(60)
- 
+
         # Go ahead and update the screen with what we've drawn.
         pygame.display.flip()
  
-    # Be IDLE friendly. If you forget this line, the program will 'hang'
-    # on exit.
+    # to bee IDLE friendly and prevent program hanging on exit
     pygame.quit()
- 
+    sys.exit()
+
 if __name__ == "__main__":
     main()

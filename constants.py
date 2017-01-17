@@ -10,7 +10,6 @@ red = (255, 0, 0)
 green = (0, 255, 0)
 
 
-
 # Screen dimensions
 SCREEN_WIDTH = 400
 SCREEN_HEIGHT = 600

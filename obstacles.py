@@ -2,9 +2,7 @@
 For managing obstacles.
 """
 import pygame
-import random
 from spritesheet_functions import SpriteSheet
-
 
 
 # These constants define our obstacle types:
@@ -16,11 +14,11 @@ from spritesheet_functions import SpriteSheet
 #   [info one the sprite sheet]
 
 
-BASE_OBS     = (432, 720, 70, 40) # mountains
-FIXED_OBS    = (504, 576, 70, 70) # clouds, things that are floating
-HORIZONTAL_MOV_OBS   = (432, 720, 70, 40) 
-# VERTICAL_MOV_OBS    = ()
-# NEST         = ()
+BASE_OBS = (432, 720, 70, 40)  # mountains
+FIXED_OBS = (504, 576, 70, 70)  # clouds, things that are floating
+HORIZONTAL_MOV_OBS = (432, 720, 70, 40)
+# VERTICAL_MOV_OBS = ()
+# NEST = ()
 
 
 class Obstacle(pygame.sprite.Sprite):
@@ -29,10 +27,12 @@ class Obstacle(pygame.sprite.Sprite):
         """ Platform constructor. Assumes constructed with user passing in
             an array of 5 numbers like what's defined at the top of this
             code. """
-        super(Obstacle,self).__init__()
+        super(Obstacle, self).__init__()
     
-        sprite_sheet = SpriteSheet("arts/graphics/Obstacles/sprite_sheet_threeobjects.png")
-        # sprite_sheet = SpriteSheet("arts/graphics/tiles_spritesheet.png")
+        # sprite_sheet = SpriteSheet("arts/graphics/Obstacles/sprite_sheet_threeobjects.png")
+
+        # temporary obstacles
+        sprite_sheet = SpriteSheet("arts/graphics/tiles_spritesheet.png")
 
         # Grab the image for this obstacle
         self.image = sprite_sheet.get_image(sprite_sheet_data[0],
@@ -40,11 +40,10 @@ class Obstacle(pygame.sprite.Sprite):
                                             sprite_sheet_data[2],
                                             sprite_sheet_data[3])
 
- 
         self.rect = self.image.get_rect()
         self.mask = pygame.mask.from_surface(self.image)
 
-# ------------------------- Not in use -------------------------
+
 class MovingObstacle(Obstacle):
 
     # This is a fancier obstacle that can move relatively faster
@@ -52,7 +51,7 @@ class MovingObstacle(Obstacle):
 
     def __init__(self, sprite_sheet_data):
  
-        super(MovingObstacle,self).__init__(sprite_sheet_data)
+        super(MovingObstacle, self).__init__(sprite_sheet_data)
 
         self.change_x = 0
         self.change_y = 0
