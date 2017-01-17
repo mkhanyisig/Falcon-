@@ -4,6 +4,7 @@ For managing levels.
 
 import pygame
 import obstacles
+import random
 
 class Level():
     """ This is a generic super-class used to define a level.
@@ -26,8 +27,8 @@ class Level():
         self.obstacle_list = pygame.sprite.Group()
         self.level_limit = -1000
         self.player = player
- 
-    # Update everything on this level
+
+   # Update everything on this level
     def update(self):
 
         self.obstacle_list.update()
@@ -54,6 +55,9 @@ class Level():
             obstacle.rect.x -= shift_x
 
 
+    def getObsList(self):
+        return self.obstacle_list
+
  
 # Create obstacles for the level
 class Level_01(Level):
@@ -68,20 +72,32 @@ class Level_01(Level):
         self.background = pygame.image.load("arts/graphics/level1.png").convert()
         self.background.set_colorkey((255,255,255))
         self.level_limit = -2000
-        # List with type of obstacles, and x, y location of the obstacle.
-        
-        level = [ [obstacles.BASE_OBS, 400,500],
-        		  [obstacles.FIXED_OBS,550,300],
+
+        # List of "fixed" obstacles, and x, y location of the obstacle.
+
+        self.collection = [ [obstacles.BASE_OBS ],
+                  [obstacles.FIXED_OBS], 
+                  # may have more
                   ]
- 
+
+        self.choices = []
+
+        for i in range(1):
+            choice = random.choice(self.collection)
+            print choice
+            self.choices.append(choice)
+
+
         # Go through the list above, add obstacles
-        for obstacle in level:
-        	# should import obstacle class
-            block = obstacles.Obstacle(obstacle[0])
-            block.rect.x = obstacle[1]
-            block.rect.y = obstacle[2]
+
+        for i in self.choices:
+            # should import obstacle class
+            block = obstacles.Obstacle(i[0])
+            block.rect.x = random.randint(400,1000)
+            block.rect.y = random.randint(0,500)
             block.player = self.player
             self.obstacle_list.add(block)
+
  
         # Add a custom moving obstacle
         block = obstacles.MovingObstacle(obstacles.HORIZONTAL_MOV_OBS)
@@ -92,25 +108,32 @@ class Level_01(Level):
         block.change_x = -5
         block.player = self.player
         block.level = self
-        self.obstacle_list.add(block)
-
-    def obs_generator(self):
+        self.obstacle_list.add(block)       
 
 
-
-
-
-        
-        return Level_01.update(self)
 
     def update(self):
+
+        # get the update function
+        # remove any obstacles that are too far left
+        # according to the level rules, make new obstacles 
+
         Level.update(self)
 
-        # remove any obstacles that are too far left
+        for block in self.obstacle_list:
+            if self.obs_shift > 1000:
+                self.obstacle_list.remove(block)
 
-        # according to the level rules, make new obstacles
-        if self.obs_shift > 1000:
-            self.obstacle_list.pop(block)
+                # newBlock = obstacles.Obstacle(obstacles.FIXED_OBS)
+                # newBlock.rect.x = random.randint(400,1000)
+                # newBlock.rect.y = random.randint(0,500)
+                # newBlock.player = self.player
+                # self.obstacle_list.add(newBlock)
+
+                print self.obstacle_list
+                
+
+
         # level rules?
         #  make a new obstacle every 3s (maybe)
         #  make a new obstacle with some probability
@@ -118,7 +141,8 @@ class Level_01(Level):
         #  change the placement of obstacles (close together/far apart)
         #  set placement based on player position
         #  give obstacles different speeds
- 
+
+
 # Create obstacles for the level
 class Level_02(Level):
     """ Definition for level 2. """
