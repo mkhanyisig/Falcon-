@@ -1,11 +1,11 @@
 """
-Module for managing obstacles.
+For managing obstacles.
 """
 import pygame
 import random
 from spritesheet_functions import SpriteSheet
 
-choose = random.randint(300,700)
+
 
 # These constants define our obstacle types:
 #   Name of file
@@ -15,11 +15,10 @@ choose = random.randint(300,700)
 #   Height of sprite
 #   [info one the sprite sheet]
 
-BOTTOM       = (0,600,700,1) 
-TOP          = (0,600,700,1)
-BASE_OBS     = ()
-FIXED_OBS    = ()
-HORIZONTAL_MOV_OBS   = ()
+
+BASE_OBS     = (432, 720, 70, 40) # mountains
+FIXED_OBS    = (504, 576, 70, 70) # clouds, things that are floating
+HORIZONTAL_MOV_OBS   = (432, 720, 70, 40) 
 VERTICAL_MOV_OBS    = ()
 NEST         = ()
 
@@ -32,7 +31,7 @@ class Obstacle(pygame.sprite.Sprite):
             code. """
         super(Obstacle,self).__init__()
     
-        sprite_sheet = SpriteSheet("arts/graphics/obstacle_sheet.png")
+        sprite_sheet = SpriteSheet("arts/graphics/tiles_spritesheet.png")
 
         # Grab the image for this obstacle
         self.image = sprite_sheet.get_image(sprite_sheet_data[0],
@@ -43,13 +42,15 @@ class Obstacle(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.mask = pygame.mask.from_surface(self.image)
 
+# ------------------------- Not in use -------------------------
+class MovingObstacle(Obstacle):
 
-class MovingPlatform(Obstacle):
-    """ This is a fancier platform that can actually move. """
- 
+    # This is a fancier obstacle that can move relatively faster
+    # or in different directions. 
+
     def __init__(self, sprite_sheet_data):
  
-        super().__init__(sprite_sheet_data)
+        super(MovingObstacle,self).__init__(sprite_sheet_data)
 
         self.change_x = 0
         self.change_y = 0
@@ -66,36 +67,8 @@ class MovingPlatform(Obstacle):
 
         # Move left/right
         self.rect.x += self.change_x
- 
-        # # See if we hit the player
-        # hit = pygame.sprite.collide_rect(self, self.player)
-        # if hit:
-        #     # We did hit the player. Shove the player around and
-        #     # assume he/she won't hit anything else.
- 
-        #     # If we are moving right, set our right side
-        #     # to the left side of the item we hit
-        #     if self.change_x < 0:
-        #         self.player.rect.right = self.rect.left
-        #     else:
-        #         # Otherwise if we are moving left, do the opposite.
-        #         self.player.rect.left = self.rect.right
- 
         # Move up/down
         self.rect.y += self.change_y
- 
-        # # Check and see if we the player
-        # hit = pygame.sprite.collide_rect(self, self.player)
-        # if hit:
-        #     # We did hit the player. Shove the player around and
-        #     # assume he/she won't hit anything else.
- 
-        #     # Reset our position based on the top/bottom of the object.
-        #     if self.change_y < 0:
-        #         self.player.rect.bottom = self.rect.top
-        #     else:
-        #         self.player.rect.top = self.rect.bottom
- 
         # # Check the boundaries and see if we need to reverse
         # # direction.
         # if self.rect.bottom > self.boundary_bottom or self.rect.top < self.boundary_top:
@@ -104,6 +77,3 @@ class MovingPlatform(Obstacle):
         # cur_pos = self.rect.x - self.level.world_shift
         # if cur_pos < self.boundary_left or cur_pos > self.boundary_right:
         #     self.change_x *= -1
-
-
-# class Nest(Platform):
