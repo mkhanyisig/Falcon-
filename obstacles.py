@@ -19,8 +19,8 @@ from spritesheet_functions import SpriteSheet
 BASE_OBS     = (432, 720, 70, 40) # mountains
 FIXED_OBS    = (504, 576, 70, 70) # clouds, things that are floating
 HORIZONTAL_MOV_OBS   = (432, 720, 70, 40) 
-VERTICAL_MOV_OBS    = ()
-NEST         = ()
+# VERTICAL_MOV_OBS    = ()
+# NEST         = ()
 
 
 class Obstacle(pygame.sprite.Sprite):
@@ -39,6 +39,7 @@ class Obstacle(pygame.sprite.Sprite):
                                             sprite_sheet_data[1],
                                             sprite_sheet_data[2],
                                             sprite_sheet_data[3])
+
  
         self.rect = self.image.get_rect()
         self.mask = pygame.mask.from_surface(self.image)

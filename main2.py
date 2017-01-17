@@ -3,7 +3,7 @@
 
 import pygame
 import sys
-from random import randint
+import random
 import level
 import obstacles
 from player import Player
@@ -146,6 +146,7 @@ def main():
             		player.change_y = 5
 
         # Update the player.
+
         active_sprite_list.update()
  
         # Update items in the level
@@ -176,6 +177,6 @@ def main():
     # Be IDLE friendly. If you forget this line, the program will 'hang'
     # on exit.
     pygame.quit()
- 
+    sys.exit()  
 if __name__ == "__main__":
     main()

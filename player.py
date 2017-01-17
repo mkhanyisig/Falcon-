@@ -5,6 +5,7 @@ For managing the player.
 import pygame
 import level
 import obstacles
+import sys
 from spritesheet_functions import SpriteSheet
 
  
@@ -59,18 +60,22 @@ class Player(pygame.sprite.Sprite):
         # Check and see if we hit obstacles, 
         # if there is a collision
 
-        # if self.rect.y < 0 or self.rect.y > 400:
-        #     # gameover page
-        #     pygame.quit()
-        # for obs in level.Level.obstacle_list:
-        #     if pygame.sprite.collide_mask(self, obs) != None:
-        #         # gameover page
-        #         pygame.quit()
+        if self.rect.y < 0 or self.rect.y > 600:
+            # gameover page
+            print "gameover"
+            pygame.quit()
+            sys.exit() 
+
+        for obs in self.level.getObsList():
+            if pygame.sprite.collide_mask(self, obs) != None:
+                # gameover page
+                print "gameover"
+                pygame.quit()
+                sys.exit() 
 
 
-        #     elif pygame.sprite.collide_mask(self, obs) != None:
-        #         # want to show congrats page in main.py
-        #         state == 'congrats'
+            # elif pygame.sprite.collide_mask(self, obs) != None:
+                # want to show congrats page in main.py
 
         # # If hit the nest, go to the next level
         # elif pygame.sprite.collide_mask(self, platforms.Nest) == True:
