@@ -2,19 +2,18 @@
 This module is used to pull individual sprites from sprite sheets.
 """
 import pygame
-
  
 
 class SpriteSheet(object):
     """ Class used to grab images out of a sprite sheet. """
-    sprite_sheet = None 
+    sprite_sheet = None
+
     def __init__(self, file_name):
         """ Constructor. Pass in the file name of the sprite sheet. """
  
         # Load the sprite sheet.
-        self.sprite_sheet = pygame.image.load(file_name).convert()
- 
- 
+        self.sprite_sheet = pygame.image.load(file_name).convert_alpha()
+
     def get_image(self, x, y, width, height):
         """ Grab a single image out of a larger spritesheet
             Pass in the x, y location of the sprite
@@ -27,7 +26,7 @@ class SpriteSheet(object):
         image.blit(self.sprite_sheet, (0, 0), (x, y, width, height))
  
         # Assuming black works as the transparent color
-        image.set_colorkey((0,0,0))
+        image.set_colorkey((0, 0, 0))
 
         # Return the image
         return image

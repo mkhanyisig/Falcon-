@@ -4,7 +4,6 @@ For managing the player.
 """
 import pygame
 import constants
-import sys
 from spritesheet_functions import SpriteSheet
 
  
@@ -22,7 +21,8 @@ class Player(pygame.sprite.Sprite):
 
         # change of level
         self.level = None
-
+        # collision indicator
+        self.collided = False
 # ########handle the images #####
         # falcon flapping player sheet
         sprite_sheet = SpriteSheet("arts/graphics/falcon_spritesheet.png")
@@ -30,10 +30,14 @@ class Player(pygame.sprite.Sprite):
         self.flying_frames = []
 
         # Load images for the bird
-        falconUp = sprite_sheet.get_image(0, 0, 130, 180)
-        self.flying_frames.append(falconUp)
-        falconDown = sprite_sheet.get_image(130, 0, 110, 180)
-        self.flying_frames.append(falconDown)
+        falcon_up = sprite_sheet.get_image(0, 0, 130, 180)
+        falcon_down = sprite_sheet.get_image(130, 0, 110, 180)
+        # resize them
+        falcon_up = pygame.transform.scale(falcon_up, (100, 100))
+        falcon_down = pygame.transform.scale(falcon_down, (100, 100))
+        # add them to the frames list
+        self.flying_frames.append(falcon_up)
+        self.flying_frames.append(falcon_down)
     
         # Set the image the player starts with
         self.image = self.flying_frames[1]
@@ -47,21 +51,16 @@ class Player(pygame.sprite.Sprite):
         self.rect.y += self.change_y
 
         # check if the bird touches the screen boundaries  ## needs to be revised
-        if self.rect.y < 0 or self.rect.y > constants.SCREEN_HEIGHT:
-            # gameover page
-            print "gameover"
-            pygame.quit()
-            sys.exit()
-
+        # if self.rect.y < 0 or self.rect.y > constants.SCREEN_HEIGHT:
+        if self.rect.y + self.rect.height < 0 or self.rect.y > constants.SCREEN_HEIGHT:
+            self.collided = True
         # check if there is collision with any obstacle
-        for obs in self.level.getObsList():
+        for obs in self.level.get_obstacles():
             if pygame.sprite.collide_mask(self, obs) is not None:
-                # gameover page
                 print "gameover"
-                pygame.quit()
-                sys.exit() 
+                self.collided = True
 
-            # elif pygame.sprite.collide_mask(self, obs) != None:
+                # elif pygame.sprite.collide_mask(self, obs) != None:
                 # want to show congrats page in main.py
 
         # # If hit the nest, go to the next level
@@ -74,18 +73,6 @@ class Player(pygame.sprite.Sprite):
         self.image = self.flying_frames[1]
 
     # when the up / spacebar is not pressed, move player down and release
-    def releaseWing(self):
+    def release_wing(self):
         self.change_y = 5
         self.image = self.flying_frames[0]
-
-
-
-
- 
-        
- 
-    
- 
-    
- 
-    

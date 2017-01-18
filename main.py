@@ -6,101 +6,60 @@ import level
 import constants
 from player import Player
 
-pygame.init()
-
-try:
-    pygame.font.init()
-except:
-    print "Fonts unavailable"
-    sys.exit()
-
-# This is a font we use to draw text on the screen (size 36)
-font = pygame.font.Font(None, 36)
-# Set up some values
-
-# make a game screen of screenSize
-screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
-# title of window to be displayed
-pygame.display.set_caption("test-run Falcon with sprite sheets")
-# make a game clock that we shall use to manage how fast the screen updates
-clock = pygame.time.Clock()
-# Loop until the user clicks the close button.
-finish = False
-
-# -------- Load Up Files -----------
-
-#     load up the images
-gameover = pygame.image.load("arts/graphics/gameover.png").convert_alpha()
-welcome = pygame.image.load("arts/graphics/welcome.png").convert_alpha()
-level1 = pygame.image.load("arts/graphics/level1.png").convert_alpha()
-
-# scale down the pictures
-gameover = pygame.transform.scale(gameover, (constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
-welcome = pygame.transform.scale(welcome, (constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
-level1 = pygame.transform.scale(level1, (constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
-
-# Define the sounds
-flapSound = pygame.mixer.Sound("arts/audio/swoosh.wav")
-scoreSound = pygame.mixer.Sound("arts/audio/score.wav")
-startSound = pygame.mixer.Sound("arts/audio/Begin.wav")
-L1Sound = pygame.mixer.Sound("arts/audio/MountainSoundTrackV2.wav")
-
-
-display_instructions = True
-instruction_page = 1
- 
-# Play Music "Begin.wav"
-startSound.play(loops=-1, maxtime=0, fade_ms=0)
-
-
-# -------- Instruction Page Loop -----------
-while not finish and display_instructions:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and
-                                             (event.key == pygame.K_DOWN or event.key == pygame.K_ESCAPE)):
-            finish = True
-        if event.type == pygame.KEYDOWN and (event.key == pygame.K_SPACE or event.key == pygame.K_UP):
-            instruction_page += 1
-            if instruction_page == 3:
-                display_instructions = False
-                startSound.stop()
-                L1Sound.play(loops=-1, maxtime=0, fade_ms=0)
-
-    # Set the screen background
-    screen.fill(constants.black)
- 
-    if instruction_page == 1:
-        # Draw instructions, page 1
-        # This could also load an image created in another program.
-        # That could be both easier and more flexible.
-
-        screen.blit(welcome, [0,0])
-
-    if instruction_page == 2:
-        # Draw instructions, page 2
-        text = font.render("Page 2 is a storyline picture.",True, constants.white)
-        screen.blit(text, [10, 10])
-        text = font.render("Also describe controls.", True, constants.white)
-        screen.blit(text, [10, 50])
-        text = font.render("Can add Page 3 if needed.", True, constants.white)
-        screen.blit(text, [10, 90])
- 
-    # Limit to 60 frames per second
-    clock.tick(60)
- 
-    # Go ahead and update the screen with what we've drawn.
-    pygame.display.flip()
-
 
 def main():
     """ Main Program """
+    # initialize pygame
     pygame.init()
+    # initialize the fonts
+    try:
+        pygame.font.init()
+    except:
+        print "Fonts unavailable"
+        sys.exit()
+
+    # This is a font we use to draw text on the screen (size 36)
+    font = pygame.font.Font(None, 36)
+
+    # Set up some values
+    # display_instructions = True
+    instruction_page = 1
+    phase = "start"
     done = False
+
+    # make a game screen of screenSize
+    screen = pygame.display.set_mode(constants.screenSize)
+    # title of window to be displayed
+    pygame.display.set_caption("test-run Falcon")
+    # make a game clock that we shall use to manage how fast the screen updates
+    clock = pygame.time.Clock()
+    # Limits to 60 frames per second
+    clock.tick(20)    # to make it easier to play for now
+    # clock.tick(60)
+
+    # ################## load up all useful graphics, sound, etc here #######################
+    #     load up the images
+    gameover = pygame.image.load("arts/graphics/gameover.png").convert_alpha()
+    welcome = pygame.image.load("arts/graphics/welcome.png").convert_alpha()
+    # scale down the images
+    gameover = pygame.transform.scale(gameover, constants.screenSize)
+    welcome = pygame.transform.scale(welcome, constants.screenSize)
+
+    # load up the sounds
+    # score_sound = pygame.mixer.Sound("arts/audio/score.wav")
+    die = pygame.mixer.Sound("arts/audio/chip.wav")
+    flap_sound = pygame.mixer.Sound("arts/audio/swoosh.wav")
+    start_sound = pygame.mixer.Sound("arts/audio/Begin.wav")
+    level1sound = pygame.mixer.Sound("arts/audio/MountainSoundTrackV2.wav")
+
+    # play start sound
+    start_sound.play(loops=-1, maxtime=0, fade_ms=0)
+
     # Create the player
     player = Player()
  
     # Create all the levels
-    level_list = [level.Level_01(player), level.Level_02(player)]
+    level_list = [level.Level01(player), level.Level02(player)]
 
     # Set the current level
     current_level_no = 0
@@ -108,64 +67,134 @@ def main():
     obstacle_speed = 7
     active_sprite_list = pygame.sprite.Group()
     player.level = current_level
- 
-    player.rect.x = 100
-    player.rect.y = constants.SCREEN_HEIGHT - player.rect.height
+
+    # set player position on screen
+    player.rect.x = (constants.SCREEN_WIDTH/2) - 150
+    player.rect.y = constants.SCREEN_HEIGHT - player.rect.height*2
     active_sprite_list.add(player)
 
     # -------- Main Program Loop -----------
+
     while not done:
-        for event in pygame.event.get():  # User did something
-            if event.type == pygame.QUIT:  # If user clicked close
-                done = True  # Flag that we are done so we exit this loop
- 
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_UP or event.key == pygame.K_SPACE:
-                    player.flap()
-            if event.type == pygame.KEYUP:
-                if event.key == pygame.K_UP or event.key == pygame.K_SPACE:
-                    player.releaseWing()
+        if phase == "start":
+            # -------- Instruction Page Loop -----------
+            # while not finish and display_instructions or phase == "start":
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN
+                                                 and (event.key == pygame.K_DOWN or event.key == pygame.K_ESCAPE
+                                                      or event.key == pygame.K_q)):
+                    done = True
+                if event.type == pygame.KEYDOWN and (event.key == pygame.K_SPACE or event.key == pygame.K_UP):
+                    instruction_page += 1
+                    if instruction_page == 3:
+                        # display_instructions = False
+                        # stop start sound and start level 1 music
+                        start_sound.stop()
+                        level1sound.play(loops=-1, maxtime=0, fade_ms=0)
+                        phase = "play"
 
-        # Update the player.
-        active_sprite_list.update()
- 
-        # Update items in the level
-        current_level.update()
-        # constantly shift obstacles to the left
-        current_level.shiftObs(obstacle_speed)
- 
-        # HOW TO !!! go to the next level
-        # current_position = player.rect.x + current_level.world_shift
-        # if current_position < current_level.level_limit:
-        #     player.rect.x = 120
-        #     if current_level_no < len(level_list)-1:
-        #         current_level_no += 1
-        #         current_level = level_list[current_level_no]
-        #         player.level = current_level
-        # if pygame.sprite.collide_mask(player, obstacles.Nest == True:
+            # Set the screen background
+            screen.fill(constants.blue)
 
-        # haven't designed a nest yet
-        # blit the 1st congratulation page
-        # this page should include which button does which detect user action
-        # 	if want to continue to the next level:
-        # 	current_level += 1
-        # 	obstacle_speed += 10
-        # 	detect other actions:
-        # 	back to the beginning
+            if instruction_page == 1:
+                # Draw instructions, page 1
+                screen.blit(welcome, [0, 0])
+                # This could also load an image created in another program.
+                # That could be both easier and more flexible.
 
-        # ALL CODE TO DRAW SHOULD GO BELOW THIS COMMENT
-        current_level.draw(screen)
-        active_sprite_list.draw(screen)
- 
-        # ALL CODE TO DRAW SHOULD GO ABOVE THIS COMMENT
- 
-        # Limit to 60 frames per second
-        # clock.tick(10)
-        clock.tick(60)
+            if instruction_page == 2:
+                # Draw instructions, page 2
+                text = font.render("Page 2 is a storyline picture.", True, constants.white)
+                screen.blit(text, [10, 10])
+                text = font.render("Also describe controls.", True, constants.white)
+                screen.blit(text, [10, 50])
+                text = font.render("Can add Page 3 if needed.", True, constants.white)
+                screen.blit(text, [10, 90])
 
-        # Go ahead and update the screen with what we've drawn.
-        pygame.display.flip()
- 
+            # updates the screen with what we've drawn.
+            pygame.display.flip()
+
+        if phase == "play":
+            for event in pygame.event.get():  # User did something
+                if event.type == pygame.QUIT or \
+                        (event.type == pygame.KEYDOWN and (event.key == pygame.K_DOWN or event.key == pygame.K_ESCAPE)
+                         or event.key == pygame.K_q):
+                    done = True
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_UP or event.key == pygame.K_SPACE:
+                        player.flap()
+                        flap_sound.play()
+                if event.type == pygame.KEYUP:
+                    if event.key == pygame.K_UP or event.key == pygame.K_SPACE:
+                        player.release_wing()
+
+            # Update the player.
+            active_sprite_list.update()
+            # Update items in the level
+            current_level.update()
+            # constantly shift obstacles to the left
+            current_level.shift_obstacles(obstacle_speed)
+
+            # HOW TO !!! go to the next level
+            # current_position = player.rect.x + current_level.world_shift
+            # if current_position < current_level.level_limit:
+            #     player.rect.x = 120
+            #     if current_level_no < len(level_list)-1:
+            #         current_level_no += 1
+            #         current_level = level_list[current_level_no]
+            #         player.level = current_level
+            # if pygame.sprite.collide_mask(player, obstacles.Nest == True:
+
+            # haven't designed a nest yet
+            # blit the 1st congratulation page
+            # this page should include which button does which detect user action
+            # 	if want to continue to the next level:
+            # 	current_level += 1
+            # 	obstacle_speed += 10
+            # 	detect other actions:
+            # 	back to the beginning
+
+            # check if the player has collided
+            if player.collided:
+                level1sound.stop()
+                die.play()
+                # pause for effect after crashing
+                pygame.time.wait(1000)
+
+                # play the end screen sound
+                start_sound.play(loops=-1, maxtime=0, fade_ms=0)
+                phase = "end"
+
+            # ALL CODE TO DRAW SHOULD GO BELOW THIS COMMENT
+            current_level.draw(screen)
+            active_sprite_list.draw(screen)
+
+    # ################## ALL CODE TO DRAW SHOULD GO ABOVE THIS COMMENT #####################
+
+            # update the screen with what we've drawn.
+            pygame.display.flip()
+
+        if phase == "end":
+            # check for events
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT or \
+                        (event.type == pygame.KEYDOWN and (event.key == pygame.K_q or event.key == pygame.K_ESCAPE)):
+                    done = True
+                elif event.type == pygame.KEYDOWN and (event.key == pygame.K_UP or event.key == pygame.K_SPACE):
+                    # stop the start sound
+                    start_sound.stop()
+                    # replay the game
+                    main()
+
+            # clear the screen with white first
+            screen.fill((255, 255, 255))
+            # draw the game over screen
+            screen.blit(gameover, (0, 0))
+            # showTheScore(score)
+
+            # updates the screen with what we've drawn.
+            pygame.display.flip()
+
     # to bee IDLE friendly and prevent program hanging on exit
     pygame.quit()
     sys.exit()

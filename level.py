@@ -5,50 +5,45 @@ For managing levels.
 import pygame
 import obstacles
 import random
+import constants
 
-class Level():
+
+class Level:
     """ This is a generic super-class used to define a level.
 
-    	Create a child class for each level with level-specific
-    	info. 
+        Create a child class for each level with level-specific
+        info.
     """
  
     def __init__(self, player):
  
         # Lists of sprites used in all levels.
         self.obstacle_list = None
-
         # Background image
         self.background = None
  
         # How far the obstacles traveled
-
         self.obs_shift = 0
         self.obstacle_list = pygame.sprite.Group()
         self.level_limit = -1000
         self.player = player
 
-   # Update everything on this level
+    # Update everything on this level
     def update(self):
-
         self.obstacle_list.update()
-
 
     # Draw everything on this level. 
     def draw(self, screen):
- 
         # Draw the background
-        # we donot move the background
-        screen.fill((255,255,255))
-        screen.blit(self.background,(0,0))
+        # we do not move the background
+        screen.fill((255, 255, 255))
+        screen.blit(self.background, (0, 0))
  
         # Draw the sprite lists
         self.obstacle_list.draw(screen)
  
-    def shiftObs(self, shift_x):
-
+    def shift_obstacles(self, shift_x):
         # Keep track of the shift amount
-
         self.obs_shift -= shift_x
         self.obs_shift += shift_x
 
@@ -56,13 +51,12 @@ class Level():
         for obstacle in self.obstacle_list:
             obstacle.rect.x -= shift_x
 
-
-    def getObsList(self):
+    def get_obstacles(self):
         return self.obstacle_list
 
  
 # Create obstacles for the level
-class Level_01(Level):
+class Level01(Level):
     """ Definition for level 1. """
  
     def __init__(self, player):
@@ -71,17 +65,13 @@ class Level_01(Level):
         # Call the parent constructor
         Level.__init__(self, player)
  
-        self.background = pygame.image.load("arts/graphics/level1.png").convert()
-        self.background.set_colorkey((255,255,255))
+        self.background = pygame.image.load("arts/graphics/level1.png").convert_alpha()
+        self.background = pygame.transform.scale(self.background, constants.screenSize)
+        self.background.set_colorkey((255, 255, 255))
         self.level_limit = -2000
 
         # List of "fixed" obstacles, and x, y location of the obstacle.
-
-        self.collection = [ [obstacles.BASE_OBS ],
-                  [obstacles.FIXED_OBS], 
-                  # may have more
-                  ]
-
+        self.collection = [[obstacles.BASE_OBS], [obstacles.FIXED_OBS]]  # may have more
         self.choices = []
 
         for i in range(1):
@@ -89,18 +79,15 @@ class Level_01(Level):
             print choice
             self.choices.append(choice)
 
-
         # Go through the list above, add obstacles
-
         for i in self.choices:
             # should import obstacle class
             block = obstacles.Obstacle(i[0])
-            block.rect.x = random.randint(400,1000)
-            block.rect.y = random.randint(0,500)
+            block.rect.x = random.randint(400, 1000)
+            block.rect.y = random.randint(0, 500)
             block.player = self.player
             self.obstacle_list.add(block)
 
- 
         # Add a custom moving obstacle
         block = obstacles.MovingObstacle(obstacles.HORIZONTAL_MOV_OBS)
         block.rect.x = 900
@@ -110,9 +97,7 @@ class Level_01(Level):
         block.change_x = -5
         block.player = self.player
         block.level = self
-        self.obstacle_list.add(block)       
-
-
+        self.obstacle_list.add(block)
 
     def update(self):
 
@@ -123,18 +108,15 @@ class Level_01(Level):
         Level.update(self)
 
         for block in self.obstacle_list:
-            if self.obs_shift > 1000:
+            # if self.obs_shift > 1000:
+            if block.rect.x + block.rect.width < 0:
                 self.obstacle_list.remove(block)
-
-                # newBlock = obstacles.Obstacle(obstacles.FIXED_OBS)
-                # newBlock.rect.x = random.randint(400,1000)
-                # newBlock.rect.y = random.randint(0,500)
-                # newBlock.player = self.player
-                # self.obstacle_list.add(newBlock)
-
-                print self.obstacle_list
-                
-
+                # replace the lost block
+                new_block = obstacles.Obstacle(obstacles.FIXED_OBS)
+                new_block.rect.x = random.randint(400, 1000)
+                new_block.rect.y = random.randint(0, 500)
+                new_block.player = self.player
+                self.obstacle_list.add(new_block)
 
         # level rules?
         #  make a new obstacle every 3s (maybe)
@@ -146,7 +128,7 @@ class Level_01(Level):
 
 
 # Create obstacles for the level
-class Level_02(Level):
+class Level02(Level):
     """ Definition for level 2. """
  
     def __init__(self, player):
@@ -154,21 +136,18 @@ class Level_02(Level):
  
         # Call the parent constructor
         Level.__init__(self, player)
- 
-        self.background = pygame.image.load("arts/graphics/level1.png").convert()
+
+        # load up the level images
+        self.background = pygame.image.load("arts/graphics/level1.png").convert_alpha()
+        self.background = pygame.transform.scale(self.background, constants.screenSize)
         self.background.set_colorkey((255, 255, 255))
 
- 
         # Array with type of obstacles, and x, y location of the obstacle.
         '''
-        level = [ [1st obstacle],
-        			[],
-        			[],
-        			[]
-                  ]
+        level = [ [1st obstacle], [], [] ]
         '''
         # Go through the array above and add platforms
-        #for 
+        # for
  
         # # Add a custom moving platform
         # block = obstacle.MovingObstacle(obstacle.#something on the sprite sheet)
@@ -181,5 +160,3 @@ class Level_02(Level):
         # block.player = self.player
         # block.level = self
         # self.obstacle_list.add(block)
-
-
