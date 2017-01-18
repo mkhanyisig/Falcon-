@@ -23,6 +23,7 @@ class Player(pygame.sprite.Sprite):
         self.level = None
         # collision indicator
         self.collided = False
+
 # ########handle the images #####
         # falcon flapping player sheet
         sprite_sheet = SpriteSheet("arts/graphics/falcon_spritesheet.png")

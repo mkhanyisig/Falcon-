@@ -22,7 +22,6 @@ def main():
     font = pygame.font.Font(None, 36)
 
     # Set up some values
-    # display_instructions = True
     instruction_page = 1
     phase = "start"
     done = False
@@ -34,8 +33,8 @@ def main():
     # make a game clock that we shall use to manage how fast the screen updates
     clock = pygame.time.Clock()
     # Limits to 60 frames per second
-    clock.tick(20)    # to make it easier to play for now
-    # clock.tick(60)
+    # clock.tick(20)    # to make it easier to play for now
+    clock.tick(60)
 
     # ################## load up all useful graphics, sound, etc here #######################
     #     load up the images
@@ -64,13 +63,13 @@ def main():
     # Set the current level
     current_level_no = 0
     current_level = level_list[current_level_no]
-    obstacle_speed = 5
+    obstacle_speed = 4
     active_sprite_list = pygame.sprite.Group()
     player.level = current_level
 
     # set player position on screen
-    player.rect.x = (constants.SCREEN_WIDTH/2) - 150
-    player.rect.y = constants.SCREEN_HEIGHT - player.rect.height*2
+    player.rect.x = (constants.SCREEN_WIDTH * 0.25)
+    player.rect.y = constants.SCREEN_HEIGHT/3
     active_sprite_list.add(player)
 
     # -------- Main Program Loop -----------
@@ -78,7 +77,6 @@ def main():
     while not done:
         if phase == "start":
             # -------- Instruction Page Loop -----------
-            # while not finish and display_instructions or phase == "start":
             for event in pygame.event.get():
                 if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN
                                                  and (event.key == pygame.K_DOWN or event.key == pygame.K_ESCAPE
@@ -87,14 +85,13 @@ def main():
                 if event.type == pygame.KEYDOWN and (event.key == pygame.K_SPACE or event.key == pygame.K_UP):
                     instruction_page += 1
                     if instruction_page == 3:
-                        # display_instructions = False
                         # stop start sound and start level 1 music
                         start_sound.stop()
                         level1sound.play(loops=-1, maxtime=0, fade_ms=0)
                         phase = "play"
 
             # Set the screen background
-            screen.fill(constants.blue)
+            screen.fill(constants.black)
 
             if instruction_page == 1:
                 # Draw instructions, page 1
@@ -119,7 +116,7 @@ def main():
                 if event.type == pygame.QUIT or \
                         (event.type == pygame.KEYDOWN and (event.key == pygame.K_DOWN or event.key == pygame.K_ESCAPE)
                          or event.key == pygame.K_q):
-                    done = True
+                    phase = "end"
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_UP or event.key == pygame.K_SPACE:
                         player.flap()
@@ -135,7 +132,19 @@ def main():
             # constantly shift obstacles to the left
             current_level.shift_obstacles(obstacle_speed)
 
-            # HOW TO !!! go to the next level
+            # just testing the change in levels
+            if current_level.next_level:
+                player.rect.y = constants.SCREEN_HEIGHT/3
+                if current_level_no < len(level_list)-1:
+                    current_level_no += 1
+                    current_level = level_list[current_level_no]
+                    player.level = current_level
+                    obstacle_speed += 2
+
+                    # do a countdown or something...pause the game to give the player some time
+                    pygame.time.wait(2000)
+
+        # HOW TO !!! go to the next level
             # current_position = player.rect.x + current_level.world_shift
             # if current_position < current_level.level_limit:
             #     player.rect.x = 120
@@ -179,7 +188,12 @@ def main():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT or \
                         (event.type == pygame.KEYDOWN and (event.key == pygame.K_q or event.key == pygame.K_ESCAPE)):
-                    done = True
+                    # this would hopefully make the game more addictive since is hard to just quit
+
+                    # stop the start sound
+                    start_sound.stop()
+                    # replay the game
+                    main()
                 elif event.type == pygame.KEYDOWN and (event.key == pygame.K_UP or event.key == pygame.K_SPACE):
                     # stop the start sound
                     start_sound.stop()

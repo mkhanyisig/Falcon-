@@ -28,6 +28,10 @@ class Level:
         self.level_limit = -1000
         self.player = player
 
+        # solely for level change tests
+        self.index = 0;
+        self.next_level = False;
+
     # Update everything on this level
     def update(self):
         self.obstacle_list.update()
@@ -88,17 +92,6 @@ class Level01(Level):
             block.player = self.player
             self.obstacle_list.add(block)
 
-        # Add a custom moving obstacle
-        block = obstacles.MovingObstacle(obstacles.HORIZONTAL_MOV_OBS)
-        block.rect.x = 900
-        block.rect.y = 280
-        block.boundary_left = 900
-        block.boundary_right = 1600
-        block.change_x = -5
-        block.player = self.player
-        block.level = self
-        self.obstacle_list.add(block)
-
     def update(self):
 
         # get the update function
@@ -106,6 +99,8 @@ class Level01(Level):
         # according to the level rules, make new obstacles 
 
         Level.update(self)
+
+        # for level change testing
 
         for block in self.obstacle_list:
             # if self.obs_shift > 1000:
@@ -117,6 +112,11 @@ class Level01(Level):
                 new_block.rect.y = random.randint(0, 500)
                 new_block.player = self.player
                 self.obstacle_list.add(new_block)
+
+                # to check for level changes
+                self.index += 1
+                if self.index == 5:
+                    self.next_level = True
 
         # level rules?
         #  make a new obstacle every 3s (maybe)
@@ -133,30 +133,67 @@ class Level02(Level):
  
     def __init__(self, player):
         """ Create level 2. """
- 
+
         # Call the parent constructor
         Level.__init__(self, player)
 
-        # load up the level images
-        self.background = pygame.image.load("arts/graphics/level1.png").convert_alpha()
+        self.background = pygame.image.load("arts/graphics/Paris.png").convert_alpha()
         self.background = pygame.transform.scale(self.background, constants.screenSize)
         self.background.set_colorkey((255, 255, 255))
+        self.level_limit = -2000
 
-        # Array with type of obstacles, and x, y location of the obstacle.
-        '''
-        level = [ [1st obstacle], [], [] ]
-        '''
-        # Go through the array above and add platforms
-        # for
- 
-        # # Add a custom moving platform
-        # block = obstacle.MovingObstacle(obstacle.#something on the sprite sheet)
-        # block.rect.x = 1350
-        # block.rect.x = 1500
-        # block.rect.y = 300
-        # block.boundary_top = 100
-        # block.boundary_bottom = 550
-        # block.change_y = -1
-        # block.player = self.player
-        # block.level = self
-        # self.obstacle_list.add(block)
+        # List of "fixed" obstacles, and x, y location of the obstacle.
+        self.collection = [[obstacles.BASE_OBS], [obstacles.FIXED_OBS]]  # may have more
+        self.choices = []
+
+        for i in range(2):
+            choice = random.choice(self.collection)
+            print choice
+            self.choices.append(choice)
+
+        # Go through the list above, add obstacles
+        for i in self.choices:
+            # should import obstacle class
+            block = obstacles.Obstacle(i[0])
+            block.rect.x = random.randint(400, 1000)
+            block.rect.y = random.randint(0, 500)
+            block.player = self.player
+            self.obstacle_list.add(block)
+
+        # Add a custom moving obstacle
+        block = obstacles.MovingObstacle(obstacles.HORIZONTAL_MOV_OBS)
+        block.rect.x = 900
+        block.rect.y = 280
+        block.boundary_left = 900
+        block.boundary_right = 1600
+        block.change_x = -5
+        block.player = self.player
+        block.level = self
+        self.obstacle_list.add(block)
+
+    def update(self):
+
+        # get the update function
+        # remove any obstacles that are too far left
+        # according to the level rules, make new obstacles
+
+        Level.update(self)
+
+        for block in self.obstacle_list:
+            # if self.obs_shift > 1000:
+            if block.rect.x + block.rect.width < 0:
+                self.obstacle_list.remove(block)
+                # replace the lost block
+                new_block = obstacles.Obstacle(obstacles.FIXED_OBS)
+                new_block.rect.x = random.randint(400, 1000)
+                new_block.rect.y = random.randint(0, 500)
+                new_block.player = self.player
+                self.obstacle_list.add(new_block)
+
+                # level rules?
+                #  make a new obstacle every 3s (maybe)
+                #  make a new obstacle with some probability
+                #  change the kind of obstacles based on randomization/choice
+                #  change the placement of obstacles (close together/far apart)
+                #  set placement based on player position
+                #  give obstacles different speeds
