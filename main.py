@@ -1,17 +1,15 @@
 # main program
 
-
 import pygame
 import sys
-from random import randint
 import level
-import obstacles
+import constants
 from player import Player
 
 pygame.init()
 
 try:
-	pygame.font.init()
+    pygame.font.init()
 except:
     print "Fonts unavailable"
     sys.exit()
@@ -19,23 +17,15 @@ except:
 # This is a font we use to draw text on the screen (size 36)
 font = pygame.font.Font(None, 36)
 # Set up some values
-BLACK = (0,0,0)
-WHITE = (255,255,255)
-BLUE = (0,0,255)
 
-SCREEN_WIDTH = 400
-SCREEN_HEIGHT = 600
 # make a game screen of screenSize
-screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
+screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
 # title of window to be displayed
 pygame.display.set_caption("test-run Falcon with sprite sheets")
-# make a game clock
+# make a game clock that we shall use to manage how fast the screen updates
 clock = pygame.time.Clock()
-#Loop until the user clicks the close button.
+# Loop until the user clicks the close button.
 finish = False
-
-# Used to manage how fast the screen updates
-clock = pygame.time.Clock()
 
 # -------- Load Up Files -----------
 
@@ -45,16 +35,15 @@ welcome = pygame.image.load("arts/graphics/welcome.png").convert_alpha()
 level1 = pygame.image.load("arts/graphics/level1.png").convert_alpha()
 
 # scale down the pictures
-gameover = pygame.transform.scale(gameover, (SCREEN_WIDTH,SCREEN_HEIGHT))
-welcome = pygame.transform.scale(welcome, (SCREEN_WIDTH,SCREEN_HEIGHT))
-level1 = pygame.transform.scale(level1, (SCREEN_WIDTH,SCREEN_HEIGHT))
+gameover = pygame.transform.scale(gameover, (constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
+welcome = pygame.transform.scale(welcome, (constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
+level1 = pygame.transform.scale(level1, (constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
 
 # Define the sounds
 flapSound = pygame.mixer.Sound("arts/audio/swoosh.wav")
 scoreSound = pygame.mixer.Sound("arts/audio/score.wav")
 startSound = pygame.mixer.Sound("arts/audio/Begin.wav")
 L1Sound = pygame.mixer.Sound("arts/audio/MountainSoundTrackV2.wav")
-#L2Sound = ...
 
 
 display_instructions = True
@@ -67,20 +56,18 @@ startSound.play(loops=-1, maxtime=0, fade_ms=0)
 # -------- Instruction Page Loop -----------
 while not finish and display_instructions:
     for event in pygame.event.get():
-        if event.type == pygame.QUIT or \
-        (event.type == pygame.KEYDOWN and (event.key == pygame.K_DOWN or event.key == pygame.K_ESCAPE)):
+        if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and
+                                             (event.key == pygame.K_DOWN or event.key == pygame.K_ESCAPE)):
             finish = True
-        if event.type ==  pygame.KEYDOWN and (event.key == pygame.K_SPACE or event.key == pygame.K_UP):
+        if event.type == pygame.KEYDOWN and (event.key == pygame.K_SPACE or event.key == pygame.K_UP):
             instruction_page += 1
             if instruction_page == 3:
                 display_instructions = False
                 startSound.stop()
                 L1Sound.play(loops=-1, maxtime=0, fade_ms=0)
 
-
- 
     # Set the screen background
-    screen.fill(BLACK)
+    screen.fill(constants.black)
  
     if instruction_page == 1:
         # Draw instructions, page 1
@@ -88,15 +75,14 @@ while not finish and display_instructions:
         # That could be both easier and more flexible.
 
         screen.blit(welcome, [0,0])
- 
- 
+
     if instruction_page == 2:
         # Draw instructions, page 2
-        text = font.render("Page 2 is a storyline picture.",True, WHITE)
+        text = font.render("Page 2 is a storyline picture.",True, constants.white)
         screen.blit(text, [10, 10])
-        text = font.render("Also describe controls.", True, WHITE)
+        text = font.render("Also describe controls.", True, constants.white)
         screen.blit(text, [10, 50])
-        text = font.render("Can add Page 3 if needed.", True, WHITE)
+        text = font.render("Can add Page 3 if needed.", True, constants.white)
         screen.blit(text, [10, 90])
  
     # Limit to 60 frames per second
@@ -114,46 +100,39 @@ def main():
     player = Player()
  
     # Create all the levels
-    level_list = []
-    level_list.append(level.Level_01(player))
-    level_list.append(level.Level_02(player))
- 
+    level_list = [level.Level_01(player), level.Level_02(player)]
+
     # Set the current level
     current_level_no = 0
     current_level = level_list[current_level_no]
-    ObSpeed = 7
+    obstacle_speed = 7
     active_sprite_list = pygame.sprite.Group()
     player.level = current_level
  
     player.rect.x = 100
-    player.rect.y = SCREEN_HEIGHT - player.rect.height
+    player.rect.y = constants.SCREEN_HEIGHT - player.rect.height
     active_sprite_list.add(player)
 
-
-
- 
     # -------- Main Program Loop -----------
     while not done:
-        for event in pygame.event.get(): # User did something
-            if event.type == pygame.QUIT: # If user clicked close
-                done = True # Flag that we are done so we exit this loop
+        for event in pygame.event.get():  # User did something
+            if event.type == pygame.QUIT:  # If user clicked close
+                done = True  # Flag that we are done so we exit this loop
  
             if event.type == pygame.KEYDOWN:
-            	if event.key == pygame.K_UP or event.key == pygame.K_SPACE:
-                	player.flap()
+                if event.key == pygame.K_UP or event.key == pygame.K_SPACE:
+                    player.flap()
             if event.type == pygame.KEYUP:
-            	if event.key == pygame.K_UP or event.key == pygame.K_SPACE:
-            		# player.change_y = 5
-            		player.releaseWing()
+                if event.key == pygame.K_UP or event.key == pygame.K_SPACE:
+                    player.releaseWing()
 
         # Update the player.
         active_sprite_list.update()
  
         # Update items in the level
         current_level.update()
- 
-		# constantly shift obstacles to the left
-        current_level.shiftObs(ObSpeed)
+        # constantly shift obstacles to the left
+        current_level.shiftObs(obstacle_speed)
  
         # HOW TO !!! go to the next level
         # current_position = player.rect.x + current_level.world_shift
@@ -164,17 +143,16 @@ def main():
         #         current_level = level_list[current_level_no]
         #         player.level = current_level
         # if pygame.sprite.collide_mask(player, obstacles.Nest == True:
-        	# havent designed a nest yet
-			# blit the 1st congratulation page
-			# this page should include which button does which
-			# detect user action
-			# if want to continue to the next level:
-			# current_level += 1
-			# ObSpeed += 10
-			# detect other actions:
-			# back to the beginning
 
- 
+        # haven't designed a nest yet
+        # blit the 1st congratulation page
+        # this page should include which button does which detect user action
+        # 	if want to continue to the next level:
+        # 	current_level += 1
+        # 	obstacle_speed += 10
+        # 	detect other actions:
+        # 	back to the beginning
+
         # ALL CODE TO DRAW SHOULD GO BELOW THIS COMMENT
         current_level.draw(screen)
         active_sprite_list.draw(screen)
