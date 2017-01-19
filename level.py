@@ -54,7 +54,8 @@ class Level:
     def shift_obstacles(self, shift_x):
         # Keep track of the shift amount
         self.obs_shift -= shift_x
-        self.obs_shift += shift_x
+        self.obs_shift += shift_x 
+        # whats the point of the lines of code above, they seem useless to me.
 
         # Go through all the sprite lists and shift
         for obstacle in self.obstacle_list:
