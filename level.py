@@ -54,7 +54,8 @@ class Level:
     def shift_obstacles(self, shift_x):
         # Keep track of the shift amount
         self.obs_shift -= shift_x
-        self.obs_shift += shift_x
+        self.obs_shift += shift_x 
+        # whats the point of the lines of code above, they seem useless to me.
 
         # Go through all the sprite lists and shift
         for obstacle in self.obstacle_list:
@@ -81,7 +82,7 @@ class Level:
     def replace_obstacle(self):
         new_block = obstacles.Obstacle(random.choice(self.choices)[0])
         new_block.rect.x = random.randint(constants.SCREEN_WIDTH, constants.SCREEN_WIDTH*2)
-        new_block.rect.y = random.randint(0, constants.SCREEN_HEIGHT)
+        new_block.rect.y = random.randint(0, constants.SCREEN_HEIGHT-70)
         new_block.player = self.player
         self.obstacle_list.add(new_block)
 
@@ -125,12 +126,15 @@ class Level01(Level):
                     self.next_level = True
 
         # level rules?
-        #  make a new obstacle every 3s (maybe)
+        #  make a new obstacle every 3s (maybe) 
         #  make a new obstacle with some probability
         #  change the kind of obstacles based on randomization/choice
         #  change the placement of obstacles (close together/far apart)
         #  set placement based on player position
         #  give obstacles different speeds
+        #  increase the obstacles generated at certain score points, to incorporate level difficulties. In that way, game is more fun
+        #  take into consideration player position at higher scores(higher difficulty), so that it becomes harder avoiding the obstacles  
+        # with obstacles, top half obtacle might cloud/plane, and then bottom its a different obsacle type, eg, the rocks/others. (in that way it's a more realistic flying simulation of the bird) 
 
 
 class Level02(Level):
