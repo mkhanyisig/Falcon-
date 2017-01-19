@@ -58,7 +58,7 @@ def main():
     player = Player()
  
     # Create all the levels
-    level_list = [level.Level01(player), level.Level02(player)]
+    level_list = [level.Level01(player), level.Level02(player), level.Level03(player)]
 
     # Set the current level
     current_level_no = 0
@@ -139,10 +139,17 @@ def main():
                     current_level_no += 1
                     current_level = level_list[current_level_no]
                     player.level = current_level
-                    obstacle_speed += 1.5
+                    obstacle_speed += 1
+                    # obstacle_speed += 1.5
 
                     # do a countdown or something...pause the game to give the player some time
                     pygame.time.wait(2000)
+                else:
+                    current_level_no -= 1
+                    current_level = level_list[current_level_no]
+                    player.level = current_level
+                    obstacle_speed += 1
+                    # obstacle_speed += 1.5
 
         # HOW TO !!! go to the next level
             # current_position = player.rect.x + current_level.world_shift
@@ -175,8 +182,19 @@ def main():
                 phase = "end"
 
             # ALL CODE TO DRAW SHOULD GO BELOW THIS COMMENT
+
             current_level.draw(screen)
             active_sprite_list.draw(screen)
+
+            # deal with score
+            if current_level_no == 0:
+                score = current_level.index
+            elif current_level_no == 1:
+                score = current_level.index + current_level.maximum
+            else:
+                score = current_level.index + current_level.maximum*2
+
+            screen.blit(font.render("Score : "+str(score), True, constants.red), (15, 10))
 
     # ################## ALL CODE TO DRAW SHOULD GO ABOVE THIS COMMENT #####################
 

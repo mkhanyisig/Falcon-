@@ -35,6 +35,7 @@ class Level:
         # solely for level change tests
         self.index = 0
         self.next_level = False
+        self.maximum = 5
 
     # Update everything on this level
     def update(self):
@@ -103,7 +104,7 @@ class Level01(Level):
         # List of "fixed" obstacles, and x, y location of the obstacle.
         self.collection = [[obstacles.BASE_OBS], [obstacles.FIXED_OBS]]  # may have more
         # fill level with obstacles
-        self.fill_with_obstacles(2)
+        self.fill_with_obstacles(1)
 
     def update(self):
 
@@ -120,7 +121,7 @@ class Level01(Level):
 
                 # to check for level changes
                 self.index += 1
-                if self.index == 5:
+                if self.index == self.maximum:
                     self.next_level = True
 
         # level rules?
@@ -132,7 +133,6 @@ class Level01(Level):
         #  give obstacles different speeds
 
 
-# Create obstacles for the level
 class Level02(Level):
     """ Definition for level 2. """
  
@@ -150,7 +150,7 @@ class Level02(Level):
         # List of "fixed" obstacles, and x, y location of the obstacle.
         self.collection = [[obstacles.BASE_OBS], [obstacles.FIXED_OBS]]  # may have more
         # fill it up
-        self.fill_with_obstacles(3)
+        self.fill_with_obstacles(2)
         # Add a custom moving obstacle
         block = obstacles.MovingObstacle(obstacles.HORIZONTAL_MOV_OBS)
         block.rect.x = 900
@@ -175,3 +175,57 @@ class Level02(Level):
                 self.obstacle_list.remove(block)
                 # replace the lost block
                 self.replace_obstacle()
+
+                # to check for level changes
+                self.index += 1
+                if self.index == self.maximum:
+                    self.next_level = True
+
+
+class Level03(Level):
+    """ Definition for level 3. """
+
+    def __init__(self, player):
+        """ Create level 3. """
+
+        # Call the parent constructor
+        Level.__init__(self, player)
+
+        self.background = pygame.image.load("arts/graphics/newyork.png").convert_alpha()
+        self.background = pygame.transform.scale(self.background, constants.screenSize)
+        self.background.set_colorkey((255, 255, 255))
+        self.level_limit = -2000
+
+        # List of "fixed" obstacles, and x, y location of the obstacle.
+        self.collection = [[obstacles.BASE_OBS], [obstacles.FIXED_OBS]]  # may have more
+        # fill it up
+        self.fill_with_obstacles(3)
+        # Add a custom moving obstacle
+        block = obstacles.MovingObstacle(obstacles.HORIZONTAL_MOV_OBS)
+        block.rect.x = 900
+        block.rect.y = 280
+        block.boundary_left = 900
+        block.boundary_right = 1600
+        block.change_x = -7
+        block.player = self.player
+        block.level = self
+        self.obstacle_list.add(block)
+
+    def update(self):
+
+        # get the update function
+        # remove any obstacles that are too far left
+        # according to the level rules, make new obstacles
+
+        Level.update(self)
+
+        for block in self.obstacle_list:
+            if block.rect.x + block.rect.width < 0:
+                self.obstacle_list.remove(block)
+                # replace the lost block
+                self.replace_obstacle()
+
+                # to check for level changes
+                self.index += 1
+                if self.index == 2:
+                    self.next_level = True

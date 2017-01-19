@@ -55,10 +55,10 @@ class Player(pygame.sprite.Sprite):
         # if self.rect.y < 0 or self.rect.y > constants.SCREEN_HEIGHT:
         if self.rect.y + self.rect.height < 0 or self.rect.y > constants.SCREEN_HEIGHT:
             self.collided = True
+
         # check if there is collision with any obstacle
         for obs in self.level.get_obstacles():
             if pygame.sprite.collide_mask(self, obs) is not None:
-                print "gameover"
                 self.collided = True
 
                 # elif pygame.sprite.collide_mask(self, obs) != None:
