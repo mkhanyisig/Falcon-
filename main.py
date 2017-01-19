@@ -114,8 +114,8 @@ def main():
         if phase == "play":
             for event in pygame.event.get():  # User did something
                 if event.type == pygame.QUIT or \
-                        (event.type == pygame.KEYDOWN and (event.key == pygame.K_DOWN or event.key == pygame.K_ESCAPE)
-                         or event.key == pygame.K_q):
+                        (event.type == pygame.KEYDOWN and (event.key == pygame.K_DOWN or event.key == pygame.K_ESCAPE
+                         or event.key == pygame.K_q)):
                     phase = "end"
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_UP or event.key == pygame.K_SPACE:
