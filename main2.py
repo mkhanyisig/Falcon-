@@ -207,7 +207,7 @@ def main():
                 score = current_level.index + current_level.maximum*2
 
             DigitsToShow = [int(x) for x in list(str(score))]
-            totalWidth = 0 # total width of all numbers to be printed
+            totalWidth = 0  # total width of all numbers to be printed
 
             for digit in DigitsToShow:
                 totalWidth += digitImages[digit].get_width()
