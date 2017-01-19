@@ -81,7 +81,7 @@ class Level:
     def replace_obstacle(self):
         new_block = obstacles.Obstacle(random.choice(self.choices)[0])
         new_block.rect.x = random.randint(constants.SCREEN_WIDTH, constants.SCREEN_WIDTH*2)
-        new_block.rect.y = random.randint(0, constants.SCREEN_HEIGHT)
+        new_block.rect.y = random.randint(0, constants.SCREEN_HEIGHT-70)
         new_block.player = self.player
         self.obstacle_list.add(new_block)
 
