@@ -219,6 +219,7 @@ def main():
 
             for digit in score_digits:
                 screen.blit(digits[digit], (x_offset, constants.SCREEN_HEIGHT * 0.01))
+                x_offset += digits[digit].get_width()
 
                 # screen.blit(font.render("Score : "+str(score), True, constants.red), (15, 10))
 
