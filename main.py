@@ -65,11 +65,11 @@ def main():
     flap_sound = pygame.mixer.Sound("arts/audio/swoosh.wav")
     start_sound = pygame.mixer.Sound("arts/audio/start_screen.wav")
     level1sound = pygame.mixer.Sound("arts/audio/level_one.wav")
-    # instruction_page_sound = pygame.mixer.Sound("arts/audio/instruction_page.wav")
+    instruction_page_sound = pygame.mixer.Sound("arts/audio/instruction_page.wav")
     level_up_sound = pygame.mixer.Sound("arts/audio/level_up.wav")
     # new_york = pygame.mixer.Sound("arts/audio/new_york.wav")
     # paris_sound = pygame.mixer.Sound("arts/audio/paris.wav")
-    # game_over_sound = pygame.mixer.Sound("arts/audio/game_over.wav")
+    game_over_sound = pygame.mixer.Sound("arts/audio/game_over.wav")
 
     # play start sound
     start_sound.play(loops=-1, maxtime=0, fade_ms=0)
@@ -106,8 +106,8 @@ def main():
                     instruction_page += 1
                     if instruction_page == 3:
                         # stop start sound and start level 1 music
-                        start_sound.stop()
-                        level1sound.play(loops=-1, maxtime=0, fade_ms=0)
+                        instruction_page_sound.stop()
+                        current_level.level_soundtrack.play(loops=-1, maxtime=0, fade_ms=0)
                         phase = "play"
 
             # Set the screen background
@@ -120,6 +120,11 @@ def main():
                 # That could be both easier and more flexible.
 
             if instruction_page == 2:
+
+                # stop other music and play instruction music
+                start_sound.stop()
+                instruction_page_sound.play(loops=-1, maxtime=0, fade_ms=0)
+
                 # Draw instructions, page 2
                 text = font.render("Page 2 is a storyline picture.", True, constants.white)
                 screen.blit(text, [10, 10])
@@ -156,6 +161,7 @@ def main():
             if current_level.next_level:
                 player.rect.y = constants.SCREEN_HEIGHT/3
                 if current_level_no < len(level_list)-1:
+                    current_level.level_soundtrack.stop()
                     level_up_sound.play()
                     current_level_no += 1
                     current_level = level_list[current_level_no]
@@ -165,6 +171,8 @@ def main():
 
                     # do a countdown or something...pause the game to give the player some time
                     pygame.time.wait(2000)
+
+                current_level.level_soundtrack.play(loops=-1, maxtime=0, fade_ms=0)
 
         # HOW TO !!! go to the next level
             # current_position = player.rect.x + current_level.world_shift
@@ -187,13 +195,13 @@ def main():
 
             # check if the player has collided
             if player.collided:
-                level1sound.stop()
+                current_level.level_soundtrack.stop()
                 die.play()
                 # pause for effect after crashing
                 pygame.time.wait(1000)
 
-                # play the end screen sound ######
-                start_sound.play(loops=-1, maxtime=0, fade_ms=0)
+                # play the game over sound ######
+                game_over_sound.play(loops=-1, maxtime=0, fade_ms=0)
                 phase = "end"
 
             # ALL CODE TO DRAW SHOULD GO BELOW THIS COMMENT
@@ -235,15 +243,13 @@ def main():
                         (event.type == pygame.KEYDOWN and (event.key == pygame.K_q or event.key == pygame.K_ESCAPE)):
                     # this would hopefully make the game more addictive since is hard to just quit
 
-                    # stop the start sound
-                    start_sound.stop()
-                    # game_over_sound.stop()
+                    # stop the game over sound
+                    game_over_sound.stop()
                     # replay the game
                     main()
                 elif event.type == pygame.KEYDOWN and (event.key == pygame.K_UP or event.key == pygame.K_SPACE):
                     # stop the start sound
-                    # game_over_sound.stop()
-                    start_sound.stop()
+                    game_over_sound.stop()
                     # replay the game
                     main()
 
