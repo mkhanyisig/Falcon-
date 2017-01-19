@@ -139,7 +139,7 @@ def main():
                     current_level_no += 1
                     current_level = level_list[current_level_no]
                     player.level = current_level
-                    obstacle_speed += 2
+                    obstacle_speed += 1.5
 
                     # do a countdown or something...pause the game to give the player some time
                     pygame.time.wait(2000)
