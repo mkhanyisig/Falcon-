@@ -40,6 +40,18 @@ def main():
     #     load up the images
     gameover = pygame.image.load("arts/graphics/gameover.png").convert_alpha()
     welcome = pygame.image.load("arts/graphics/welcome.png").convert_alpha()
+    digitImages = [ pygame.image.load('arts/graphics/0.png').convert_alpha(),
+                    pygame.image.load('arts/graphics/1.png').convert_alpha(),
+                    pygame.image.load('arts/graphics/2.png').convert_alpha(),
+                    pygame.image.load('arts/graphics/3.png').convert_alpha(),
+                    pygame.image.load('arts/graphics/4.png').convert_alpha(),
+                    pygame.image.load('arts/graphics/5.png').convert_alpha(),
+                    pygame.image.load('arts/graphics/6.png').convert_alpha(),
+                    pygame.image.load('arts/graphics/7.png').convert_alpha(),
+                    pygame.image.load('arts/graphics/8.png').convert_alpha(),
+                    pygame.image.load('arts/graphics/9.png').convert_alpha()
+                    ]
+
     # scale down the images
     gameover = pygame.transform.scale(gameover, constants.screenSize)
     welcome = pygame.transform.scale(welcome, constants.screenSize)
@@ -56,7 +68,7 @@ def main():
 
     # Create the player
     player = Player()
-
+ 
     # Create all the levels
     level_list = [level.Level01(player), level.Level02(player), level.Level03(player)]
 
@@ -164,11 +176,11 @@ def main():
             # haven't designed a nest yet
             # blit the 1st congratulation page
             # this page should include which button does which detect user action
-            # 	if want to continue to the next level:
-            # 	current_level += 1
-            # 	obstacle_speed += 10
-            # 	detect other actions:
-            # 	back to the beginning
+            #   if want to continue to the next level:
+            #   current_level += 1
+            #   obstacle_speed += 10
+            #   detect other actions:
+            #   back to the beginning
 
             # check if the player has collided
             if player.collided:
@@ -194,7 +206,17 @@ def main():
             else:
                 score = current_level.index + current_level.maximum*2
 
-            screen.blit(font.render("Score : "+str(score), True, constants.red), (15, 10))
+            DigitsToShow = [int(x) for x in list(str(score))]
+            totalWidth = 0 # total width of all numbers to be printed
+
+            for digit in DigitsToShow:
+                totalWidth += digitImages[digit].get_width()
+
+            Xoffset = (constants.SCREEN_WIDTH - totalWidth) / 2
+
+            for digit in DigitsToShow:
+                screen.blit(digitImages[digit], (Xoffset, constants.SCREEN_HEIGHT * 0.1))
+                Xoffset += digitImages[digit].get_width()
 
     # ################## ALL CODE TO DRAW SHOULD GO ABOVE THIS COMMENT #####################
 
