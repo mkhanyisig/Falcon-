@@ -126,12 +126,15 @@ class Level01(Level):
                     self.next_level = True
 
         # level rules?
-        #  make a new obstacle every 3s (maybe)
+        #  make a new obstacle every 3s (maybe) 
         #  make a new obstacle with some probability
         #  change the kind of obstacles based on randomization/choice
         #  change the placement of obstacles (close together/far apart)
         #  set placement based on player position
         #  give obstacles different speeds
+        #  increase the obstacles generated at certain score points, to incorporate level difficulties. In that way, game is more fun
+        #  take into consideration player position at higher scores(higher difficulty), so that it becomes harder avoiding the obstacles  
+        # with obstacles, top half obtacle might cloud/plane, and then bottom its a different obsacle type, eg, the rocks/others. (in that way it's a more realistic flying simulation of the bird) 
 
 
 class Level02(Level):
