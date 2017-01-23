@@ -42,16 +42,16 @@ def main():
     gameover = pygame.image.load("arts/graphics/gameover.png").convert_alpha()
     welcome = pygame.image.load("arts/graphics/welcome.png").convert_alpha()
     success = pygame.image.load("arts/graphics/success.png").convert_alpha()
-    digits = [pygame.image.load('arts/graphics/-1.png').convert_alpha(),
-              pygame.image.load('arts/graphics/-1.png').convert_alpha(),
-              pygame.image.load('arts/graphics/-2.png').convert_alpha(),
-              pygame.image.load('arts/graphics/-3.png').convert_alpha(),
-              pygame.image.load('arts/graphics/-4.png').convert_alpha(),
-              pygame.image.load('arts/graphics/-5.png').convert_alpha(),
-              pygame.image.load('arts/graphics/-6.png').convert_alpha(),
-              pygame.image.load('arts/graphics/-7.png').convert_alpha(),
-              pygame.image.load('arts/graphics/-8.png').convert_alpha(),
-              pygame.image.load('arts/graphics/-9.png').convert_alpha()
+    digits = [pygame.image.load('arts/graphics/0.png').convert_alpha(),
+              pygame.image.load('arts/graphics/1.png').convert_alpha(),
+              pygame.image.load('arts/graphics/2.png').convert_alpha(),
+              pygame.image.load('arts/graphics/3.png').convert_alpha(),
+              pygame.image.load('arts/graphics/4.png').convert_alpha(),
+              pygame.image.load('arts/graphics/5.png').convert_alpha(),
+              pygame.image.load('arts/graphics/6.png').convert_alpha(),
+              pygame.image.load('arts/graphics/7.png').convert_alpha(),
+              pygame.image.load('arts/graphics/8.png').convert_alpha(),
+              pygame.image.load('arts/graphics/9.png').convert_alpha()
               ]
 
     # scale down the images
@@ -60,7 +60,7 @@ def main():
     success = pygame.transform.scale(success, constants.screenSize)
     # for digit in digits:
     for i in xrange(len(digits)):
-        digits[i] = pygame.transform.scale(digits[i], (72, 72))
+        digits[i] = pygame.transform.scale(digits[i], (42, 64))
 
     # load up the sounds
     die = pygame.mixer.Sound("arts/audio/chip.wav")
@@ -212,7 +212,7 @@ def main():
             x_offset = (constants.SCREEN_WIDTH - total_width) / 2
 
             for digit in score_digits:
-                screen.blit(digits[digit], (x_offset, constants.SCREEN_HEIGHT * 0.01))
+                screen.blit(digits[digit], (x_offset, constants.SCREEN_HEIGHT * 0.05))
                 x_offset += digits[digit].get_width()
 
                 # screen.blit(font.render("Score : "+str(score), True, constants.red), (15, 10))
