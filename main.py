@@ -66,7 +66,7 @@ def main():
     die = pygame.mixer.Sound("arts/audio/chip.wav")
     flap_sound = pygame.mixer.Sound("arts/audio/swoosh.wav")
     start_sound = pygame.mixer.Sound("arts/audio/start_screen.wav")
-    level1sound = pygame.mixer.Sound("arts/audio/level_one.wav")
+    # level1sound = pygame.mixer.Sound("arts/audio/level_one.wav")
     instruction_page_sound = pygame.mixer.Sound("arts/audio/instruction_page.wav")
     level_up_sound = pygame.mixer.Sound("arts/audio/level_up.wav")
     # new_york = pygame.mixer.Sound("arts/audio/new_york.wav")
