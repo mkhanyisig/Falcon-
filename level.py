@@ -111,7 +111,7 @@ class Level01(Level):
         self.level_limit = -2000
 
         # List of "fixed" obstacles, and x, y location of the obstacle.
-        self.collection = [[obstacles.BASE_OBS], [obstacles.FIXED_OBS]]  # may have more
+        self.collection = [[obstacles.CLOUD], [obstacles.PLANE]]  # may have more
         # fill level with obstacles
         self.fill_with_obstacles(1)
 
@@ -168,11 +168,11 @@ class Level02(Level):
         self.level_limit = -2000
 
         # List of "fixed" obstacles, and x, y location of the obstacle.
-        self.collection = [[obstacles.BASE_OBS], [obstacles.FIXED_OBS]]  # may have more
+        self.collection = [[obstacles.CHEESE], [obstacles.CHEESE2], [obstacles.CROISSANT]]
         # fill it up
         self.fill_with_obstacles(2)
         # Add a custom moving obstacle
-        block = obstacles.MovingObstacle(obstacles.HORIZONTAL_MOV_OBS)
+        block = obstacles.MovingObstacle(obstacles.PLANE)
         block.rect.x = 900
         block.rect.y = 280
         block.boundary_left = 900
@@ -222,11 +222,11 @@ class Level03(Level):
         self.level_limit = -2000
 
         # List of "fixed" obstacles, and x, y location of the obstacle.
-        self.collection = [[obstacles.BASE_OBS], [obstacles.FIXED_OBS]]  # may have more
+        self.collection = [[obstacles.CLOUD], [obstacles.CROISSANT]]  # may have more
         # fill it up
         self.fill_with_obstacles(3)
         # Add a custom moving obstacle
-        block = obstacles.MovingObstacle(obstacles.HORIZONTAL_MOV_OBS)
+        block = obstacles.MovingObstacle(obstacles.PLANE)
         block.rect.x = 900
         block.rect.y = 280
         block.boundary_left = 900

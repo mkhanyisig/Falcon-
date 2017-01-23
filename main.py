@@ -41,6 +41,7 @@ def main():
     #     load up the images
     gameover = pygame.image.load("arts/graphics/gameover.png").convert_alpha()
     welcome = pygame.image.load("arts/graphics/welcome.png").convert_alpha()
+    success = pygame.image.load("arts/graphics/success.png").convert_alpha()
     digits = [pygame.image.load('arts/graphics/-1.png').convert_alpha(),
               pygame.image.load('arts/graphics/-1.png').convert_alpha(),
               pygame.image.load('arts/graphics/-2.png').convert_alpha(),
@@ -56,6 +57,7 @@ def main():
     # scale down the images
     gameover = pygame.transform.scale(gameover, constants.screenSize)
     welcome = pygame.transform.scale(welcome, constants.screenSize)
+    success = pygame.transform.scale(success, constants.screenSize)
     # for digit in digits:
     for i in xrange(len(digits)):
         digits[i] = pygame.transform.scale(digits[i], (72, 72))
@@ -177,25 +179,6 @@ def main():
 
                 current_level.level_soundtrack.play(loops=-1, maxtime=0, fade_ms=0)
 
-        # HOW TO !!! go to the next level
-            # current_position = player.rect.x + current_level.world_shift
-            # if current_position < current_level.level_limit:
-            #     player.rect.x = 120
-            #     if current_level_no < len(level_list)-1:
-            #         current_level_no += 1
-            #         current_level = level_list[current_level_no]
-            #         player.level = current_level
-            # if pygame.sprite.collide_mask(player, obstacles.Nest == True:
-
-            # haven't designed a nest yet
-            # blit the 1st congratulation page
-            # this page should include which button does which detect user action
-            # 	if want to continue to the next level:
-            # 	current_level += 1
-            # 	obstacle_speed += 10
-            # 	detect other actions:
-            # 	back to the beginning
-
             # check if the player has collided
             if player.collided:
                 current_level.level_soundtrack.stop()
@@ -207,7 +190,7 @@ def main():
                 game_over_sound.play(loops=-1, maxtime=0, fade_ms=0)
                 phase = "end"
 
-            # ALL CODE TO DRAW SHOULD GO BELOW THIS COMMENT
+# ################## ALL CODE TO DRAW SHOULD GO BELOW THIS COMMENT ########################
 
             current_level.draw(screen)
             active_sprite_list.draw(screen)
@@ -234,9 +217,19 @@ def main():
 
                 # screen.blit(font.render("Score : "+str(score), True, constants.red), (15, 10))
 
-    # ################## ALL CODE TO DRAW SHOULD GO ABOVE THIS COMMENT #####################
+# ################## ALL CODE TO DRAW SHOULD GO ABOVE THIS COMMENT #####################
 
             # update the screen with what we've drawn.
+            pygame.display.flip()
+
+        if phase == "success":
+            # clear the screen with white first
+            screen.fill((255, 255, 255))
+            # draw the game over screen
+            screen.blit(success, (0, 0))
+            # showTheScore(score)
+
+            # updates the screen with what we've drawn.
             pygame.display.flip()
 
         if phase == "end":
@@ -257,8 +250,6 @@ def main():
                     # replay the game
                     main()
 
-            # clear the screen with white first
-            screen.fill((255, 255, 255))
             # draw the game over screen
             screen.blit(gameover, (0, 0))
             # showTheScore(score)
