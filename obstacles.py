@@ -14,12 +14,14 @@ from spritesheet_functions import SpriteSheet
 #   [info one the sprite sheet]
 
 
-BASE_OBS = (432, 720, 70, 40)  # mountains
-FIXED_OBS = (504, 576, 70, 70)  # clouds, things that are floating
-HORIZONTAL_MOV_OBS = (432, 720, 70, 40)
-# VERTICAL_MOV_OBS = ()
-# NEST = ()
-
+CROISSANT = (0,0,40,60)
+CHEESE2 = (41.5,0,57.5,60)
+CHEESE = (99,0,62,60)
+PLANE = (162,0,126,60)
+CLOUD = (288.5,0,88,60)
+MOUNTAIN = (0,75,160,225)
+TOWER = (160,75,160,225)
+EMPIRE_STATE_BUILDING = (317.5,75,142.5,225)
 
 class Obstacle(pygame.sprite.Sprite):
  
