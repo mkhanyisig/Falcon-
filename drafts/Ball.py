@@ -102,7 +102,6 @@ def main():
             y += y_speed
             xloc -= obspeed
 
-
             # check for crashes between bird and obstacles
             if bird(x, y).colliderect(obstacle1(xloc, yloc, xsize, ysize)) or bird(x, y).colliderect(obstacle2(xloc, yloc, xsize, ysize))\
                     or bird(x, y).colliderect(obstacle3(xloc, yloc, xsize, ysize)):
@@ -128,7 +127,6 @@ def main():
                 score += 1
                 scoreSound.play()
 
-
         # end phase
         elif phase == "end":
             # check for events
@@ -150,7 +148,7 @@ def main():
             screen.fill((255, 255, 255))
             # draw the game over screen
             screen.blit(gameover, (0, 0))
-            showTheScore(score)
+            # showTheScore(score)
 
         pygame.display.update()
         clock.tick(60)

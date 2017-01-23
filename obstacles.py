@@ -23,6 +23,8 @@ MOUNTAIN = (0,75,160,225)
 TOWER = (160,75,160,225)
 EMPIRE_STATE_BUILDING = (317.5,75,142.5,225)
 
+
+
 class Obstacle(pygame.sprite.Sprite):
  
     def __init__(self, sprite_sheet_data):
@@ -34,7 +36,7 @@ class Obstacle(pygame.sprite.Sprite):
         # sprite_sheet = SpriteSheet("arts/graphics/Obstacles/sprite_sheet_threeobjects.png")
 
         # temporary obstacles
-        sprite_sheet = SpriteSheet("arts/graphics/tiles_spritesheet.png")
+        sprite_sheet = SpriteSheet("arts/graphics/obstacles_sprite_sheet.png")
 
         # Grab the image for this obstacle
         self.image = sprite_sheet.get_image(sprite_sheet_data[0],
