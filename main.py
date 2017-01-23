@@ -240,6 +240,7 @@ def main():
             pygame.display.flip()
 
         if phase == "end":
+            
             # check for events
             for event in pygame.event.get():
                 if event.type == pygame.QUIT or \
