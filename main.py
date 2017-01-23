@@ -33,8 +33,8 @@ def main():
     # make a game clock that we shall use to manage how fast the screen updates
     clock = pygame.time.Clock()
     # Limits to 60 frames per second
-    # clock.tick(20)    # to make it easier to play for now
-    clock.tick(60)
+    clock.tick(30)    # to make it easier to play for now
+    # clock.tick(60)
 
     # ################## load up all useful graphics, sound, etc here #######################
 
@@ -166,8 +166,11 @@ def main():
                     current_level_no += 1
                     current_level = level_list[current_level_no]
                     player.level = current_level
-                    obstacle_speed += 1
-                    # obstacle_speed += 1.5
+
+                    # vary speeds
+                    obstacle_speed *= 1.3
+                    player.falling_rate *= 1.3
+                    player.rising_rate *= 1.3
 
                     # do a countdown or something...pause the game to give the player some time
                     pygame.time.wait(2000)
