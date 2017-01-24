@@ -18,9 +18,6 @@ def main():
         print "Fonts unavailable"
         sys.exit()
 
-    # This is a font we use to draw text on the screen (size 36)
-    font = pygame.font.Font(None, 36)
-
     # Set up some values
     instruction_page = 1
     phase = "start"
@@ -41,9 +38,10 @@ def main():
     #     load up the images
     gameover = pygame.image.load("arts/graphics/gameover.png").convert_alpha()
     welcome = pygame.image.load("arts/graphics/welcome.png").convert_alpha()
-    ins1 = pygame.image.load("arts/graphics/nest.png").convert_alpha()
-    ins2 = pygame.image.load("arts/graphics/falcon_in_sky.png").convert_alpha()
-    success = pygame.image.load("arts/graphics/success.png").convert_alpha()
+    instruction_page_one = pygame.image.load("arts/graphics/nest.png").convert_alpha()
+    instruction_page_two = pygame.image.load("arts/graphics/falcon_in_sky.png").convert_alpha()
+    success = pygame.image.load("arts/graphics/nest.png").convert_alpha()
+
     digits = [pygame.image.load('arts/graphics/0.png').convert_alpha(),
               pygame.image.load('arts/graphics/1.png').convert_alpha(),
               pygame.image.load('arts/graphics/2.png').convert_alpha(),
@@ -59,8 +57,8 @@ def main():
     # scale down the images
     gameover = pygame.transform.scale(gameover, constants.screenSize)
     welcome = pygame.transform.scale(welcome, constants.screenSize)
-    ins1 = pygame.transform.scale(ins1, constants.screenSize)
-    ins2 = pygame.transform.scale(ins2, constants.screenSize) 
+    instruction_page_one = pygame.transform.scale(instruction_page_one, constants.screenSize)
+    instruction_page_two = pygame.transform.scale(instruction_page_two, constants.screenSize)
     success = pygame.transform.scale(success, constants.screenSize)
 
     # for digit in digits:
@@ -71,11 +69,8 @@ def main():
     die = pygame.mixer.Sound("arts/audio/chip.wav")
     flap_sound = pygame.mixer.Sound("arts/audio/swoosh.wav")
     start_sound = pygame.mixer.Sound("arts/audio/start_screen.wav")
-    # level1sound = pygame.mixer.Sound("arts/audio/level_one.wav")
     instruction_page_sound = pygame.mixer.Sound("arts/audio/instruction_page.wav")
     level_up_sound = pygame.mixer.Sound("arts/audio/level_up.wav")
-    # new_york = pygame.mixer.Sound("arts/audio/new_york.wav")
-    # paris_sound = pygame.mixer.Sound("arts/audio/paris.wav")
     game_over_sound = pygame.mixer.Sound("arts/audio/game_over.wav")
 
     # play start sound
@@ -140,9 +135,6 @@ def main():
                         current_level.level_soundtrack.play(loops=-1, maxtime=0, fade_ms=0)
                         phase = "play"
 
-            # Set the screen background
-            screen.fill(constants.black)
-
             if instruction_page == 1:
                 # Draw instructions, page 1
                 screen.blit(welcome, [0, 0])
@@ -155,10 +147,11 @@ def main():
                 start_sound.stop()
                 instruction_page_sound.play(loops=-1, maxtime=0, fade_ms=0)
                 # Draw instructions, page 2
-                screen.blit(ins1,[0,0])
+                screen.blit(instruction_page_one, [0, 0])
 
             if instruction_page == 3:
-                screen.blit(ins2,[0,0])
+                screen.blit(instruction_page_two, [0, 0])
+
             # updates the screen with what we've drawn.
             pygame.display.flip()
 
@@ -227,14 +220,12 @@ def main():
             pygame.display.flip()
 
         if phase == "success":
+
             # clear the screen with white first
-            screen.fill((255, 255, 255))
+            # screen.fill((255, 255, 255))
+            print "white"
             # draw the game over screen
             screen.blit(success, (0, 0))
-            # showTheScore(score)
-
-            # updates the screen with what we've drawn.
-            pygame.display.flip()
 
         if phase == "end":
             
