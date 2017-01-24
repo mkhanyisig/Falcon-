@@ -180,8 +180,8 @@ def main():
             # check for level changes
             if current_level.next_level:
                 current_level.level_soundtrack.stop()
-                level_up_sound.play()
                 pygame.time.wait(1000)
+                level_up_sound.play()
                 phase = "success"
 
             # check if the player has collided
@@ -190,8 +190,6 @@ def main():
                 die.play()
                 # pause for effect after crashing
                 pygame.time.wait(1000)
-
-                # play the game over sound ######
                 game_over_sound.play(loops=-1, maxtime=0, fade_ms=0)
                 phase = "end"
 
@@ -200,7 +198,6 @@ def main():
             current_level.draw(screen)
             active_sprite_list.draw(screen)
             show_the_score()
-
 
 # ################## ALL CODE TO DRAW SHOULD GO ABOVE THIS COMMENT #####################
 
@@ -224,7 +221,6 @@ def main():
                         player.rising_rate *= 1.3
 
                     current_level.level_soundtrack.play(loops=-1, maxtime=0, fade_ms=0)
-
                     phase = "play"
 
             # draw the success screen and show score
@@ -236,21 +232,17 @@ def main():
             pygame.display.flip()
 
         if phase == "end":
-            
             # check for events
             for event in pygame.event.get():
                 if event.type == pygame.QUIT or \
                         (event.type == pygame.KEYDOWN and (event.key == pygame.K_q or event.key == pygame.K_ESCAPE)):
                     # this would hopefully make the game more addictive since is hard to just quit
-
                     # stop the game over sound
                     game_over_sound.stop()
-                    # replay the game
                     main()
                 elif event.type == pygame.KEYDOWN and (event.key == pygame.K_UP or event.key == pygame.K_SPACE):
                     # stop the start sound
                     game_over_sound.stop()
-                    # replay the game
                     main()
 
             # draw the game over screen
