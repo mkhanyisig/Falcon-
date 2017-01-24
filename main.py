@@ -42,7 +42,7 @@ def main():
     instruction_page_two = pygame.image.load("arts/graphics/falcon_in_sky.png").convert_alpha()
     success = pygame.image.load("arts/graphics/success.png").convert_alpha()
     score_text = pygame.image.load("arts/graphics/score.png").convert_alpha()
-
+    congratulations_text = pygame.image.load("arts/graphics/congratulations_text.png").convert_alpha()
     digits = [pygame.image.load('arts/graphics/0.png').convert_alpha(),
               pygame.image.load('arts/graphics/1.png').convert_alpha(),
               pygame.image.load('arts/graphics/2.png').convert_alpha(),
@@ -70,7 +70,6 @@ def main():
     die = pygame.mixer.Sound("arts/audio/chip.wav")
     flap_sound = pygame.mixer.Sound("arts/audio/swoosh.wav")
     start_sound = pygame.mixer.Sound("arts/audio/start_screen.wav")
-    instruction_page_sound = pygame.mixer.Sound("arts/audio/instruction_page.wav")
     level_up_sound = pygame.mixer.Sound("arts/audio/level_up.wav")
     game_over_sound = pygame.mixer.Sound("arts/audio/game_over.wav")
 
@@ -91,7 +90,7 @@ def main():
     player.level = current_level
 
     # set player position on screen
-    player.rect.x = (constants.SCREEN_WIDTH * 0.2)
+    player.rect.x = (constants.SCREEN_WIDTH * 0.2)-30
     player.rect.y = constants.SCREEN_HEIGHT/3
     active_sprite_list.add(player)
 
@@ -132,7 +131,7 @@ def main():
                     instruction_page += 1
                     if instruction_page == 4:
                         # stop start sound and start level 1 music
-                        instruction_page_sound.stop()
+                        start_sound.stop()
                         current_level.level_soundtrack.play(loops=-1, maxtime=0, fade_ms=0)
                         phase = "play"
 
@@ -142,11 +141,7 @@ def main():
                 # This could also load an image created in another program.
                 # That could be both easier and more flexible.
 
-            if instruction_page == 2:
-
-                # stop other music and play instruction music
-                start_sound.stop()
-                instruction_page_sound.play(loops=-1, maxtime=0, fade_ms=0)
+            if instruction_page == 2:                
                 # Draw instructions, page 2
                 screen.blit(instruction_page_one, [0, 0])
 
@@ -210,8 +205,7 @@ def main():
         if phase == "success":
             # check for events
             for event in pygame.event.get():
-                if event.type == pygame.QUIT or \
-                        (event.type == pygame.KEYDOWN and (event.key == pygame.K_q or event.key == pygame.K_ESCAPE)):
+                if event.type == pygame.KEYDOWN and (event.key == pygame.K_UP or event.key == pygame.K_SPACE):
                     player.rect.y = constants.SCREEN_HEIGHT/3
                     if current_level_no < len(level_list)-1:
                         current_level_no += 1
@@ -219,17 +213,22 @@ def main():
                         player.level = current_level
 
                         # vary speeds
-                        obstacle_speed *= 1.3
+                        obstacle_speed *= 1.2
                         player.falling_rate *= 1.3
                         player.rising_rate *= 1.3
 
                     current_level.level_soundtrack.play(loops=-1, maxtime=0, fade_ms=0)
 
                     phase = "play"
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.quit()
 
             # draw the success screen and show score
             screen.blit(success, (0, 0))
             screen.blit(score_text, (25, 45))
+
+            screen.blit(congratulations_text, (50, 400))
             show_the_score()
 
             # updates the screen with what we've drawn.
