@@ -35,7 +35,7 @@ class Level:
         # solely for level change tests
         self.index = 0
         self.next_level = False
-        self.maximum = 2
+        self.maximum = 8
 
         # sounds
         self.score_sound = pygame.mixer.Sound("arts/audio/score.wav")
@@ -98,10 +98,10 @@ class Level:
     # change_x should be negative to move faster to the left
     # change_y should be positive to move downward
 
-    def make_special_obstacle(self, name, pos_x, pos_y, change_x, change_y):
+    def make_special_obstacle(self, name, change_x, change_y):
         obstacle = obstacles.MovingObstacle(name)
-        obstacle.rect.x = pos_x
-        obstacle.rect.y = pos_y
+        obstacle.rect.x = random.randint(constants.SCREEN_WIDTH, constants.SCREEN_WIDTH*2)
+        obstacle.rect.y = random.randint(0, constants.SCREEN_HEIGHT - 200)
         obstacle.boundary_top = 0
         obstacle.boundary_bottom = 300
         obstacle.boundary_left = 0
@@ -136,10 +136,6 @@ class Level01(Level):
         self.fill_with_flying_obstacles(1)
 
     def update(self):
-
-        # get the update function
-        # remove any obstacles that are too far left
-        # according to the level rules, make new obstacles
         Level.update(self)
 
         for obstacle in self.obstacle_list:
@@ -199,11 +195,6 @@ class Level02(Level):
         self.make_ground_obstacle(self.obstacle_type)
 
     def update(self):
-
-        # get the update function
-        # remove any obstacles that are too far left
-        # according to the level rules, make new obstacles
-
         Level.update(self)
 
         for obstacle in self.obstacle_list:
@@ -216,7 +207,7 @@ class Level02(Level):
                 elif 0.4 < random.random() < 0.8:
                     self.make_ground_obstacle(self.obstacle_type)
                 else:
-                    self.make_special_obstacle(obstacles.PLANE, 700, 10,  0, 3)
+                    self.make_special_obstacle(obstacles.PLANE, random.randint(-1, 1), random.randint(-1, 1))
 
                 # check for level changes
                 self.index += 1
@@ -248,14 +239,9 @@ class Level03(Level):
         # fill it up
         self.fill_with_flying_obstacles(3)
         # Add a horizontally moving obstacle
-        self.make_special_obstacle(obstacles.CHEESE2, 1400, 250, -3, 0)
+        self.make_special_obstacle(obstacles.CHEESE2, -3, 0)
 
     def update(self):
-
-        # get the update function
-        # remove any obstacles that are too far left
-        # according to the level rules, make new obstacles
-
         Level.update(self)
 
         for obstacle in self.obstacle_list:
@@ -267,7 +253,7 @@ class Level03(Level):
                 elif 0.3 < random.random() < 0.65:
                     self.make_ground_obstacle(self.obstacle_type)
                 else:
-                    self.make_special_obstacle(obstacles.PLANE, 700, 10,  0, 3)
+                    self.make_special_obstacle(obstacles.PLANE, random.randint(-3, 3), random.randint(-3, 3))
 
                 # to check for level changes
                 self.index += 1

@@ -72,6 +72,7 @@ def main():
     start_sound = pygame.mixer.Sound("arts/audio/start_screen.wav")
     level_up_sound = pygame.mixer.Sound("arts/audio/level_up.wav")
     game_over_sound = pygame.mixer.Sound("arts/audio/game_over.wav")
+    congratulations_page = pygame.mixer.Sound("arts/audio/congratulations_page.wav")
 
     # play start sound
     start_sound.play(loops=-1, maxtime=0, fade_ms=0)
@@ -90,7 +91,7 @@ def main():
     player.level = current_level
 
     # set player position on screen
-    player.rect.x = (constants.SCREEN_WIDTH * 0.2)-30
+    player.rect.x = (constants.SCREEN_WIDTH * 0.18)
     player.rect.y = constants.SCREEN_HEIGHT/3
     active_sprite_list.add(player)
 
@@ -114,8 +115,6 @@ def main():
         for digit in score_digits:
             screen.blit(digits[digit], (x_offset, constants.SCREEN_HEIGHT * 0.05))
             x_offset += digits[digit].get_width()
-
-            # screen.blit(font.render("Score : "+str(score), True, constants.red), (15, 10))
 
     # -------- Main Program Loop -----------
 
@@ -175,8 +174,9 @@ def main():
             # check for level changes
             if current_level.next_level:
                 current_level.level_soundtrack.stop()
-                pygame.time.wait(1000)
                 level_up_sound.play()
+                pygame.time.wait(1000)
+                congratulations_page.play(loops=-1, maxtime=0, fade_ms=1)
                 phase = "success"
 
             # check if the player has collided
@@ -185,7 +185,7 @@ def main():
                 die.play()
                 # pause for effect after crashing
                 pygame.time.wait(1000)
-                game_over_sound.play(loops=-1, maxtime=0, fade_ms=0)
+                game_over_sound.play(loops=-1, maxtime=0, fade_ms=1)
                 phase = "end"
 
 # ################## ALL CODE TO DRAW SHOULD GO BELOW THIS COMMENT ########################
@@ -202,7 +202,10 @@ def main():
         if phase == "success":
             # check for events
             for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN and (event.key == pygame.K_UP or event.key == pygame.K_SPACE):
+                if event.type == pygame.KEYDOWN and (event.key == pygame.K_RETURN):
+                    congratulations_page.stop()
+                    phase = "play"
+                    # progress to next level
                     player.rect.y = constants.SCREEN_HEIGHT/3
                     if current_level_no < len(level_list)-1:
                         current_level_no += 1
@@ -213,18 +216,15 @@ def main():
                         obstacle_speed *= 1.2
                         player.falling_rate *= 1.3
                         player.rising_rate *= 1.3
-
                     current_level.level_soundtrack.play(loops=-1, maxtime=0, fade_ms=0)
-                    phase = "play"
+
                 if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.quit()
+                    phase = "end"
 
             # draw the success screen and show score
             screen.blit(success, (0, 0))
             screen.blit(score_text, (25, 45))
-
-            screen.blit(congratulations_text, (50, 400))
+            screen.blit(congratulations_text, (50, 450))
             show_the_score()
 
             # updates the screen with what we've drawn.
@@ -236,11 +236,12 @@ def main():
                 if event.type == pygame.QUIT or \
                         (event.type == pygame.KEYDOWN and (event.key == pygame.K_q or event.key == pygame.K_ESCAPE)):
                     # this would hopefully make the game more addictive since is hard to just quit
-                    # stop the game over sound
-                    game_over_sound.stop()
+                    # stop all other sounds
+                    pygame.mixer.stop()
                     main()
                 elif event.type == pygame.KEYDOWN and (event.key == pygame.K_UP or event.key == pygame.K_SPACE):
                     # stop the start sound
+                    pygame.mixer.stop()
                     game_over_sound.stop()
                     main()
 
