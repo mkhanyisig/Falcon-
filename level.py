@@ -25,12 +25,12 @@ class Level:
         # How far the obstacles traveled
         self.obs_shift = 0
         self.obstacle_list = pygame.sprite.Group()
-        self.level_limit = -1000
         self.player = player
 
         # obstacle related
         self.collection = []
-        self.choices = []
+        self.obstacle_options = []
+        self.obstacle_type = None
 
         # solely for level change tests
         self.index = 0
@@ -69,27 +69,34 @@ class Level:
     def get_obstacles(self):
         return self.obstacle_list
 
-    def fill_with_obstacles(self, obstacles_density):
+    def fill_with_flying_obstacles(self, obstacles_density):
         # List of "fixed" obstacles, and x, y location of the obstacle.
         for i in range(obstacles_density):
             choice = random.choice(self.collection)
-            self.choices.append(choice)
+            self.obstacle_options.append(choice)
 
         # Go through the list above, add obstacles
-        for i in self.choices:
+        for i in self.obstacle_options:
             # should import obstacle class
-            block = obstacles.Obstacle(i[0])
-            block.rect.x = random.randint(constants.SCREEN_WIDTH, constants.SCREEN_WIDTH*2)
-            block.rect.y = random.randint(0, constants.SCREEN_HEIGHT)
-            block.player = self.player
-            self.obstacle_list.add(block)
+            obstacle = obstacles.Obstacle(i[0])
+            obstacle.rect.x = random.randint(constants.SCREEN_WIDTH, constants.SCREEN_WIDTH*2)
+            obstacle.rect.y = random.randint(0, constants.SCREEN_HEIGHT-70)
+            obstacle.player = self.player
+            self.obstacle_list.add(obstacle)
 
-    def replace_obstacle(self):
-        new_block = obstacles.Obstacle(random.choice(self.choices)[0])
-        new_block.rect.x = random.randint(constants.SCREEN_WIDTH, constants.SCREEN_WIDTH*2)
-        new_block.rect.y = random.randint(0, constants.SCREEN_HEIGHT-70)
-        new_block.player = self.player
-        self.obstacle_list.add(new_block)
+    def make_flying_obstacle(self):
+        obstacle = obstacles.Obstacle(random.choice(self.obstacle_options)[0])
+        obstacle.rect.x = random.randint(constants.SCREEN_WIDTH, constants.SCREEN_WIDTH*2)
+        obstacle.rect.y = random.randint(0, constants.SCREEN_HEIGHT - 200)
+        obstacle.player = self.player
+        self.obstacle_list.add(obstacle)
+
+    def make_ground_obstacle(self, obstacle_type):
+        obstacle = obstacle_type
+        obstacle.rect.x = random.randint(constants.SCREEN_WIDTH, constants.SCREEN_WIDTH*2)
+        obstacle.rect.y = constants.SCREEN_HEIGHT-225-60  # subtract some more to account for the base (river, road etc)
+        obstacle.player = self.player
+        self.obstacle_list.add(obstacle)
 
 
 # Create obstacles for the level
@@ -108,12 +115,11 @@ class Level01(Level):
 
         self.level_soundtrack = pygame.mixer.Sound("arts/audio/level_one.wav")
 
-        self.level_limit = -2000
-
         # List of "fixed" obstacles, and x, y location of the obstacle.
-        self.collection = [[obstacles.CLOUD], [obstacles.PLANE]]  # may have more
-        # fill level with obstacles
-        self.fill_with_obstacles(1)
+        self.collection = [[obstacles.CLOUD]]
+        self.obstacle_type = obstacles.Obstacle([obstacles.MOUNTAIN][0])
+        # fill level with obstacles and add the ground obstacle
+        self.fill_with_flying_obstacles(1)
 
     def update(self):
 
@@ -122,11 +128,14 @@ class Level01(Level):
         # according to the level rules, make new obstacles
         Level.update(self)
 
-        for block in self.obstacle_list:
-            if block.rect.x + block.rect.width < 0:
-                self.obstacle_list.remove(block)
-                # replace the lost block
-                self.replace_obstacle()
+        for obstacle in self.obstacle_list:
+            if obstacle.rect.x + obstacle.rect.width < 0:
+                self.obstacle_list.remove(obstacle)
+                # replace the lost obstacle with either flying or ground obstacle
+                if random.random() < 0.5:
+                    self.make_flying_obstacle()
+                else:
+                    self.make_ground_obstacle(self.obstacle_type)
 
                 # to check for level changes
                 self.index += 1
@@ -165,22 +174,20 @@ class Level02(Level):
 
         self.level_soundtrack = pygame.mixer.Sound("arts/audio/paris.wav")
 
-        self.level_limit = -2000
-
         # List of "fixed" obstacles, and x, y location of the obstacle.
         self.collection = [[obstacles.CHEESE], [obstacles.CHEESE2], [obstacles.CROISSANT]]
         # fill it up
-        self.fill_with_obstacles(2)
+        self.fill_with_flying_obstacles(2)
         # Add a custom moving obstacle
-        block = obstacles.MovingObstacle(obstacles.PLANE)
-        block.rect.x = 900
-        block.rect.y = 280
-        block.boundary_left = 900
-        block.boundary_right = 1600
-        block.change_x = -5
-        block.player = self.player
-        block.level = self
-        self.obstacle_list.add(block)
+        obstacle = obstacles.MovingObstacle(obstacles.PLANE)
+        obstacle.rect.x = 900
+        obstacle.rect.y = 280
+        obstacle.boundary_left = 900
+        obstacle.boundary_right = 1600
+        obstacle.change_x = -5
+        obstacle.player = self.player
+        obstacle.level = self
+        self.obstacle_list.add(obstacle)
 
     def update(self):
 
@@ -190,11 +197,11 @@ class Level02(Level):
 
         Level.update(self)
 
-        for block in self.obstacle_list:
-            if block.rect.x + block.rect.width < 0:
-                self.obstacle_list.remove(block)
-                # replace the lost block
-                self.replace_obstacle()
+        for obstacle in self.obstacle_list:
+            if obstacle.rect.x + obstacle.rect.width < 0:
+                self.obstacle_list.remove(obstacle)
+                # replace the lost obstacle
+                self.make_flying_obstacle()
 
                 # to check for level changes
                 self.index += 1
@@ -219,22 +226,20 @@ class Level03(Level):
 
         self.level_soundtrack = pygame.mixer.Sound("arts/audio/new_york.wav")
 
-        self.level_limit = -2000
-
         # List of "fixed" obstacles, and x, y location of the obstacle.
         self.collection = [[obstacles.CLOUD], [obstacles.CROISSANT]]  # may have more
         # fill it up
-        self.fill_with_obstacles(3)
+        self.fill_with_flying_obstacles(3)
         # Add a custom moving obstacle
-        block = obstacles.MovingObstacle(obstacles.PLANE)
-        block.rect.x = 900
-        block.rect.y = 280
-        block.boundary_left = 900
-        block.boundary_right = 1600
-        block.change_x = -7
-        block.player = self.player
-        block.level = self
-        self.obstacle_list.add(block)
+        obstacle = obstacles.MovingObstacle(obstacles.PLANE)
+        obstacle.rect.x = 900
+        obstacle.rect.y = 280
+        obstacle.boundary_left = 900
+        obstacle.boundary_right = 1600
+        obstacle.change_x = -7
+        obstacle.player = self.player
+        obstacle.level = self
+        self.obstacle_list.add(obstacle)
 
     def update(self):
 
@@ -244,11 +249,11 @@ class Level03(Level):
 
         Level.update(self)
 
-        for block in self.obstacle_list:
-            if block.rect.x + block.rect.width < 0:
-                self.obstacle_list.remove(block)
-                # replace the lost block
-                self.replace_obstacle()
+        for obstacle in self.obstacle_list:
+            if obstacle.rect.x + obstacle.rect.width < 0:
+                self.obstacle_list.remove(obstacle)
+                # replace the lost obstacle
+                self.make_flying_obstacle()
 
                 # to check for level changes
                 self.index += 1
