@@ -35,7 +35,7 @@ class Level:
         # solely for level change tests
         self.index = 0
         self.next_level = False
-        self.maximum = 3
+        self.maximum = 7
 
         # sounds
         self.score_sound = pygame.mixer.Sound("arts/audio/score.wav")
@@ -74,7 +74,7 @@ class Level:
             # should import obstacle class
             obstacle = obstacles.Obstacle(i[0])
             obstacle.rect.x = random.randint(constants.SCREEN_WIDTH, constants.SCREEN_WIDTH*2)
-            obstacle.rect.y = random.randint(0, constants.SCREEN_HEIGHT-70)
+            obstacle.rect.y = random.randint(0, constants.SCREEN_HEIGHT-130)
             obstacle.player = self.player
             self.obstacle_list.add(obstacle)
 
@@ -243,13 +243,12 @@ class Level03(Level):
 
         # List of "fixed" obstacles, and x, y location of the obstacle.
         self.collection = [[obstacles.CLOUD], [obstacles.CROISSANT]]  # may have more
+        # Add the empire state building
+        self.obstacle_type = obstacles.Obstacle([obstacles.EMPIRE_STATE_BUILDING][0])
         # fill it up
         self.fill_with_flying_obstacles(3)
         # Add a horizontally moving obstacle
         self.make_special_obstacle(obstacles.CHEESE2, 1400, 250, -3, 0)
-        # Add the empire state building
-        # self.obstacle_type = obstacles.Obstacle([obstacles.EMPIRE_STATE_BUILDING][0])
-        # self.make_ground_obstacle(self.obstacle_type)
 
     def update(self):
 

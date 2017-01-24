@@ -40,7 +40,7 @@ def main():
     welcome = pygame.image.load("arts/graphics/welcome.png").convert_alpha()
     instruction_page_one = pygame.image.load("arts/graphics/nest.png").convert_alpha()
     instruction_page_two = pygame.image.load("arts/graphics/falcon_in_sky.png").convert_alpha()
-    success = pygame.image.load("arts/graphics/nest.png").convert_alpha()
+    success = pygame.image.load("arts/graphics/success.png").convert_alpha()
     score_text = pygame.image.load("arts/graphics/score.png").convert_alpha()
 
     digits = [pygame.image.load('arts/graphics/0.png').convert_alpha(),
@@ -91,7 +91,7 @@ def main():
     player.level = current_level
 
     # set player position on screen
-    player.rect.x = (constants.SCREEN_WIDTH * 0.25)
+    player.rect.x = (constants.SCREEN_WIDTH * 0.2)
     player.rect.y = constants.SCREEN_HEIGHT/3
     active_sprite_list.add(player)
 
@@ -179,23 +179,10 @@ def main():
 
             # check for level changes
             if current_level.next_level:
-                player.rect.y = constants.SCREEN_HEIGHT/3
-                if current_level_no < len(level_list)-1:
-                    current_level.level_soundtrack.stop()
-                    level_up_sound.play()
-                    current_level_no += 1
-                    current_level = level_list[current_level_no]
-                    player.level = current_level
-
-                    # vary speeds
-                    obstacle_speed *= 1.3
-                    player.falling_rate *= 1.3
-                    player.rising_rate *= 1.3
-
-                    # do a countdown or something...pause the game to give the player some time
-                    pygame.time.wait(2000)
-
-                current_level.level_soundtrack.play(loops=-1, maxtime=0, fade_ms=0)
+                current_level.level_soundtrack.stop()
+                level_up_sound.play()
+                pygame.time.wait(1000)
+                phase = "success"
 
             # check if the player has collided
             if player.collided:
@@ -221,12 +208,32 @@ def main():
             pygame.display.flip()
 
         if phase == "success":
+            # check for events
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT or \
+                        (event.type == pygame.KEYDOWN and (event.key == pygame.K_q or event.key == pygame.K_ESCAPE)):
+                    player.rect.y = constants.SCREEN_HEIGHT/3
+                    if current_level_no < len(level_list)-1:
+                        current_level_no += 1
+                        current_level = level_list[current_level_no]
+                        player.level = current_level
 
-            # clear the screen with white first
-            # screen.fill((255, 255, 255))
-            print "white"
-            # draw the game over screen
+                        # vary speeds
+                        obstacle_speed *= 1.3
+                        player.falling_rate *= 1.3
+                        player.rising_rate *= 1.3
+
+                    current_level.level_soundtrack.play(loops=-1, maxtime=0, fade_ms=0)
+
+                    phase = "play"
+
+            # draw the success screen and show score
             screen.blit(success, (0, 0))
+            screen.blit(score_text, (25, 45))
+            show_the_score()
+
+            # updates the screen with what we've drawn.
+            pygame.display.flip()
 
         if phase == "end":
             
