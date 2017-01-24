@@ -247,6 +247,9 @@ def main():
 
             # draw the game over screen
             screen.blit(gameover, (0, 0))
+            myfont = pygame.font.SysFont("Arial", 30, bold=True, italic=False)
+            score_text = myfont.render("Your Score: ", 8, (255,165,0))
+            screen.blit(score_text, (15, 50))
             show_the_score()
 
             # updates the screen with what we've drawn.
