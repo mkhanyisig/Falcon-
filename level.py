@@ -35,12 +35,11 @@ class Level:
         # solely for level change tests
         self.index = 0
         self.next_level = False
-        self.maximum = 5
+        self.maximum = 3
 
         # sounds
         self.score_sound = pygame.mixer.Sound("arts/audio/score.wav")
         self.level_soundtrack = None
-
 
     # Update everything on this level
     def update(self):
@@ -98,8 +97,8 @@ class Level:
     # pos_x and pos_y : initial position for the obstacle
     # change_x should be negative to move faster to the left
     # change_y should be positive to move downward
-    def make_special_obstacle(self,name,pos_x,pos_y,\
-                            change_x,change_y):
+
+    def make_special_obstacle(self, name, pos_x, pos_y, change_x, change_y):
         obstacle = obstacles.MovingObstacle(name)
         obstacle.rect.x = pos_x
         obstacle.rect.y = pos_y
@@ -112,7 +111,6 @@ class Level:
         obstacle.player = self.player
         obstacle.level = self
         self.obstacle_list.add(obstacle)
-
 
 
 # Create obstacles for the level
@@ -192,13 +190,12 @@ class Level02(Level):
 
         # List of "fixed" obstacles, and x, y location of the obstacle.
         self.collection = [[obstacles.CHEESE], [obstacles.CHEESE2], [obstacles.CROISSANT]]
-        # fill it up
-        self.fill_with_flying_obstacles(1)
-        # Add a vertically moving obstacle
-        self.make_special_obstacle(obstacles.PLANE,700,10,\
-                                    0,3)
-        # Add the tower
         self.obstacle_type = obstacles.Obstacle([obstacles.TOWER][0])
+
+        # fill it up
+        self.fill_with_flying_obstacles(2)
+
+        # Add the tower
         self.make_ground_obstacle(self.obstacle_type)
 
     def update(self):
@@ -213,8 +210,13 @@ class Level02(Level):
             if obstacle.rect.x + obstacle.rect.width < 0:
                 self.obstacle_list.remove(obstacle)
 
-                # replace the lost obstacle
-                self.make_flying_obstacle()
+                # replace the lost obstacle with either flying or ground obstacle
+                if random.random() < 0.4:
+                    self.make_flying_obstacle()
+                elif 0.4 < random.random() < 0.8:
+                    self.make_ground_obstacle(self.obstacle_type)
+                else:
+                    self.make_special_obstacle(obstacles.PLANE, 700, 10,  0, 3)
 
                 # check for level changes
                 self.index += 1
@@ -242,14 +244,12 @@ class Level03(Level):
         # List of "fixed" obstacles, and x, y location of the obstacle.
         self.collection = [[obstacles.CLOUD], [obstacles.CROISSANT]]  # may have more
         # fill it up
-        self.fill_with_flying_obstacles(1)
+        self.fill_with_flying_obstacles(3)
         # Add a horizontally moving obstacle
-        self.make_special_obstacle(obstacles.CHEESE2,1400,250,\
-                                    -3,0)
+        self.make_special_obstacle(obstacles.CHEESE2, 1400, 250, -3, 0)
         # Add the empire state building
-        self.obstacle_type = obstacles.Obstacle([obstacles.EMPIRE_STATE_BUILDING][0])
-        self.make_ground_obstacle(self.obstacle_type)
-        print self.make_ground_obstacle(self.obstacle_type)
+        # self.obstacle_type = obstacles.Obstacle([obstacles.EMPIRE_STATE_BUILDING][0])
+        # self.make_ground_obstacle(self.obstacle_type)
 
     def update(self):
 
@@ -262,8 +262,13 @@ class Level03(Level):
         for obstacle in self.obstacle_list:
             if obstacle.rect.x + obstacle.rect.width < 0:
                 self.obstacle_list.remove(obstacle)
-                # replace the lost obstacle
-                self.make_flying_obstacle()
+                # replace the lost obstacle with either flying or ground obstacle
+                if random.random() < 0.3:
+                    self.make_flying_obstacle()
+                elif 0.3 < random.random() < 0.65:
+                    self.make_ground_obstacle(self.obstacle_type)
+                else:
+                    self.make_special_obstacle(obstacles.PLANE, 700, 10,  0, 3)
 
                 # to check for level changes
                 self.index += 1
