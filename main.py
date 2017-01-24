@@ -41,6 +41,7 @@ def main():
     instruction_page_one = pygame.image.load("arts/graphics/nest.png").convert_alpha()
     instruction_page_two = pygame.image.load("arts/graphics/falcon_in_sky.png").convert_alpha()
     success = pygame.image.load("arts/graphics/nest.png").convert_alpha()
+    score_text = pygame.image.load("arts/graphics/score.png").convert_alpha()
 
     digits = [pygame.image.load('arts/graphics/0.png').convert_alpha(),
               pygame.image.load('arts/graphics/1.png').convert_alpha(),
@@ -247,9 +248,7 @@ def main():
 
             # draw the game over screen
             screen.blit(gameover, (0, 0))
-            myfont = pygame.font.SysFont("Arial", 30, bold=True, italic=False)
-            score_text = myfont.render("Your Score: ", 8, (255,165,0))
-            screen.blit(score_text, (15, 50))
+            screen.blit(score_text, (25, 45))
             show_the_score()
 
             # updates the screen with what we've drawn.
