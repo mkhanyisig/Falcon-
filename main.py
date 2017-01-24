@@ -94,6 +94,29 @@ def main():
     player.rect.y = constants.SCREEN_HEIGHT/3
     active_sprite_list.add(player)
 
+    # deal with score
+    def show_the_score():
+        if current_level_no == 0:
+            score = current_level.index
+        elif current_level_no == 1:
+            score = current_level.index + current_level.maximum
+        else:
+            score = current_level.index + current_level.maximum*2
+
+        score_digits = [int(x) for x in list(str(score))]
+        total_width = 0  # total width of all numbers to be printed
+
+        for digit in score_digits:
+            total_width += digits[digit].get_width()
+
+        x_offset = (constants.SCREEN_WIDTH - total_width) / 2
+
+        for digit in score_digits:
+            screen.blit(digits[digit], (x_offset, constants.SCREEN_HEIGHT * 0.05))
+            x_offset += digits[digit].get_width()
+
+            # screen.blit(font.render("Score : "+str(score), True, constants.red), (15, 10))
+
     # -------- Main Program Loop -----------
 
     while not done:
@@ -194,28 +217,8 @@ def main():
 
             current_level.draw(screen)
             active_sprite_list.draw(screen)
+            show_the_score()
 
-            # deal with score
-            if current_level_no == 0:
-                score = current_level.index
-            elif current_level_no == 1:
-                score = current_level.index + current_level.maximum
-            else:
-                score = current_level.index + current_level.maximum*2
-
-            score_digits = [int(x) for x in list(str(score))]
-            total_width = 0  # total width of all numbers to be printed
-
-            for digit in score_digits:
-                total_width += digits[digit].get_width()
-
-            x_offset = (constants.SCREEN_WIDTH - total_width) / 2
-
-            for digit in score_digits:
-                screen.blit(digits[digit], (x_offset, constants.SCREEN_HEIGHT * 0.05))
-                x_offset += digits[digit].get_width()
-
-                # screen.blit(font.render("Score : "+str(score), True, constants.red), (15, 10))
 
 # ################## ALL CODE TO DRAW SHOULD GO ABOVE THIS COMMENT #####################
 
@@ -252,7 +255,7 @@ def main():
 
             # draw the game over screen
             screen.blit(gameover, (0, 0))
-            # showTheScore(score)
+            show_the_score()
 
             # updates the screen with what we've drawn.
             pygame.display.flip()
@@ -260,6 +263,7 @@ def main():
     # to bee IDLE friendly and prevent program hanging on exit
     pygame.quit()
     sys.exit()
+
 
 if __name__ == "__main__":
     main()
