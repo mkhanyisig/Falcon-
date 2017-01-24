@@ -1,4 +1,4 @@
-# main program
+# #main program
 
 import pygame
 import sys
@@ -41,6 +41,8 @@ def main():
     #     load up the images
     gameover = pygame.image.load("arts/graphics/gameover.png").convert_alpha()
     welcome = pygame.image.load("arts/graphics/welcome.png").convert_alpha()
+    ins1 = pygame.image.load("arts/graphics/nest.png").convert_alpha()
+    ins2 = pygame.image.load("arts/graphics/falcon_in_sky.png").convert_alpha()
     success = pygame.image.load("arts/graphics/success.png").convert_alpha()
     digits = [pygame.image.load('arts/graphics/0.png').convert_alpha(),
               pygame.image.load('arts/graphics/1.png').convert_alpha(),
@@ -57,7 +59,10 @@ def main():
     # scale down the images
     gameover = pygame.transform.scale(gameover, constants.screenSize)
     welcome = pygame.transform.scale(welcome, constants.screenSize)
+    ins1 = pygame.transform.scale(ins1, constants.screenSize)
+    ins2 = pygame.transform.scale(ins2, constants.screenSize) 
     success = pygame.transform.scale(success, constants.screenSize)
+
     # for digit in digits:
     for i in xrange(len(digits)):
         digits[i] = pygame.transform.scale(digits[i], (42, 64))
@@ -106,7 +111,7 @@ def main():
                     done = True
                 if event.type == pygame.KEYDOWN and (event.key == pygame.K_SPACE or event.key == pygame.K_UP):
                     instruction_page += 1
-                    if instruction_page == 3:
+                    if instruction_page == 4:
                         # stop start sound and start level 1 music
                         instruction_page_sound.stop()
                         current_level.level_soundtrack.play(loops=-1, maxtime=0, fade_ms=0)
@@ -126,15 +131,11 @@ def main():
                 # stop other music and play instruction music
                 start_sound.stop()
                 instruction_page_sound.play(loops=-1, maxtime=0, fade_ms=0)
-
                 # Draw instructions, page 2
-                text = font.render("Page 2 is a storyline picture.", True, constants.white)
-                screen.blit(text, [10, 10])
-                text = font.render("Also describe controls.", True, constants.white)
-                screen.blit(text, [10, 50])
-                text = font.render("Can add Page 3 if needed.", True, constants.white)
-                screen.blit(text, [10, 90])
+                screen.blit(ins1,[0,0])
 
+            if instruction_page == 3:
+                screen.blit(ins2,[0,0])
             # updates the screen with what we've drawn.
             pygame.display.flip()
 
