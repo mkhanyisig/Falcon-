@@ -35,15 +35,14 @@ class Level:
         # solely for level change tests
         self.index = 0
         self.next_level = False
-        self.maximum = 1
-        # self.maximum = 4
+        self.maximum = 5
 
         # sounds
         self.score_sound = pygame.mixer.Sound("arts/audio/score.wav")
         self.level_soundtrack = None
 
 
-# Update everything on this level
+    # Update everything on this level
     def update(self):
         self.obstacle_list.update()
 
@@ -58,11 +57,6 @@ class Level:
         self.obstacle_list.draw(screen)
  
     def shift_obstacles(self, shift_x):
-        # Keep track of the shift amount
-        self.obs_shift -= shift_x
-        self.obs_shift += shift_x 
-        # whats the point of the lines of code above, they seem useless to me.
-
         # Go through all the sprite lists and shift
         for obstacle in self.obstacle_list:
             obstacle.rect.x -= shift_x
@@ -98,6 +92,27 @@ class Level:
         obstacle.rect.y = constants.SCREEN_HEIGHT-225-60  # subtract some more to account for the base (river, road etc)
         obstacle.player = self.player
         self.obstacle_list.add(obstacle)
+
+    # Make a horizontally or vertically moving obstacle
+    # name should be 'obstacles.***'
+    # pos_x and pos_y : initial position for the obstacle
+    # change_x should be negative to move faster to the left
+    # change_y should be positive to move downward
+    def make_special_obstacle(self,name,pos_x,pos_y,\
+                            change_x,change_y):
+        obstacle = obstacles.MovingObstacle(name)
+        obstacle.rect.x = pos_x
+        obstacle.rect.y = pos_y
+        obstacle.boundary_top = 0
+        obstacle.boundary_bottom = 300
+        obstacle.boundary_left = 0
+        obstacle.boundary_right = None
+        obstacle.change_x = change_x
+        obstacle.change_y = change_y
+        obstacle.player = self.player
+        obstacle.level = self
+        self.obstacle_list.add(obstacle)
+
 
 
 # Create obstacles for the level
@@ -178,17 +193,13 @@ class Level02(Level):
         # List of "fixed" obstacles, and x, y location of the obstacle.
         self.collection = [[obstacles.CHEESE], [obstacles.CHEESE2], [obstacles.CROISSANT]]
         # fill it up
-        self.fill_with_flying_obstacles(2)
-        # Add a custom moving obstacle
-        obstacle = obstacles.MovingObstacle(obstacles.PLANE)
-        obstacle.rect.x = 900
-        obstacle.rect.y = 280
-        obstacle.boundary_left = 900
-        obstacle.boundary_right = 1600
-        obstacle.change_x = -5
-        obstacle.player = self.player
-        obstacle.level = self
-        self.obstacle_list.add(obstacle)
+        self.fill_with_flying_obstacles(1)
+        # Add a vertically moving obstacle
+        self.make_special_obstacle(obstacles.PLANE,700,10,\
+                                    0,3)
+        # Add the tower
+        self.obstacle_type = obstacles.Obstacle([obstacles.TOWER][0])
+        self.make_ground_obstacle(self.obstacle_type)
 
     def update(self):
 
@@ -201,10 +212,11 @@ class Level02(Level):
         for obstacle in self.obstacle_list:
             if obstacle.rect.x + obstacle.rect.width < 0:
                 self.obstacle_list.remove(obstacle)
+
                 # replace the lost obstacle
                 self.make_flying_obstacle()
 
-                # to check for level changes
+                # check for level changes
                 self.index += 1
                 self.score_sound.play()
 
@@ -230,17 +242,14 @@ class Level03(Level):
         # List of "fixed" obstacles, and x, y location of the obstacle.
         self.collection = [[obstacles.CLOUD], [obstacles.CROISSANT]]  # may have more
         # fill it up
-        self.fill_with_flying_obstacles(3)
-        # Add a custom moving obstacle
-        obstacle = obstacles.MovingObstacle(obstacles.PLANE)
-        obstacle.rect.x = 900
-        obstacle.rect.y = 280
-        obstacle.boundary_left = 900
-        obstacle.boundary_right = 1600
-        obstacle.change_x = -7
-        obstacle.player = self.player
-        obstacle.level = self
-        self.obstacle_list.add(obstacle)
+        self.fill_with_flying_obstacles(1)
+        # Add a horizontally moving obstacle
+        self.make_special_obstacle(obstacles.CHEESE2,1400,250,\
+                                    -3,0)
+        # Add the empire state building
+        self.obstacle_type = obstacles.Obstacle([obstacles.EMPIRE_STATE_BUILDING][0])
+        self.make_ground_obstacle(self.obstacle_type)
+        print self.make_ground_obstacle(self.obstacle_type)
 
     def update(self):
 
