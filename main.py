@@ -99,13 +99,13 @@ def main():
         if current_level_no == 0:
             score = current_level.index
         elif current_level_no == 1:
-            score = current_level.index + current_level.maximum
+            score = current_level.index + level_list[0].maximum
         elif current_level_no == 2:
-            score = current_level.index + current_level.maximum*2
+            score = current_level.index + level_list[1].maximum
         elif current_level_no == 3:
-            score = current_level.index + current_level.maximum*3
+            score = current_level.index + level_list[2].maximum
         else:
-            score = current_level.index + current_level.maximum*4
+            score = current_level.index + level_list[3].maximum
 
         score_digits = [int(x) for x in list(str(score))]
         total_width = 0  # total width of all numbers to be printed

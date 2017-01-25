@@ -43,7 +43,7 @@ class Player(pygame.sprite.Sprite):
         self.flying_frames.append(falcon_down)
     
         # Set the image the player starts with
-        self.image = self.flying_frames[1]
+        self.image = self.flying_frames[0]
  
         # Set a reference to the image rect.
         self.rect = self.image.get_rect()
