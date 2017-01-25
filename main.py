@@ -30,7 +30,7 @@ def main():
     # make a game clock that we shall use to manage how fast the screen updates
     clock = pygame.time.Clock()
     # Limits to 60 frames per second
-    clock.tick(30)    # to make it easier to play for now
+    clock.tick(60)    # to make it easier to play for now
 
     # ################## load up all useful graphics, sound, etc here #######################
 
