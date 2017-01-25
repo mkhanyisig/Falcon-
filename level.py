@@ -186,8 +186,8 @@ class Level02(Level):
         self.level_soundtrack = pygame.mixer.Sound("arts/audio/egypt.wav")
 
         # List of "fixed" obstacles, and x, y location of the obstacle.
-        self.collection = [[obstacles.CLOUD]]
-        self.obstacle_type = obstacles.Obstacle([obstacles.MOUNTAIN][0])
+        self.collection = [[obstacles.HEAD],[obstacles.PYRAMID]]
+        self.obstacle_type = obstacles.Obstacle([obstacles.MONUMENT][0])
 
         # fill it up
         self.fill_with_flying_obstacles(1)
