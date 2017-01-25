@@ -284,7 +284,7 @@ class Level04(Level):
         self.level_soundtrack = pygame.mixer.Sound("arts/audio/new_york.wav")
 
         # List of "fixed" obstacles, and x, y location of the obstacle.
-        self.collection = [[obstacles.CHEESE], [obstacles.CHEESE2], [obstacles.CROISSANT], [obstacles.CLOUD]]
+        self.collection = [[obstacles.BREAD], [obstacles.APPLE], [obstacles.BOTTLE]]
         self.obstacle_type = obstacles.Obstacle([obstacles.EMPIRE_STATE_BUILDING][0])
 
         # fill it up
