@@ -349,6 +349,7 @@ class Level05(Level):
         self.fill_with_flying_obstacles(3)
         # Add a horizontally moving obstacle
         self.make_special_obstacle(obstacles.PLANE, -4, 0)
+        # self.maximum = 5
         self.maximum = 40
 
     def update(self):

@@ -41,6 +41,7 @@ def main():
     instruction_screen = pygame.image.load("arts/graphics/instruction_screen.png").convert_alpha()
     success = pygame.image.load("arts/graphics/congratulations.png").convert_alpha()
     score_text = pygame.image.load("arts/graphics/score.png").convert_alpha()
+    finalcongratulations = pygame.image.load("arts/graphics/finalcongratulations.png").convert_alpha()
     digits = [pygame.image.load('arts/graphics/0.png').convert_alpha(),
               pygame.image.load('arts/graphics/1.png').convert_alpha(),
               pygame.image.load('arts/graphics/2.png').convert_alpha(),
@@ -59,6 +60,7 @@ def main():
     storyline = pygame.transform.scale(storyline, constants.screenSize)
     instruction_screen = pygame.transform.scale(instruction_screen, constants.screenSize)
     success = pygame.transform.scale(success, constants.screenSize)
+    finalcongratulations = pygame.transform.scale(finalcongratulations, constants.screenSize)
 
     # for digit in digits:
     for i in xrange(len(digits)):
@@ -226,7 +228,7 @@ def main():
             if current_level_no < len(level_list)-1:
                 screen.blit(success, (0, 0))
             else:
-                screen.blit(storyline, (0, 0))
+                screen.blit(finalcongratulations, (0, 0))
 
             screen.blit(score_text, (25, 45))
             show_the_score()
