@@ -23,22 +23,21 @@ MOUNTAIN = (0, 75, 160, 225)
 CROISSANT = (0, 0, 40, 60)
 CHEESE2 = (41.5, 0, 57.5, 60)
 CHEESE = (99, 0, 62, 60)
-BREAD = (35,306,50,75)
-BOTTLE = (0,305,35,75)
+BREAD = (35, 306, 50, 75)
+BOTTLE = (0, 305, 35, 75)
 TOWER = (160, 75, 160, 225)
 
 # NEW YORK
-APPLE = (375,0,50,55)
-TAXI = (0,380,60,50)
+APPLE = (375, 0, 50, 55)
+TAXI = (0, 380, 60, 50)
 EMPIRE_STATE_BUILDING = (317.5, 75, 142.5, 225)
 
 # EGYPT
-HEAD = (85,305,60,75)
-PYRAMID = (145,306,55,65)
-MONUMENT =(260,306,194,195)
+HEAD = (85, 305, 60, 75)
+PYRAMID = (145, 306, 55, 65)
+MONUMENT =(260, 306, 194, 195)
 
 # BEIJING
-
 
 
 class Obstacle(pygame.sprite.Sprite):
@@ -55,9 +54,9 @@ class Obstacle(pygame.sprite.Sprite):
         sprite_sheet = SpriteSheet("arts/graphics/obstacles_sprite_sheet.png")
 
         # Grab the image for this obstacle
-        self.image = sprite_sheet.get_image(sprite_sheet_data[0],
-                                            sprite_sheet_data[1],
-                                            sprite_sheet_data[2],
+        self.image = sprite_sheet.get_image(sprite_sheet_data[0], 
+                                            sprite_sheet_data[1], 
+                                            sprite_sheet_data[2], 
                                             sprite_sheet_data[3])
 
         self.rect = self.image.get_rect()
