@@ -194,6 +194,7 @@ class Level02(Level):
         self.make_ground_obstacle(self.obstacle_type)
         # to make this level challenging
         self.make_special_obstacle(obstacles.PLANE, -3, 0)
+        self.maximum = 15
 
     def update(self):
         Level.update(self)
@@ -246,6 +247,7 @@ class Level03(Level):
 
         # to make this level challenging
         self.make_special_obstacle(obstacles.PLANE, -3, -1)
+        self.maximum = 20
 
     def update(self):
         Level.update(self)
@@ -287,7 +289,7 @@ class Level04(Level):
         self.level_soundtrack = pygame.mixer.Sound("arts/audio/new_york.wav")
 
         # List of "fixed" obstacles, and x, y location of the obstacle.
-        self.collection = [[obstacles.TAXI], [obstacles.APPLE],[obstacles.HAT],[obstacles.BURGER],[obstacles.FRIES]]
+        self.collection = [[obstacles.TAXI], [obstacles.APPLE], [obstacles.HAT], [obstacles.BURGER], [obstacles.FRIES]]
         self.obstacle_type = obstacles.Obstacle([obstacles.EMPIRE_STATE_BUILDING][0])
         self.obstacle_type = obstacles.Obstacle([obstacles.STATUE_OF_LIBERTY][0])
         # fill it up
@@ -296,8 +298,10 @@ class Level04(Level):
         # to make this level challenging
         self.make_special_obstacle(obstacles.PLANE, -3, 0)
         self.make_ground_obstacle(self.obstacle_type)
+        self.maximum = 30
 
-    def update(self):
+
+def update(self):
         Level.update(self)
 
         for obstacle in self.obstacle_list:
@@ -337,14 +341,15 @@ class Level05(Level):
         self.level_soundtrack = pygame.mixer.Sound("arts/audio/beijing.wav")
 
         # List of "fixed" obstacles, and x, y location of the obstacle.
-        self.collection = [[obstacles.MASK1], [obstacles.MASK2],[obstacles.MASK3],[obstacles.BOOK],
-                            [obstacles.LUCKY_BAG],[obstacles.KNOT]]
+        self.collection = [[obstacles.MASK1], [obstacles.MASK2], [obstacles.MASK3], [obstacles.BOOK],
+                           [obstacles.LUCKY_BAG], [obstacles.KNOT]]
         # Add the empire state building
         self.obstacle_type = obstacles.Obstacle([obstacles.TV_TOWER][0])
         # fill it up
         self.fill_with_flying_obstacles(3)
         # Add a horizontally moving obstacle
         self.make_special_obstacle(obstacles.PLANE, -4, 0)
+        self.maximum = 50
 
     def update(self):
         Level.update(self)

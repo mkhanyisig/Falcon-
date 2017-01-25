@@ -39,6 +39,7 @@ def main():
     welcome = pygame.image.load("arts/graphics/welcome.png").convert_alpha()
     instruction_page_one = pygame.image.load("arts/graphics/nest.png").convert_alpha()
     instruction_page_two = pygame.image.load("arts/graphics/falcon_in_sky.png").convert_alpha()
+    instruction_screen = pygame.image.load("arts/graphics/instruction_screen.png").convert_alpha()
     success = pygame.image.load("arts/graphics/success.png").convert_alpha()
     score_text = pygame.image.load("arts/graphics/score.png").convert_alpha()
     congratulations_text = pygame.image.load("arts/graphics/congratulations_text.png").convert_alpha()
@@ -59,6 +60,7 @@ def main():
     welcome = pygame.transform.scale(welcome, constants.screenSize)
     instruction_page_one = pygame.transform.scale(instruction_page_one, constants.screenSize)
     instruction_page_two = pygame.transform.scale(instruction_page_two, constants.screenSize)
+    instruction_screen = pygame.transform.scale(instruction_screen, constants.screenSize)
     success = pygame.transform.scale(success, constants.screenSize)
 
     # for digit in digits:
@@ -131,7 +133,7 @@ def main():
                     done = True
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
                     instruction_page += 1
-                    if instruction_page == 4:
+                    if instruction_page == 5:
                         # stop start sound and start level 1 music
                         start_sound.stop()
                         current_level.level_soundtrack.play(loops=-1, maxtime=0, fade_ms=0)
@@ -149,6 +151,9 @@ def main():
 
             if instruction_page == 3:
                 screen.blit(instruction_page_two, [0, 0])
+
+            if instruction_page == 4:
+                screen.blit(instruction_screen, [0, 0])
 
             # updates the screen with what we've drawn.
             pygame.display.flip()
