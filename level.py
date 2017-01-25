@@ -235,12 +235,10 @@ class Level03(Level):
         self.level_soundtrack = pygame.mixer.Sound("arts/audio/paris.wav")
 
         # List of "fixed" obstacles, and x, y location of the obstacle.
-<<<<<<< HEAD
-        self.collection = [[obstacles.CHEESE], [obstacles.CHEESE2], [obstacles.CROISSANT],[obstacles.BOTTLE],[obstacles.BREAD]]
-=======
+
         self.collection = [[obstacles.CLOUD], [obstacles.CHEESE2], [obstacles.CROISSANT], [obstacles.BOTTLE],
                            [obstacles.BREAD]]
->>>>>>> 121b5e0810bba2e6d23a4390d50f244e9331a785
+
         self.obstacle_type = obstacles.Obstacle([obstacles.TOWER][0])
 
         # fill it up
@@ -289,9 +287,9 @@ class Level04(Level):
         self.level_soundtrack = pygame.mixer.Sound("arts/audio/new_york.wav")
 
         # List of "fixed" obstacles, and x, y location of the obstacle.
-        self.collection = [[obstacles.TAXI], [obstacles.APPLE]]
+        self.collection = [[obstacles.TAXI], [obstacles.APPLE],[obstacles.HAT],[obstacles.BURGER],[obstacles.FRIES]]
         self.obstacle_type = obstacles.Obstacle([obstacles.EMPIRE_STATE_BUILDING][0])
-
+        self.obstacle_type = obstacles.Obstacle([obstacles.STATUE_OF_LIBERTY][0])
         # fill it up
         self.fill_with_flying_obstacles(2)
 
@@ -339,9 +337,10 @@ class Level05(Level):
         self.level_soundtrack = pygame.mixer.Sound("arts/audio/beijing.wav")
 
         # List of "fixed" obstacles, and x, y location of the obstacle.
-        self.collection = [[obstacles.CLOUD], [obstacles.CROISSANT]]  # may have more
+        self.collection = [[obstacles.MASK1], [obstacles.MASK2],[obstacles.MASK3],[obstacles.BOOK],
+                            [obstacles.LUCKY_BAG],[obstacles.KNOT]]
         # Add the empire state building
-        self.obstacle_type = obstacles.Obstacle([obstacles.EMPIRE_STATE_BUILDING][0])
+        self.obstacle_type = obstacles.Obstacle([obstacles.TV_TOWER][0])
         # fill it up
         self.fill_with_flying_obstacles(3)
         # Add a horizontally moving obstacle
