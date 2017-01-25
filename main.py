@@ -37,8 +37,7 @@ def main():
     # load up the images
     game_over = pygame.image.load("arts/graphics/gameover.png").convert_alpha()
     welcome = pygame.image.load("arts/graphics/welcome.png").convert_alpha()
-    instruction_page_one = pygame.image.load("arts/graphics/nest.png").convert_alpha()
-    instruction_page_two = pygame.image.load("arts/graphics/falcon_in_sky.png").convert_alpha()
+    storyline = pygame.image.load("arts/graphics/storyline.png").convert_alpha()
     instruction_screen = pygame.image.load("arts/graphics/instruction_screen.png").convert_alpha()
     success = pygame.image.load("arts/graphics/success.png").convert_alpha()
     score_text = pygame.image.load("arts/graphics/score.png").convert_alpha()
@@ -58,8 +57,7 @@ def main():
     # scale down the images
     game_over = pygame.transform.scale(game_over, constants.screenSize)
     welcome = pygame.transform.scale(welcome, constants.screenSize)
-    instruction_page_one = pygame.transform.scale(instruction_page_one, constants.screenSize)
-    instruction_page_two = pygame.transform.scale(instruction_page_two, constants.screenSize)
+    storyline = pygame.transform.scale(storyline, constants.screenSize)
     instruction_screen = pygame.transform.scale(instruction_screen, constants.screenSize)
     success = pygame.transform.scale(success, constants.screenSize)
 
@@ -133,26 +131,19 @@ def main():
                     done = True
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
                     instruction_page += 1
-                    if instruction_page == 5:
+                    if instruction_page == 4:
                         # stop start sound and start level 1 music
                         start_sound.stop()
                         current_level.level_soundtrack.play(loops=-1, maxtime=0, fade_ms=0)
                         phase = "play"
 
             if instruction_page == 1:
-                # Draw instructions, page 1
                 screen.blit(welcome, [0, 0])
-                # This could also load an image created in another program.
-                # That could be both easier and more flexible.
 
             if instruction_page == 2:                
-                # Draw instructions, page 2
-                screen.blit(instruction_page_one, [0, 0])
+                screen.blit(storyline, [0, 0])
 
             if instruction_page == 3:
-                screen.blit(instruction_page_two, [0, 0])
-
-            if instruction_page == 4:
                 screen.blit(instruction_screen, [0, 0])
 
             # updates the screen with what we've drawn.
