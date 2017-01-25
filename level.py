@@ -35,7 +35,7 @@ class Level:
         # solely for level change tests
         self.index = 0
         self.next_level = False
-        self.maximum = 4
+        self.maximum = 10
 
         # sounds
         self.score_sound = pygame.mixer.Sound("arts/audio/score.wav")
@@ -364,5 +364,5 @@ class Level05(Level):
                 self.index += 1
                 self.score_sound.play()
 
-                # if self.index == 2:
-                #     self.next_level = True
+                if self.index == self.maximum:
+                    self.next_level = True
