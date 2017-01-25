@@ -39,9 +39,8 @@ def main():
     welcome = pygame.image.load("arts/graphics/welcome.png").convert_alpha()
     storyline = pygame.image.load("arts/graphics/storyline.png").convert_alpha()
     instruction_screen = pygame.image.load("arts/graphics/instruction_screen.png").convert_alpha()
-    success = pygame.image.load("arts/graphics/success.png").convert_alpha()
+    success = pygame.image.load("arts/graphics/congratulations.png").convert_alpha()
     score_text = pygame.image.load("arts/graphics/score.png").convert_alpha()
-    congratulations_text = pygame.image.load("arts/graphics/congratulations_text.png").convert_alpha()
     digits = [pygame.image.load('arts/graphics/0.png').convert_alpha(),
               pygame.image.load('arts/graphics/1.png').convert_alpha(),
               pygame.image.load('arts/graphics/2.png').convert_alpha(),
@@ -216,19 +215,20 @@ def main():
                         obstacle_speed *= 1.2
                         player.falling_rate *= 1.2
                         player.rising_rate *= 1.2
+
                     current_level.level_soundtrack.play(loops=-1, maxtime=0, fade_ms=0)
 
-                # # final level finished
-                #     if cureent_level_no == len(level_list):
-                #         screen.blit
                 if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN
                                                  and (event.key == pygame.K_ESCAPE or event.key == pygame.K_q)):
                     phase = "end"
 
             # draw the success screen and show score
-            screen.blit(success, (0, 0))
+            if current_level_no < len(level_list)-1:
+                screen.blit(success, (0, 0))
+            else:
+                screen.blit(storyline, (0, 0))
+
             screen.blit(score_text, (25, 45))
-            screen.blit(congratulations_text, (50, 450))
             show_the_score()
 
             # updates the screen with what we've drawn.
