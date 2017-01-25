@@ -35,7 +35,7 @@ class Level:
         # solely for level change tests
         self.index = 0
         self.next_level = False
-        self.maximum = 8
+        self.maximum = 10
 
         # sounds
         self.score_sound = pygame.mixer.Sound("arts/audio/score.wav")
@@ -101,7 +101,7 @@ class Level:
     def make_special_obstacle(self, name, change_x, change_y):
         obstacle = obstacles.MovingObstacle(name)
         obstacle.rect.x = random.randint(constants.SCREEN_WIDTH, constants.SCREEN_WIDTH*2)
-        obstacle.rect.y = random.randint(0, constants.SCREEN_HEIGHT - 200)
+        obstacle.rect.y = random.randint(constants.SCREEN_HEIGHT/4, 3*constants.SCREEN_HEIGHT / 4)
         obstacle.boundary_top = 0
         obstacle.boundary_bottom = 300
         obstacle.boundary_left = 0
@@ -113,7 +113,7 @@ class Level:
         self.obstacle_list.add(obstacle)
 
 
-# Create obstacles for the level
+# mountains level
 class Level01(Level):
     """ Definition for level 1. """
  
@@ -169,6 +169,7 @@ class Level01(Level):
         # obstacle type, eg, the rocks/others. (in that way it's a more realistic flying simulation of the bird)
 
 
+# egypt level
 class Level02(Level):
     """ Definition for level 2. """
  
@@ -178,21 +179,21 @@ class Level02(Level):
         # Call the parent constructor
         Level.__init__(self, player)
 
-        self.background = pygame.image.load("arts/graphics/Paris.png").convert_alpha()
+        self.background = pygame.image.load("arts/graphics/egypt.png").convert_alpha()
         self.background = pygame.transform.scale(self.background, constants.screenSize)
         self.background.set_colorkey((255, 255, 255))
 
-        self.level_soundtrack = pygame.mixer.Sound("arts/audio/paris.wav")
+        self.level_soundtrack = pygame.mixer.Sound("arts/audio/egypt.wav")
 
         # List of "fixed" obstacles, and x, y location of the obstacle.
-        self.collection = [[obstacles.CHEESE], [obstacles.CHEESE2], [obstacles.CROISSANT]]
-        self.obstacle_type = obstacles.Obstacle([obstacles.TOWER][0])
+        self.collection = [[obstacles.CLOUD]]
+        self.obstacle_type = obstacles.Obstacle([obstacles.MOUNTAIN][0])
 
         # fill it up
-        self.fill_with_flying_obstacles(2)
-
-        # Add the tower
+        self.fill_with_flying_obstacles(1)
         self.make_ground_obstacle(self.obstacle_type)
+        # to make this level challenging
+        self.make_special_obstacle(obstacles.PLANE, -3, 0)
 
     def update(self):
         Level.update(self)
@@ -217,11 +218,61 @@ class Level02(Level):
                     self.next_level = True
 
 
+# paris level
 class Level03(Level):
     """ Definition for level 3. """
 
     def __init__(self, player):
         """ Create level 3. """
+
+        # Call the parent constructor
+        Level.__init__(self, player)
+
+        self.background = pygame.image.load("arts/graphics/Paris.png").convert_alpha()
+        self.background = pygame.transform.scale(self.background, constants.screenSize)
+        self.background.set_colorkey((255, 255, 255))
+
+        self.level_soundtrack = pygame.mixer.Sound("arts/audio/paris.wav")
+
+        # List of "fixed" obstacles, and x, y location of the obstacle.
+        self.collection = [[obstacles.CLOUD], [obstacles.CHEESE2], [obstacles.CROISSANT]]
+        self.obstacle_type = obstacles.Obstacle([obstacles.TOWER][0])
+
+        # fill it up
+        self.fill_with_flying_obstacles(2)
+
+        # to make this level challenging
+        self.make_special_obstacle(obstacles.PLANE, -3, -1)
+
+    def update(self):
+        Level.update(self)
+
+        for obstacle in self.obstacle_list:
+            if obstacle.rect.x + obstacle.rect.width < 0:
+                self.obstacle_list.remove(obstacle)
+
+                # replace the lost obstacle with either flying or ground obstacle
+                if random.random() < 0.4:
+                    self.make_flying_obstacle()
+                elif 0.4 < random.random() < 0.8:
+                    self.make_ground_obstacle(self.obstacle_type)
+                else:
+                    self.make_special_obstacle(obstacles.PLANE, random.randint(-3, -1), random.randint(-2, 1))
+
+                # check for level changes
+                self.index += 1
+                self.score_sound.play()
+
+            if self.index == self.maximum:
+                    self.next_level = True
+
+
+# new york level
+class Level04(Level):
+    """ Definition for level 4. """
+
+    def __init__(self, player):
+        """ Create level 4. """
 
         # Call the parent constructor
         Level.__init__(self, player)
@@ -233,13 +284,63 @@ class Level03(Level):
         self.level_soundtrack = pygame.mixer.Sound("arts/audio/new_york.wav")
 
         # List of "fixed" obstacles, and x, y location of the obstacle.
+        self.collection = [[obstacles.CHEESE], [obstacles.CHEESE2], [obstacles.CROISSANT], [obstacles.CLOUD]]
+        self.obstacle_type = obstacles.Obstacle([obstacles.EMPIRE_STATE_BUILDING][0])
+
+        # fill it up
+        self.fill_with_flying_obstacles(2)
+
+        # to make this level challenging
+        self.make_special_obstacle(obstacles.PLANE, -3, 0)
+        self.make_ground_obstacle(self.obstacle_type)
+
+    def update(self):
+        Level.update(self)
+
+        for obstacle in self.obstacle_list:
+            if obstacle.rect.x + obstacle.rect.width < 0:
+                self.obstacle_list.remove(obstacle)
+
+                # replace the lost obstacle with either flying or ground obstacle
+                if random.random() < 0.33:
+                    self.make_flying_obstacle()
+                elif 0.33 < random.random() < 0.66:
+                    self.make_ground_obstacle(self.obstacle_type)
+                else:
+                    self.make_special_obstacle(obstacles.PLANE, random.randint(-4, -2), random.randint(-1, 3))
+
+                # check for level changes
+                self.index += 1
+                self.score_sound.play()
+
+            if self.index == self.maximum:
+                    self.next_level = True
+
+
+# beijing level -- i dare you
+class Level05(Level):
+    """ Definition for level 5. """
+
+    def __init__(self, player):
+        """ Create level 5. """
+
+        # Call the parent constructor
+        Level.__init__(self, player)
+
+        self.background = pygame.image.load("arts/graphics/beijing.png").convert_alpha()
+        self.background = pygame.transform.scale(self.background, constants.screenSize)
+        self.background.set_colorkey((255, 255, 255))
+
+        self.level_soundtrack = pygame.mixer.Sound("arts/audio/beijing.wav")
+
+        # List of "fixed" obstacles, and x, y location of the obstacle.
         self.collection = [[obstacles.CLOUD], [obstacles.CROISSANT]]  # may have more
         # Add the empire state building
         self.obstacle_type = obstacles.Obstacle([obstacles.EMPIRE_STATE_BUILDING][0])
         # fill it up
         self.fill_with_flying_obstacles(3)
         # Add a horizontally moving obstacle
-        self.make_special_obstacle(obstacles.CHEESE2, -3, 0)
+        self.make_special_obstacle(obstacles.PLANE, -4, 0)
 
     def update(self):
         Level.update(self)
@@ -253,7 +354,7 @@ class Level03(Level):
                 elif 0.3 < random.random() < 0.65:
                     self.make_ground_obstacle(self.obstacle_type)
                 else:
-                    self.make_special_obstacle(obstacles.PLANE, random.randint(-3, 3), random.randint(-3, 3))
+                    self.make_special_obstacle(obstacles.PLANE, random.randint(-4, -2), random.randint(-3, 3))
 
                 # to check for level changes
                 self.index += 1

@@ -36,7 +36,7 @@ def main():
     # ################## load up all useful graphics, sound, etc here #######################
 
     #     load up the images
-    gameover = pygame.image.load("arts/graphics/gameover.png").convert_alpha()
+    game_over = pygame.image.load("arts/graphics/gameover.png").convert_alpha()
     welcome = pygame.image.load("arts/graphics/welcome.png").convert_alpha()
     instruction_page_one = pygame.image.load("arts/graphics/nest.png").convert_alpha()
     instruction_page_two = pygame.image.load("arts/graphics/falcon_in_sky.png").convert_alpha()
@@ -56,7 +56,7 @@ def main():
               ]
 
     # scale down the images
-    gameover = pygame.transform.scale(gameover, constants.screenSize)
+    game_over = pygame.transform.scale(game_over, constants.screenSize)
     welcome = pygame.transform.scale(welcome, constants.screenSize)
     instruction_page_one = pygame.transform.scale(instruction_page_one, constants.screenSize)
     instruction_page_two = pygame.transform.scale(instruction_page_two, constants.screenSize)
@@ -81,7 +81,8 @@ def main():
     player = Player()
 
     # Create all the levels
-    level_list = [level.Level01(player), level.Level02(player), level.Level03(player)]
+    level_list = [level.Level01(player), level.Level02(player), level.Level03(player), level.Level04(player),
+                  level.Level05(player)]
 
     # Set the current level
     current_level_no = 0
@@ -214,8 +215,8 @@ def main():
 
                         # vary speeds
                         obstacle_speed *= 1.2
-                        player.falling_rate *= 1.3
-                        player.rising_rate *= 1.3
+                        player.falling_rate *= 1.2
+                        player.rising_rate *= 1.2
                     current_level.level_soundtrack.play(loops=-1, maxtime=0, fade_ms=0)
 
                 if event.type == pygame.QUIT:
@@ -246,7 +247,7 @@ def main():
                     main()
 
             # draw the game over screen
-            screen.blit(gameover, (0, 0))
+            screen.blit(game_over, (0, 0))
             screen.blit(score_text, (25, 45))
             show_the_score()
 
