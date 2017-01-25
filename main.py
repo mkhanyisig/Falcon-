@@ -26,18 +26,17 @@ def main():
     # make a game screen of screenSize
     screen = pygame.display.set_mode(constants.screenSize)
     # title of window to be displayed
-    pygame.display.set_caption("test-run Falcon")
+    pygame.display.set_caption("Falcon")
     # make a game clock that we shall use to manage how fast the screen updates
     clock = pygame.time.Clock()
     # Limits to 60 frames per second
     clock.tick(30)    # to make it easier to play for now
 
-
     # ################## load up all useful graphics, sound, etc here #######################
 
     # load up the images
     game_over = pygame.image.load("arts/graphics/gameover.png").convert_alpha()
-    welcome = pygame.image.load("arts/graphics/final_instruction_page.png").convert_alpha()
+    welcome = pygame.image.load("arts/graphics/welcome.png").convert_alpha()
     instruction_page_one = pygame.image.load("arts/graphics/nest.png").convert_alpha()
     instruction_page_two = pygame.image.load("arts/graphics/falcon_in_sky.png").convert_alpha()
     success = pygame.image.load("arts/graphics/success.png").convert_alpha()
