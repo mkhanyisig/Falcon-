@@ -14,21 +14,31 @@ from spritesheet_functions import SpriteSheet
 #   Height of sprite
 #   [info one the sprite sheet]
 
+# MOUNTAIN LEVEL
+PLANE = (162, 0, 126, 60)
+CLOUD = (288.5, 0, 87, 60)
+MOUNTAIN = (0, 75, 160, 225)
 
+# PARIS 
 CROISSANT = (0, 0, 40, 60)
 CHEESE2 = (41.5, 0, 57.5, 60)
 CHEESE = (99, 0, 62, 60)
-PLANE = (162, 0, 126, 60)
-CLOUD = (288.5, 0, 87, 60)
 BREAD = (35,306,50,75)
 BOTTLE = (0,305,35,75)
+TOWER = (160, 75, 160, 225)
+
+# NEW YORK
 APPLE = (375,0,50,55)
+TAXI = (0,380,60,50)
+EMPIRE_STATE_BUILDING = (317.5, 75, 142.5, 225)
+
+# EGYPT
 HEAD = (85,305,60,75)
 PYRAMID = (145,306,55,65)
 MONUMENT =(260,306,194,195)
-MOUNTAIN = (0, 75, 160, 225)
-TOWER = (160, 75, 160, 225)
-EMPIRE_STATE_BUILDING = (317.5, 75, 142.5, 225)
+
+# BEIJING
+
 
 
 class Obstacle(pygame.sprite.Sprite):
