@@ -37,7 +37,7 @@ def main():
 
     # load up the images
     game_over = pygame.image.load("arts/graphics/gameover.png").convert_alpha()
-    welcome = pygame.image.load("arts/graphics/welcome.png").convert_alpha()
+    welcome = pygame.image.load("arts/graphics/final_instruction_page.png").convert_alpha()
     instruction_page_one = pygame.image.load("arts/graphics/nest.png").convert_alpha()
     instruction_page_two = pygame.image.load("arts/graphics/falcon_in_sky.png").convert_alpha()
     success = pygame.image.load("arts/graphics/success.png").convert_alpha()
