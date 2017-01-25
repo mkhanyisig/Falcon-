@@ -127,10 +127,9 @@ def main():
             # -------- Instruction Page Loop -----------
             for event in pygame.event.get():
                 if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN
-                                                 and (event.key == pygame.K_DOWN or event.key == pygame.K_ESCAPE
-                                                      or event.key == pygame.K_q)):
+                                                 and (event.key == pygame.K_ESCAPE or event.key == pygame.K_q)):
                     done = True
-                if event.type == pygame.KEYDOWN and (event.key == pygame.K_SPACE or event.key == pygame.K_UP):
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
                     instruction_page += 1
                     if instruction_page == 4:
                         # stop start sound and start level 1 music
@@ -156,9 +155,8 @@ def main():
 
         if phase == "play":
             for event in pygame.event.get():  # User did something
-                if event.type == pygame.QUIT or \
-                        (event.type == pygame.KEYDOWN and (event.key == pygame.K_DOWN or event.key == pygame.K_ESCAPE
-                         or event.key == pygame.K_q)):
+                if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN
+                                                 and (event.key == pygame.K_ESCAPE or event.key == pygame.K_q)):
                     phase = "end"
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_UP or event.key == pygame.K_SPACE:
@@ -227,7 +225,8 @@ def main():
                 # # final level finished
                 #     if cureent_level_no == len(level_list):
                 #         screen.blit
-                if event.type == pygame.QUIT:
+                if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN
+                                                 and (event.key == pygame.K_ESCAPE or event.key == pygame.K_q)):
                     phase = "end"
 
             # draw the success screen and show score
@@ -248,7 +247,7 @@ def main():
                     # stop all other sounds
                     pygame.mixer.stop()
                     main()
-                elif event.type == pygame.KEYDOWN and (event.key == pygame.K_UP or event.key == pygame.K_SPACE):
+                elif event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
                     # stop the start sound
                     pygame.mixer.stop()
                     game_over_sound.stop()
