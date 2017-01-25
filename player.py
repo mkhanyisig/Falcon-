@@ -17,7 +17,7 @@ class Player(pygame.sprite.Sprite):
 
         # -- Attributes
         # Set speed of flapping of the player
-        self.change_y = 0
+        self.change_y = 3
         self.rising_rate = -8
         self.falling_rate = 4
 

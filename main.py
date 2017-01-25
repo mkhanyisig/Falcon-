@@ -204,9 +204,11 @@ def main():
             # check for events
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN and (event.key == pygame.K_RETURN):
+                    player.release_wing()
                     congratulations_page.stop()
+                    pygame.time.wait(500)
                     phase = "play"
-                    # progress to next level
+                # progress to next level
                     player.rect.y = constants.SCREEN_HEIGHT/3
                     if current_level_no < len(level_list)-1:
                         current_level_no += 1
