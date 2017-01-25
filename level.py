@@ -35,7 +35,7 @@ class Level:
         # solely for level change tests
         self.index = 0
         self.next_level = False
-        self.maximum = 10
+        self.maximum = 3
 
         # sounds
         self.score_sound = pygame.mixer.Sound("arts/audio/score.wav")
@@ -74,14 +74,14 @@ class Level:
             # should import obstacle class
             obstacle = obstacles.Obstacle(i[0])
             obstacle.rect.x = random.randint(constants.SCREEN_WIDTH, constants.SCREEN_WIDTH*2)
-            obstacle.rect.y = random.randint(0, constants.SCREEN_HEIGHT-130)
+            obstacle.rect.y = random.randint(0, constants.SCREEN_HEIGHT/2)
             obstacle.player = self.player
             self.obstacle_list.add(obstacle)
 
     def make_flying_obstacle(self):
         obstacle = obstacles.Obstacle(random.choice(self.obstacle_options)[0])
         obstacle.rect.x = random.randint(constants.SCREEN_WIDTH, constants.SCREEN_WIDTH*2)
-        obstacle.rect.y = random.randint(0, constants.SCREEN_HEIGHT - 200)
+        obstacle.rect.y = random.randint(0, constants.SCREEN_HEIGHT/2)
         obstacle.player = self.player
         self.obstacle_list.add(obstacle)
 
@@ -186,7 +186,7 @@ class Level02(Level):
         self.level_soundtrack = pygame.mixer.Sound("arts/audio/egypt.wav")
 
         # List of "fixed" obstacles, and x, y location of the obstacle.
-        self.collection = [[obstacles.HEAD],[obstacles.PYRAMID]]
+        self.collection = [[obstacles.HEAD], [obstacles.PYRAMID]]
         self.obstacle_type = obstacles.Obstacle([obstacles.MONUMENT][0])
 
         # fill it up
@@ -235,7 +235,12 @@ class Level03(Level):
         self.level_soundtrack = pygame.mixer.Sound("arts/audio/paris.wav")
 
         # List of "fixed" obstacles, and x, y location of the obstacle.
+<<<<<<< HEAD
         self.collection = [[obstacles.CHEESE], [obstacles.CHEESE2], [obstacles.CROISSANT],[obstacles.BOTTLE],[obstacles.BREAD]]
+=======
+        self.collection = [[obstacles.CLOUD], [obstacles.CHEESE2], [obstacles.CROISSANT], [obstacles.BOTTLE],
+                           [obstacles.BREAD]]
+>>>>>>> 121b5e0810bba2e6d23a4390d50f244e9331a785
         self.obstacle_type = obstacles.Obstacle([obstacles.TOWER][0])
 
         # fill it up
@@ -257,7 +262,7 @@ class Level03(Level):
                 elif 0.4 < random.random() < 0.8:
                     self.make_ground_obstacle(self.obstacle_type)
                 else:
-                    self.make_special_obstacle(obstacles.PLANE, random.randint(-3, -1), random.randint(-2, 1))
+                    self.make_special_obstacle(obstacles.BOTTLE, random.randint(-3, -1), random.randint(-2, 1))
 
                 # check for level changes
                 self.index += 1
