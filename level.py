@@ -100,7 +100,7 @@ class Level:
 
     def make_special_obstacle(self, name, change_x, change_y):
         obstacle = obstacles.MovingObstacle(name)
-        obstacle.rect.x = random.randint(constants.SCREEN_WIDTH, constants.SCREEN_WIDTH*2)
+        obstacle.rect.x = random.randint(constants.SCREEN_WIDTH*1.5, constants.SCREEN_WIDTH*5)
         obstacle.rect.y = random.randint(constants.SCREEN_HEIGHT/4, 3*constants.SCREEN_HEIGHT / 4)
         obstacle.boundary_top = 0
         obstacle.boundary_bottom = 300
@@ -235,7 +235,7 @@ class Level03(Level):
         self.level_soundtrack = pygame.mixer.Sound("arts/audio/paris.wav")
 
         # List of "fixed" obstacles, and x, y location of the obstacle.
-        self.collection = [[obstacles.CLOUD], [obstacles.CHEESE2], [obstacles.CROISSANT]]
+        self.collection = [[obstacles.CHEESE], [obstacles.CHEESE2], [obstacles.CROISSANT],[obstacles.BOTTLE],[obstacles.BREAD]]
         self.obstacle_type = obstacles.Obstacle([obstacles.TOWER][0])
 
         # fill it up
@@ -284,7 +284,7 @@ class Level04(Level):
         self.level_soundtrack = pygame.mixer.Sound("arts/audio/new_york.wav")
 
         # List of "fixed" obstacles, and x, y location of the obstacle.
-        self.collection = [[obstacles.BREAD], [obstacles.APPLE], [obstacles.BOTTLE]]
+        self.collection = [[obstacles.TAXI], [obstacles.APPLE]]
         self.obstacle_type = obstacles.Obstacle([obstacles.EMPIRE_STATE_BUILDING][0])
 
         # fill it up

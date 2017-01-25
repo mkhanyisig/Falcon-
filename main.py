@@ -30,12 +30,12 @@ def main():
     # make a game clock that we shall use to manage how fast the screen updates
     clock = pygame.time.Clock()
     # Limits to 60 frames per second
-    clock.tick(30)    # to make it easier to play for now
-    # clock.tick(60)
+    clock.tick(60)    # to make it easier to play for now
+
 
     # ################## load up all useful graphics, sound, etc here #######################
 
-    #     load up the images
+    # load up the images
     game_over = pygame.image.load("arts/graphics/gameover.png").convert_alpha()
     welcome = pygame.image.load("arts/graphics/welcome.png").convert_alpha()
     instruction_page_one = pygame.image.load("arts/graphics/nest.png").convert_alpha()
@@ -221,6 +221,9 @@ def main():
                         player.rising_rate *= 1.2
                     current_level.level_soundtrack.play(loops=-1, maxtime=0, fade_ms=0)
 
+                # # final level finished
+                #     if cureent_level_no == len(level_list):
+                #         screen.blit
                 if event.type == pygame.QUIT:
                     phase = "end"
 

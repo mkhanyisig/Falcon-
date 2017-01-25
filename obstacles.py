@@ -12,7 +12,7 @@ from spritesheet_functions import SpriteSheet
 #   Y location of sprite
 #   Width of sprite
 #   Height of sprite
-#   [info one the sprite sheet]
+#   [info on the sprite sheet]
 
 # MOUNTAIN LEVEL
 PLANE = (162, 0, 126, 60)
@@ -35,7 +35,7 @@ EMPIRE_STATE_BUILDING = (317.5, 75, 142.5, 225)
 # EGYPT
 HEAD = (85,305,60,75)
 PYRAMID = (145,306,55,65)
-MONUMENT =(260,306,194,195)
+MONUMENT =(460,70,285,295)
 
 # BEIJING
 
