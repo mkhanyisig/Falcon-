@@ -30,7 +30,7 @@ def main():
     # make a game clock that we shall use to manage how fast the screen updates
     clock = pygame.time.Clock()
     # Limits to 60 frames per second
-    clock.tick(60)    # to make it easier to play for now
+    clock.tick(30)    # to make it easier to play for now
 
 
     # ################## load up all useful graphics, sound, etc here #######################
@@ -102,8 +102,12 @@ def main():
             score = current_level.index
         elif current_level_no == 1:
             score = current_level.index + current_level.maximum
-        else:
+        elif current_level_no == 2:
             score = current_level.index + current_level.maximum*2
+        elif current_level_no == 3:
+            score = current_level.index + current_level.maximum*3
+        else:
+            score = current_level.index + current_level.maximum*4
 
         score_digits = [int(x) for x in list(str(score))]
         total_width = 0  # total width of all numbers to be printed
