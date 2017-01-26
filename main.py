@@ -85,7 +85,7 @@ def main():
                   level.Level05(player)]
 
     # Set the current level
-    current_level_no = 4
+    current_level_no = 0
     current_level = level_list[current_level_no]
     obstacle_speed = 4
     active_sprite_list = pygame.sprite.Group()
@@ -107,7 +107,8 @@ def main():
         elif current_level_no == 3:
             score = current_level.index + level_list[2].maximum + level_list[1].maximum + level_list[0].maximum
         else:
-            score = current_level.index + level_list[3].maximum + level_list[2].maximum + level_list[1].maximum + level_list[0].maximum
+            score = current_level.index + level_list[3].maximum + level_list[2].maximum + level_list[1].maximum + \
+                    level_list[0].maximum
 
         score_digits = [int(x) for x in list(str(score))]
         total_width = 0  # total width of all numbers to be printed

@@ -263,7 +263,7 @@ class Level03(Level):
                 elif 0.4 < random.random() < 0.8:
                     self.make_ground_obstacle(self.obstacle_type)
                 else:
-                    self.make_special_obstacle(obstacles.BOTTLE, random.randint(-3, -1), random.randint(-1,1))
+                    self.make_special_obstacle(obstacles.BOTTLE, random.randint(-3, -1), random.randint(-1, 1))
 
                 # check for level changes
                 self.index += 1
@@ -299,7 +299,6 @@ class Level04(Level):
         self.make_special_obstacle(obstacles.PLANE, -3, -1)
         self.make_ground_obstacle(self.obstacle_type)
         self.maximum = 30
-
 
     def update(self):
         Level.update(self)
@@ -363,7 +362,7 @@ class Level05(Level):
                 elif 0.3 < random.random() < 0.65:
                     self.make_ground_obstacle(self.obstacle_type)
                 else:
-                    self.make_special_obstacle(obstacles.PLANE, random.randint(-4, -2), random.randint(-2,1))
+                    self.make_special_obstacle(obstacles.PLANE, random.randint(-4, -2), random.randint(-2, 1))
 
                 # to check for level changes
                 self.index += 1
