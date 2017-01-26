@@ -19,7 +19,7 @@ def main():
         sys.exit()
 
     # Set up some values
-    instruction_page = 1
+    instruction_page = 0
     phase = "start"
     done = False
 
@@ -132,19 +132,19 @@ def main():
                     done = True
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
                     instruction_page += 1
-                    if instruction_page == 4:
+                    if instruction_page == 3:
                         # stop start sound and start level 1 music
                         start_sound.stop()
                         current_level.level_soundtrack.play(loops=-1, maxtime=0, fade_ms=0)
                         phase = "play"
 
-            if instruction_page == 1:
+            if instruction_page == 0:
                 screen.blit(welcome, [0, 0])
 
-            if instruction_page == 2:                
+            if instruction_page == 1:
                 screen.blit(storyline, [0, 0])
 
-            if instruction_page == 3:
+            if instruction_page == 2:
                 screen.blit(instruction_screen, [0, 0])
 
             # updates the screen with what we've drawn.
