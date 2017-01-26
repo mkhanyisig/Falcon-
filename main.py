@@ -41,7 +41,7 @@ def main():
     instruction_screen = pygame.image.load("arts/graphics/instruction_screen.png").convert_alpha()
     success = pygame.image.load("arts/graphics/congratulations.png").convert_alpha()
     score_text = pygame.image.load("arts/graphics/score.png").convert_alpha()
-    finalcongratulations = pygame.image.load("arts/graphics/finalcongratulations.png").convert_alpha()
+    final_congratulations = pygame.image.load("arts/graphics/final_congratulations.png").convert_alpha()
     digits = [pygame.image.load('arts/graphics/0.png').convert_alpha(),
               pygame.image.load('arts/graphics/1.png').convert_alpha(),
               pygame.image.load('arts/graphics/2.png').convert_alpha(),
@@ -60,7 +60,7 @@ def main():
     storyline = pygame.transform.scale(storyline, constants.screenSize)
     instruction_screen = pygame.transform.scale(instruction_screen, constants.screenSize)
     success = pygame.transform.scale(success, constants.screenSize)
-    finalcongratulations = pygame.transform.scale(finalcongratulations, constants.screenSize)
+    final_congratulations = pygame.transform.scale(final_congratulations, constants.screenSize)
 
     # for digit in digits:
     for i in xrange(len(digits)):
@@ -126,7 +126,6 @@ def main():
 
     while not done:
         if phase == "start":
-            # -------- Instruction Page Loop -----------
             for event in pygame.event.get():
                 if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN
                                                  and (event.key == pygame.K_ESCAPE or event.key == pygame.K_q)):
@@ -229,7 +228,7 @@ def main():
             if current_level_no < len(level_list)-1:
                 screen.blit(success, (0, 0))
             else:
-                screen.blit(finalcongratulations, (0, 0))
+                screen.blit(final_congratulations, (0, 0))
 
             screen.blit(score_text, (25, 45))
             show_the_score()
@@ -240,16 +239,13 @@ def main():
         if phase == "end":
             # check for events
             for event in pygame.event.get():
-                if event.type == pygame.QUIT or \
-                        (event.type == pygame.KEYDOWN and (event.key == pygame.K_q or event.key == pygame.K_ESCAPE)):
+                if event.type == pygame.QUIT:
+                    done = True
+                elif event.type == pygame.KEYDOWN and (event.key == pygame.K_RIGHT or event.key == pygame.K_q
+                                                       or event.key == pygame.K_ESCAPE):
                     # this would hopefully make the game more addictive since is hard to just quit
                     # stop all other sounds
                     pygame.mixer.stop()
-                    main()
-                elif event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
-                    # stop the start sound
-                    pygame.mixer.stop()
-                    game_over_sound.stop()
                     main()
 
             # draw the game over screen
