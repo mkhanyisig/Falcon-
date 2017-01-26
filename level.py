@@ -134,7 +134,7 @@ class Level01(Level):
         self.obstacle_type = obstacles.Obstacle([obstacles.MOUNTAIN][0])
         # fill level with obstacles and add the ground obstacle
         self.fill_with_flying_obstacles(1)
-        self.maximum = 5
+        # self.maximum = 5
 
     def update(self):
         Level.update(self)
@@ -336,7 +336,7 @@ class Level05(Level):
         self.background = pygame.transform.scale(self.background, constants.screenSize)
         self.background.set_colorkey((255, 255, 255))
 
-        self.level_soundtrack = pygame.mixer.Sound("arts/audio/beijing.wav")
+        self.level_soundtrack = pygame.mixer.Sound("arts/audio/weird.wav")
 
         # List of "fixed" obstacles, and x, y location of the obstacle.
         self.collection = [[obstacles.MASK1], [obstacles.MASK2], [obstacles.MASK3], [obstacles.BOOK],
