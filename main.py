@@ -85,7 +85,7 @@ def main():
                   level.Level05(player)]
 
     # Set the current level
-    current_level_no = 0
+    current_level_no = 4
     current_level = level_list[current_level_no]
     obstacle_speed = 4
     active_sprite_list = pygame.sprite.Group()
@@ -253,7 +253,7 @@ def main():
 
             # draw the game over screen
             screen.blit(game_over, (0, 0))
-            screen.blit(score_text, (25, 45))
+            screen.blit(score_text, (5, 45))
             show_the_score()
 
             # updates the screen with what we've drawn.
