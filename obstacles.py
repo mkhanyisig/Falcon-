@@ -61,14 +61,10 @@ TV_TOWER = (830, 70, 150, 225)
 class Obstacle(pygame.sprite.Sprite):
  
     def __init__(self, sprite_sheet_data):
-        """ Platform constructor. Assumes constructed with user passing in
-            an array of 5 numbers like what's defined at the top of this
-            code. """
-        super(Obstacle, self).__init__()
-    
-        # sprite_sheet = SpriteSheet("arts/graphics/Obstacles/sprite_sheet_threeobjects.png")
 
-        # temporary obstacles
+        super(Obstacle, self).__init__()
+
+        # obstacles
         sprite_sheet = SpriteSheet("arts/graphics/obstacles_sprite_sheet.png")
 
         # Grab the image for this obstacle
@@ -107,11 +103,4 @@ class MovingObstacle(Obstacle):
         self.rect.x += self.change_x
         # Move up/down
         self.rect.y += self.change_y
-        # # Check the boundaries and see if we need to reverse
-        # # direction.
-        # if self.rect.bottom > self.boundary_bottom or self.rect.top < self.boundary_top:
-        #     self.change_y *= -1
- 
-        # cur_pos = self.rect.x - self.level.world_shift
-        # if cur_pos < self.boundary_left or cur_pos > self.boundary_right:
-        #     self.change_x *= -1
+

@@ -92,7 +92,7 @@ def main():
     player.level = current_level
 
     # set player position on screen
-    player.rect.x = (constants.SCREEN_WIDTH * 0.18)
+    player.rect.x = (constants.SCREEN_WIDTH * 0.15)
     player.rect.y = constants.SCREEN_HEIGHT/3
     active_sprite_list.add(player)
 
@@ -103,11 +103,11 @@ def main():
         elif current_level_no == 1:
             score = current_level.index + level_list[0].maximum
         elif current_level_no == 2:
-            score = current_level.index + level_list[1].maximum
+            score = current_level.index + level_list[1].maximum + level_list[0].maximum
         elif current_level_no == 3:
-            score = current_level.index + level_list[2].maximum
+            score = current_level.index + level_list[2].maximum + level_list[1].maximum + level_list[0].maximum
         else:
-            score = current_level.index + level_list[3].maximum
+            score = current_level.index + level_list[3].maximum + level_list[2].maximum + level_list[1].maximum + level_list[0].maximum
 
         score_digits = [int(x) for x in list(str(score))]
         total_width = 0  # total width of all numbers to be printed
