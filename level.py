@@ -336,7 +336,7 @@ class Level05(Level):
         self.background = pygame.transform.scale(self.background, constants.screenSize)
         self.background.set_colorkey((255, 255, 255))
 
-        self.level_soundtrack = pygame.mixer.Sound("arts/audio/weird.wav")
+        self.level_soundtrack = pygame.mixer.Sound("arts/audio/beijing.wav")
 
         # List of "fixed" obstacles, and x, y location of the obstacle.
         self.collection = [[obstacles.MASK1], [obstacles.MASK2], [obstacles.MASK3], [obstacles.BOOK],
