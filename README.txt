@@ -9,7 +9,7 @@ Tracy Quan - Lead Graphics Designer
 Erica Lei - Lead Audio Artist
 Mkhanyisi Gamedze - Quality Assurance
 
-
+team lead reflection: https://www.linkedin.com/pulse/falcon-vision-brought-life-gerald-nvule/
 
 January 25, 2017
 
